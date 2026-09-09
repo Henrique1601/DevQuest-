@@ -95,7 +95,7 @@ export function TracksPreview() {
                 {track.modules.some(m => m.projectSlug) ? "Inclui Projeto Prático Final" : "Aulas & Desafios"}
               </span>
               <Link
-                href="#projetos"
+                href={`/tracks/${track.slug}`}
                 className="inline-flex items-center gap-1 text-sm font-semibold text-primary-400 hover:text-primary-300 transition-colors group-hover:translate-x-1"
               >
                 Explorar Trilha

@@ -4,9 +4,25 @@ export const users = pgTable("users", {
   id: uuid("id").defaultRandom().primaryKey(),
   name: text("name").notNull(),
   email: text("email").notNull().unique(),
+  passwordHash: text("password_hash"),
   avatarUrl: text("avatar_url"),
   xp: integer("xp").default(0).notNull(),
   level: integer("level").default(1).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const accounts = pgTable("accounts", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: uuid("user_id").references(() => users.id, { onDelete: "cascade" }),
+  type: text("type").notNull(),
+  provider: text("provider").notNull(),
+  providerAccountId: text("provider_account_id").notNull(),
+  refreshToken: text("refresh_token"),
+  accessToken: text("access_token"),
+  expiresAt: integer("expires_at"),
+  tokenType: text("token_type"),
+  scope: text("scope"),
+  idToken: text("id_token"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
@@ -45,4 +61,12 @@ export const submissions = pgTable("submissions", {
   code: text("code").notNull(),
   passed: boolean("passed").notNull(),
   executedAt: timestamp("executed_at").defaultNow().notNull(),
+});
+
+export const projectCompletions = pgTable("project_completions", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: uuid("user_id").references(() => users.id, { onDelete: "cascade" }),
+  projectSlug: text("project_slug").notNull(),
+  githubUrl: text("github_url").notNull(),
+  completedAt: timestamp("completed_at").defaultNow().notNull(),
 });

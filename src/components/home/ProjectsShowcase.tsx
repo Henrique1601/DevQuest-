@@ -144,7 +144,7 @@ export function ProjectsShowcase() {
 
               {/* Botão de Ver Detalhes */}
               <div className="pt-6 mt-6 border-t border-surface-border">
-                <Link href={`#projetos`} className="w-full block">
+                <Link href={`/projects/${project.slug}`} className="w-full block">
                   <Button variant="secondary" size="sm" className="w-full group-hover:border-primary-500/40 group-hover:text-white">
                     <span>Ver Requisitos & Etapas</span>
                     <ChevronRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />

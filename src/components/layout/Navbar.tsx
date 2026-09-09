@@ -2,12 +2,25 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { Code2, Sparkles, Terminal, BookOpen, Layers, Trophy, Menu, X } from "lucide-react";
+import { useSession } from "next-auth/react";
+import {
+  Code2,
+  Sparkles,
+  Terminal,
+  BookOpen,
+  Layers,
+  Trophy,
+  Menu,
+  X,
+  User,
+  LogIn
+} from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { GithubIcon } from "@/components/ui/GithubIcon";
 
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { data: session } = useSession();
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-surface-border">
@@ -50,8 +63,8 @@ export function Navbar() {
           </Link>
         </nav>
 
-        {/* CTA e Status */}
-        <div className="hidden md:flex items-center gap-4">
+        {/* CTA e Usuário */}
+        <div className="hidden md:flex items-center gap-3">
           <a
             href="https://github.com"
             target="_blank"
@@ -61,16 +74,46 @@ export function Navbar() {
           >
             <GithubIcon className="w-5 h-5" />
           </a>
-          <Link href="/challenges">
-            <Button variant="primary" size="md">
-              <Sparkles className="w-4 h-4" />
-              Começar Agora
-            </Button>
-          </Link>
+
+          {session ? (
+            <Link href="/profile">
+              <Button variant="secondary" size="md" className="border-primary-500/30 hover:border-primary-400">
+                <div className="w-5 h-5 rounded-full bg-primary-500/20 text-primary-400 flex items-center justify-center -ml-1">
+                  <User className="w-3.5 h-3.5" />
+                </div>
+                <span className="max-w-[120px] truncate">{session.user?.name || "Meu Perfil"}</span>
+              </Button>
+            </Link>
+          ) : (
+            <div className="flex items-center gap-2">
+              <Link href="/login">
+                <Button variant="ghost" size="md" className="font-mono text-xs">
+                  <LogIn className="w-4 h-4" />
+                  <span>Entrar</span>
+                </Button>
+              </Link>
+              <Link href="/challenges">
+                <Button variant="primary" size="md">
+                  <Sparkles className="w-4 h-4" />
+                  <span>Começar</span>
+                </Button>
+              </Link>
+            </div>
+          )}
         </div>
 
         {/* Botão Mobile */}
-        <div className="md:hidden flex items-center">
+        <div className="md:hidden flex items-center gap-2">
+          {session ? (
+            <Link href="/profile" className="p-2 rounded-lg bg-surface border border-surface-border text-primary-400">
+              <User className="w-5 h-5" />
+            </Link>
+          ) : (
+            <Link href="/login" className="p-2 rounded-lg bg-surface border border-surface-border text-slate-300">
+              <LogIn className="w-5 h-5" />
+            </Link>
+          )}
+
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="p-2 text-slate-400 hover:text-white focus:outline-none"
@@ -112,6 +155,25 @@ export function Navbar() {
           >
             Arena de Código (Editor Web)
           </Link>
+
+          {session ? (
+            <Link
+              href="/profile"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block px-3 py-2 text-base font-medium text-primary-400 hover:bg-white/5 rounded-lg"
+            >
+              Meu Perfil ({session.user?.name})
+            </Link>
+          ) : (
+            <Link
+              href="/login"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block px-3 py-2 text-base font-medium text-primary-400 hover:bg-white/5 rounded-lg"
+            >
+              Entrar / Criar Conta
+            </Link>
+          )}
+
           <div className="pt-3 border-t border-surface-border flex flex-col gap-2">
             <Link href="/challenges" onClick={() => setMobileMenuOpen(false)}>
               <Button variant="primary" size="md" className="w-full">

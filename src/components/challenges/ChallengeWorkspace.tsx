@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
 import {
   Play,
   RotateCcw,
@@ -20,6 +21,18 @@ import { mockChallenges } from "@/lib/data/challenges";
 import { useCodeRunner } from "@/hooks/useCodeRunner";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
+
+const CodeEditor = dynamic(
+  () => import("./CodeEditor").then((mod) => mod.CodeEditor),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex-1 p-6 bg-[#070A10] text-slate-500 font-mono text-xs flex items-center justify-center">
+        Carregando editor profissional...
+      </div>
+    ),
+  }
+);
 
 export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeSlug?: string }) {
   const [selectedChallengeIndex, setSelectedChallengeIndex] = useState(() => {
@@ -258,26 +271,19 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
             <div className="flex items-center gap-2">
               <Code className="w-3.5 h-3.5 text-primary-400" />
               <span>JavaScript (ES2022)</span>
+              <span className="hidden sm:inline-block text-[10px] text-slate-500 border border-surface-border px-1.5 py-0.5 rounded">
+                Ctrl + Enter para testar
+              </span>
             </div>
-            <span>Função esperada: {currentChallenge.functionName}</span>
+            <span>Função: {currentChallenge.functionName}</span>
           </div>
 
-          {/* Área do Editor */}
-          <div className="flex-1 relative overflow-hidden flex">
-            {/* Números de Linha */}
-            <div className="w-12 bg-[#05070B] border-r border-surface-border/40 py-4 select-none text-right pr-3 font-mono text-xs text-slate-600 space-y-1">
-              {Array.from({ length: 24 }).map((_, i) => (
-                <div key={i}>{i + 1}</div>
-              ))}
-            </div>
-
-            {/* Textarea do Código */}
-            <textarea
+          {/* Área do Editor com CodeMirror */}
+          <div className="flex-1 relative overflow-hidden flex flex-col">
+            <CodeEditor
               value={code}
-              onChange={(e) => setCode(e.target.value)}
-              spellCheck={false}
-              className="flex-1 h-full bg-[#070A10] text-slate-100 font-mono text-xs sm:text-sm p-4 focus:outline-none border-none resize-none leading-relaxed selection:bg-primary-500/30"
-              placeholder="// Escreva sua solução aqui..."
+              onChange={(val) => setCode(val)}
+              onRun={handleRun}
             />
           </div>
 
