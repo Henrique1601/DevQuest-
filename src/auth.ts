@@ -8,6 +8,7 @@ import { users } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
+  trustHost: true,
   secret: process.env.AUTH_SECRET || "devquest-development-secret-key-32ch-min",
   session: {
     strategy: "jwt",
