@@ -49,6 +49,29 @@ export const mockProjects: Project[] = [
       { order: 3, title: "Lógica de Sequência", description: "Implemente a função que calcula os dias ininterruptos." }
     ]
   },
+  {
+    id: "proj-7",
+    slug: "gerador-senhas-entropia",
+    title: "Gerador de Senhas Seguras & Analisador de Entropia",
+    tagline: "Aprenda criptografia básica no navegador e segurança defensiva.",
+    description: "Utilitário de geração de credenciais criptograficamente seguras com parâmetros configuráveis (maiúsculas, símbolos, comprimento), indicador visual de entropia (força da senha) e cópia instantânea.",
+    difficulty: "beginner",
+    category: "frontend",
+    estimatedHours: 5,
+    tags: ["JavaScript / TypeScript", "Web Crypto API", "Tailwind CSS", "Clipboard API"],
+    prerequisites: ["Operações com strings e arrays", "Geração de números pseudoaleatórios", "Eventos de formulário"],
+    features: [
+      "Geração usando window.crypto.getRandomValues para alta segurança",
+      "Sliders interativos para definir comprimento (8 a 64 caracteres)",
+      "Medidor de força em tempo real (Fraca, Média, Forte, Impossível)",
+      "Botão de cópia para área de transferência com feedback visual temporário"
+    ],
+    steps: [
+      { order: 1, title: "Interface do Gerador", description: "Monte o layout com slider de tamanho e checkboxes de caracteres." },
+      { order: 2, title: "Algoritmo de Geração Criptográfica", description: "Utilize a Web Crypto API para aleatoriedade de padrão industrial." },
+      { order: 3, title: "Cálculo de Entropia Shannon", description: "Calcule a fórmula de bits de entropia baseada no conjunto de caracteres." }
+    ]
+  },
 
   // INTERMEDIÁRIO
   {
@@ -97,6 +120,52 @@ export const mockProjects: Project[] = [
       { order: 3, title: "Camada de Negócio e Middlewares", description: "Valide permissões: usuários só alteram seus próprios projetos." }
     ]
   },
+  {
+    id: "proj-8",
+    slug: "kanban-board-drag-drop",
+    title: "Quadro Kanban Interativo (Drag & Drop)",
+    tagline: "Construa uma interface de produtividade com movimentação fluida de cards.",
+    description: "Quadro de tarefas estilo Trello com colunas dinâmicas (A Fazer, Em Progresso, Concluído), suporte a arrastar e soltar suave, tags coloridas e persistência de dados.",
+    difficulty: "intermediate",
+    category: "frontend",
+    estimatedHours: 14,
+    tags: ["React", "HTML5 Drag & Drop / dnd-kit", "TypeScript", "Tailwind CSS"],
+    prerequisites: ["Gerenciamento de estado complexo", "Manipulação de listas imutáveis", "Eventos de Drag & Drop"],
+    features: [
+      "Arrastar e soltar cards entre colunas diferentes com animações suaves",
+      "Criação e edição de colunas personalizadas",
+      "Definição de prazos, prioridades (Alta, Média, Baixa) e etiquetas",
+      "Filtro rápido de tarefas por texto e responsável"
+    ],
+    steps: [
+      { order: 1, title: "Estrutura de Colunas e Cards", description: "Modele o estado normalizado de colunas e cards de tarefas." },
+      { order: 2, title: "Lógica de Arrastar e Soltar", description: "Implemente os handlers de dragStart, dragOver e drop." },
+      { order: 3, title: "Edição Inline e Modal", description: "Permita alterar título, descrição e prazo sem recarregar a tela." }
+    ]
+  },
+  {
+    id: "proj-9",
+    slug: "encurtador-url-metricas",
+    title: "Micro-SaaS Encurtador de URLs & QR Code",
+    tagline: "Crie um serviço rápido de redirecionamento, métricas de clique e QR Code.",
+    description: "Sistema completo onde usuários geram links curtos amigáveis, visualizam gráficos de cliques por país/dispositivo e exportam QR Codes customizados prontos para impressão.",
+    difficulty: "intermediate",
+    category: "fullstack",
+    estimatedHours: 16,
+    tags: ["Next.js App Router", "Neon Postgres", "Drizzle ORM", "QRCode.js", "Tailwind"],
+    prerequisites: ["Redirecionamentos HTTP 301 vs 302", "Headers de User-Agent e IP", "Modelagem de dados analíticos"],
+    features: [
+      "Geração de slugs alfanuméricos curtos aleatórios ou personalizados",
+      "Redirecionamento ultraveloz para a URL original",
+      "Painel com total de cliques, referrers e navegadores",
+      "Gerador de QR Code com download em PNG/SVG"
+    ],
+    steps: [
+      { order: 1, title: "Rota de Redirecionamento", description: "Crie a rota dinâmica /[code] com busca indexada no Postgres." },
+      { order: 2, title: "Coleta de Telemetria", description: "Grave registros de cliques com timestamp e metadados no Neon." },
+      { order: 3, title: "Dashboard com Gráficos", description: "Construa gráficos de acessos ao longo do tempo para o usuário." }
+    ]
+  },
 
   // AVANÇADO
   {
@@ -111,7 +180,7 @@ export const mockProjects: Project[] = [
     tags: ["Next.js App Router", "Server Actions", "Stripe API", "Neon Postgres", "Drizzle ORM", "Tailwind CSS"],
     prerequisites: ["Server Components vs Client Components", "Webhooks e segurança criptográfica", "Transações no banco de dados"],
     features: [
-      "Catálogo de produtos com paginação e busca全文 (full-text search)",
+      "Catálogo de produtos com paginação e busca full-text",
       "Carrinho de compras reativo com sincronização local e nuvem",
       "Sessão de pagamento segura com Stripe Checkout",
       "Webhook com assinatura validada para confirmar pedidos no banco"
@@ -143,6 +212,29 @@ export const mockProjects: Project[] = [
       { order: 1, title: "Servidor de WebSockets", description: "Estruture o gateway de eventos e broadcasting por salas (rooms)." },
       { order: 2, title: "Interface Reativa do Chat", description: "Construa a lista com auto-scroll suave e renderização rápida." },
       { order: 3, title: "Microinterações com GSAP", description: "Anime a entrada de novas mensagens e notificações visuais." }
+    ]
+  },
+  {
+    id: "proj-10",
+    slug: "monitor-uptime-status-page",
+    title: "Sistema de Monitoramento de Uptime & Status Page",
+    tagline: "Desenvolva um observatório de APIs com pings periódicos e métricas de latência.",
+    description: "Plataforma de monitoramento contínuo (estilo BetterStack/UptimeRobot) que verifica a disponibilidade de URLs, calcula porcentagem de SLA mensal e publica uma Status Page pública para incidentes.",
+    difficulty: "advanced",
+    category: "fullstack",
+    estimatedHours: 26,
+    tags: ["Next.js", "Node Cron / Serverless Cron", "Neon Postgres", "Drizzle ORM", "Recharts"],
+    prerequisites: ["Requisições HTTP com medição de latência (RTT)", "Tarefas agendadas (Cron jobs)", "Cálculo de disponibilidade (99.9% uptime)"],
+    features: [
+      "Execução de pings automáticos a cada 1 a 5 minutos",
+      "Medição precisa de tempo de resposta em milissegundos",
+      "Status Page pública com incidentes e histórico de 90 dias",
+      "Configuração de alertas e limites de latência"
+    ],
+    steps: [
+      { order: 1, title: "Worker de Verificação", description: "Crie a rotina assíncrona que efetua requisições HEAD/GET e grava o resultado." },
+      { order: 2, title: "Painel de Métricas e Gráficos", description: "Exiba gráficos de latência p95 e uptime percentual." },
+      { order: 3, title: "Status Page Pública", description: "Renderize uma página leve e limpa para os clientes do serviço consultarem." }
     ]
   }
 ];

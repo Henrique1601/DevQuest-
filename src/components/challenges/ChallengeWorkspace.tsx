@@ -14,9 +14,13 @@ import {
   Sparkles,
   ChevronLeft,
   ChevronRight,
-  Code
+  Code,
+  Search,
+  X,
+  Filter,
+  Layers
 } from "lucide-react";
-import { Challenge } from "@/types/challenge";
+import { Challenge, ChallengeDifficulty, ChallengeCategory } from "@/types/challenge";
 import { mockChallenges } from "@/lib/data/challenges";
 import { useCodeRunner } from "@/hooks/useCodeRunner";
 import { Button } from "@/components/ui/Button";
@@ -49,6 +53,12 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
   const [outputTab, setOutputTab] = useState<"tests" | "console">("tests");
   const [solvedChallenges, setSolvedChallenges] = useState<string[]>([]);
 
+  // Estados do Modal de Busca e Filtros
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterDifficulty, setFilterDifficulty] = useState<ChallengeDifficulty | "all">("all");
+  const [filterCategory, setFilterCategory] = useState<ChallengeCategory | "all">("all");
+
   const { isRunning, results, consoleLogs, error, runChallenge } = useCodeRunner();
 
   // Atualiza o código ao trocar de desafio
@@ -70,7 +80,7 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
     await runChallenge(currentChallenge, code);
   };
 
-  // Verifica se todos os testes passaram e salva
+  // Salva no localStorage quando todos os testes passarem
   useEffect(() => {
     if (results.length > 0 && results.every((r) => r.passed) && !error) {
       if (!solvedChallenges.includes(currentChallenge.id)) {
@@ -84,17 +94,33 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
   const allPassed = results.length > 0 && results.every((r) => r.passed) && !error;
   const isSolved = solvedChallenges.includes(currentChallenge.id);
 
+  // Lista filtrada para o Drawer de Busca
+  const filteredChallenges = mockChallenges.filter((chal) => {
+    const matchesQuery =
+      chal.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      chal.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      chal.category.toLowerCase().includes(searchQuery.toLowerCase());
+
+    const matchesDifficulty =
+      filterDifficulty === "all" || chal.difficulty === filterDifficulty;
+
+    const matchesCategory =
+      filterCategory === "all" || chal.category === filterCategory;
+
+    return matchesQuery && matchesDifficulty && matchesCategory;
+  });
+
   return (
-    <div className="flex flex-col h-[calc(100vh-5rem)] bg-background">
+    <div className="flex flex-col h-[calc(100vh-5rem)] bg-background relative">
       {/* Top Header do Workspace */}
       <div className="h-14 border-b border-surface-border bg-surface px-4 flex items-center justify-between shrink-0">
-        {/* Seletor do Desafio */}
+        {/* Seletor do Desafio & Botão de Busca */}
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1">
             <button
               onClick={() => setSelectedChallengeIndex((prev) => Math.max(0, prev - 1))}
               disabled={selectedChallengeIndex === 0}
-              className="p-1 rounded hover:bg-surface-hover text-slate-400 disabled:opacity-30"
+              className="p-1.5 rounded-lg hover:bg-surface-hover text-slate-400 disabled:opacity-30 transition-colors"
               title="Desafio anterior"
             >
               <ChevronLeft className="w-4 h-4" />
@@ -105,25 +131,40 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
             <button
               onClick={() => setSelectedChallengeIndex((prev) => Math.min(mockChallenges.length - 1, prev + 1))}
               disabled={selectedChallengeIndex === mockChallenges.length - 1}
-              className="p-1 rounded hover:bg-surface-hover text-slate-400 disabled:opacity-30"
+              className="p-1.5 rounded-lg hover:bg-surface-hover text-slate-400 disabled:opacity-30 transition-colors"
               title="Próximo desafio"
             >
               <ChevronRight className="w-4 h-4" />
             </button>
           </div>
 
-          <h2 className="text-sm font-bold text-white truncate max-w-xs sm:max-w-md flex items-center gap-2">
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => setIsSearchOpen(true)}
+            className="text-xs font-mono gap-1.5 border-surface-border hover:border-primary-500/40"
+            title="Abrir catálogo e buscar desafios"
+          >
+            <Search className="w-3.5 h-3.5 text-primary-400" />
+            <span className="hidden sm:inline">Buscar Desafios</span>
+            <span className="text-[10px] bg-primary-500/20 text-primary-400 px-1.5 py-0.5 rounded-full">
+              {mockChallenges.length}
+            </span>
+          </Button>
+
+          <h2 className="text-sm font-bold text-white truncate max-w-xs sm:max-w-sm flex items-center gap-2">
             {currentChallenge.title}
             {isSolved && (
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-mono">
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-mono flex items-center gap-1">
+                <CheckCircle2 className="w-3 h-3" />
                 Resolvido
               </span>
             )}
           </h2>
         </div>
 
-        {/* Dificuldade & Ações */}
-        <div className="flex items-center gap-3">
+        {/* Dificuldade & Ações de Execução */}
+        <div className="flex items-center gap-2 sm:gap-3">
           <Badge
             variant={
               currentChallenge.difficulty === "easy"
@@ -198,7 +239,12 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
             {activeTab === "instructions" ? (
               <>
                 <div className="space-y-3">
-                  <h3 className="text-lg font-bold text-white">Descrição do Problema</h3>
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-lg font-bold text-white">Descrição do Problema</h3>
+                    <span className="text-xs font-mono uppercase text-slate-400 bg-surface px-2.5 py-0.5 rounded border border-surface-border">
+                      {currentChallenge.category}
+                    </span>
+                  </div>
                   <p className="text-sm text-slate-300 leading-relaxed">
                     {currentChallenge.description}
                   </p>
@@ -225,7 +271,7 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
                   <div className="space-y-2">
                     {currentChallenge.testCases.filter(tc => !tc.isSecret).map((tc, idx) => (
                       <div key={tc.id} className="p-3 rounded-lg bg-[#070A10] border border-surface-border font-mono text-xs space-y-1">
-                        <div className="text-slate-400">Exemplo {idx + 1}:</div>
+                        <div className="text-slate-400 font-semibold">{tc.description}</div>
                         <div>
                           <span className="text-slate-400">Entrada: </span>
                           <span className="text-cyan-300">{JSON.stringify(tc.input)}</span>
@@ -335,7 +381,7 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
                 results.length === 0 && !error ? (
                   <div className="text-slate-400 flex items-center justify-center h-full gap-2">
                     <Terminal className="w-4 h-4" />
-                    Pressione &quot;Executar e Testar&quot; para rodar os casos de validação.
+                    Pressione &quot;Executar e Testar&quot; ou aperte Ctrl+Enter para validar.
                   </div>
                 ) : (
                   <div className="space-y-2">
@@ -393,6 +439,144 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
           </div>
         </div>
       </div>
+
+      {/* Modal / Gaveta de Busca e Filtro de Desafios */}
+      {isSearchOpen && (
+        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="w-full max-w-2xl bg-surface border border-surface-border rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh] animate-in fade-in zoom-in-95 duration-200">
+            {/* Header da Busca */}
+            <div className="p-6 border-b border-surface-border flex items-center justify-between">
+              <div>
+                <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                  <Search className="w-5 h-5 text-primary-400" />
+                  <span>Explorar Desafios de Código</span>
+                </h3>
+                <p className="text-xs text-slate-400 mt-0.5">
+                  Selecione qualquer algoritmo para resolver no editor interativo.
+                </p>
+              </div>
+              <button
+                onClick={() => setIsSearchOpen(false)}
+                className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-surface-hover transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Input e Filtros */}
+            <div className="p-6 border-b border-surface-border space-y-4 bg-[#070A10]/50">
+              {/* Input de Pesquisa */}
+              <div className="relative">
+                <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Pesquisar por título, categoria ou conceito..."
+                  className="w-full bg-surface text-slate-200 text-xs sm:text-sm pl-10 pr-4 py-2.5 rounded-xl border border-surface-border focus:outline-none focus:border-primary-500 font-mono placeholder:text-slate-500"
+                />
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery("")}
+                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-xs"
+                  >
+                    Limpar
+                  </button>
+                )}
+              </div>
+
+              {/* Filtros de Dificuldade e Categoria */}
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                {/* Dificuldade */}
+                <div className="flex items-center gap-1">
+                  {(["all", "easy", "medium", "hard"] as const).map((diff) => (
+                    <button
+                      key={diff}
+                      onClick={() => setFilterDifficulty(diff)}
+                      className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all ${
+                        filterDifficulty === diff
+                          ? "bg-primary-500 text-white"
+                          : "text-slate-400 hover:text-white bg-surface"
+                      }`}
+                    >
+                      {diff === "all" ? "Todos" : diff === "easy" ? "Fácil" : diff === "medium" ? "Médio" : "Difícil"}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Contagem */}
+                <span className="text-xs font-mono text-slate-400">
+                  {filteredChallenges.length} {filteredChallenges.length === 1 ? "desafio" : "desafios"}
+                </span>
+              </div>
+            </div>
+
+            {/* Lista de Desafios */}
+            <div className="flex-1 overflow-y-auto p-6 space-y-3">
+              {filteredChallenges.length === 0 ? (
+                <div className="text-center py-12 text-slate-500 text-xs space-y-2">
+                  <Layers className="w-8 h-8 mx-auto text-slate-600" />
+                  <p>Nenhum desafio encontrado para os filtros selecionados.</p>
+                </div>
+              ) : (
+                filteredChallenges.map((chal) => {
+                  const originalIndex = mockChallenges.findIndex((c) => c.id === chal.id);
+                  const isCurrent = originalIndex === selectedChallengeIndex;
+                  const isChalSolved = solvedChallenges.includes(chal.id);
+
+                  return (
+                    <div
+                      key={chal.id}
+                      onClick={() => {
+                        setSelectedChallengeIndex(originalIndex);
+                        setIsSearchOpen(false);
+                      }}
+                      className={`p-4 rounded-2xl border cursor-pointer transition-all flex items-center justify-between gap-4 ${
+                        isCurrent
+                          ? "bg-primary-500/10 border-primary-500/50 shadow-glow"
+                          : "bg-surface/80 border-surface-border hover:border-slate-600 hover:bg-surface-hover"
+                      }`}
+                    >
+                      <div className="space-y-1">
+                        <div className="flex items-center gap-2">
+                          <h4 className="text-sm font-bold text-white">
+                            {chal.title}
+                          </h4>
+                          {isChalSolved && (
+                            <span className="text-[10px] px-2 py-0.2 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-mono">
+                              ✓ Resolvido
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-xs text-slate-400 line-clamp-1">
+                          {chal.description}
+                        </p>
+                      </div>
+
+                      <div className="flex items-center gap-2 shrink-0">
+                        <Badge
+                          variant={
+                            chal.difficulty === "easy"
+                              ? "beginner"
+                              : chal.difficulty === "medium"
+                              ? "intermediate"
+                              : "advanced"
+                          }
+                        >
+                          {chal.difficulty === "easy" ? "Fácil" : chal.difficulty === "medium" ? "Médio" : "Difícil"}
+                        </Badge>
+                        <Badge variant="accent" className="font-mono text-xs">
+                          +{chal.xp} XP
+                        </Badge>
+                      </div>
+                    </div>
+                  );
+                })
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

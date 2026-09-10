@@ -5,7 +5,7 @@ export function MetricsBanner() {
   const metrics = [
     {
       icon: FolderGit2,
-      value: "6+",
+      value: "10+",
       label: "Projetos Guiados",
       detail: "Do básico ao avançado",
       color: "text-primary-400 bg-primary-500/10 border-primary-500/20",
