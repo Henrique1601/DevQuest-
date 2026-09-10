@@ -20,7 +20,9 @@ import {
   SquareCode,
   Video,
   Bug,
-  FileCode2
+  FileCode2,
+  Briefcase,
+  Crown
 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { GithubIcon } from "@/components/ui/GithubIcon";
@@ -62,8 +64,16 @@ export function Navbar() {
             Projetos
           </Link>
           <Link href="/challenges" className="flex items-center gap-1.5 text-accent-400 hover:text-accent-300 transition-colors">
-            <Trophy className="w-4 h-4" />
-            Arena de Código
+            <Zap className="w-4 h-4" />
+            Arena
+          </Link>
+          <Link href="/interviews" className="flex items-center gap-1.5 hover:text-accent-400 transition-colors">
+            <Briefcase className="w-4 h-4 text-accent-400" />
+            Entrevistas
+          </Link>
+          <Link href="/leaderboard" className="flex items-center gap-1.5 hover:text-amber-400 transition-colors">
+            <Crown className="w-4 h-4 text-amber-400" />
+            Ranking
           </Link>
 
           {/* Dropdown Labs & Prática */}
@@ -213,6 +223,19 @@ export function Navbar() {
                         <div className="text-[10px] text-slate-500">Hooks e helpers prontos</div>
                       </div>
                     </Link>
+
+                    <Link
+                      href="/interviews"
+                      className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-surface-hover text-slate-300 hover:text-white transition-colors group"
+                    >
+                      <div className="p-1.5 rounded-lg bg-accent-500/10 text-accent-400 border border-accent-500/20 group-hover:scale-105 transition-transform shrink-0">
+                        <Briefcase className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold">Mock Interviews</div>
+                        <div className="text-[10px] text-slate-500">Nubank, Google, iFood</div>
+                      </div>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -311,6 +334,20 @@ export function Navbar() {
             className="block px-3 py-2 text-base font-medium text-accent-400 hover:bg-white/5 rounded-lg"
           >
             Arena de Código (Editor Web)
+          </Link>
+          <Link
+            href="/interviews"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block px-3 py-2 text-base font-medium text-slate-300 hover:text-white hover:bg-white/5 rounded-lg"
+          >
+            Entrevistas Técnicas Simuladas
+          </Link>
+          <Link
+            href="/leaderboard"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block px-3 py-2 text-base font-medium text-amber-400 hover:bg-white/5 rounded-lg"
+          >
+            Ranking Global & Ligas
           </Link>
 
           {/* Seção Labs Mobile */}
