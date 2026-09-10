@@ -4,6 +4,26 @@ export const mockChallenges: Challenge[] = [
   {
     id: "chal-1",
     slug: "inverter-string",
+    referenceLinks: [
+    {
+        "title": "W3Schools: JavaScript String Methods",
+        "url": "https://www.w3schools.com/js/js_string_methods.asp",
+        "type": "w3schools",
+        "description": "Visão geral de manipulação de texto, split e concatenação."
+    },
+    {
+        "title": "MDN: String.prototype.split()",
+        "url": "https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/String/split",
+        "type": "docs",
+        "description": "Como quebrar uma string em array de caracteres."
+    },
+    {
+        "title": "DevQuest CheatSheets: JavaScript Arrays",
+        "url": "/cheatsheets",
+        "type": "cheatsheet",
+        "description": "Consulte o método Array.reverse() e join()."
+    }
+],
     title: "Inverter uma String",
     difficulty: "easy",
     category: "strings",
@@ -35,6 +55,26 @@ export const mockChallenges: Challenge[] = [
   {
     id: "chal-2",
     slug: "two-sum",
+    referenceLinks: [
+    {
+        "title": "MDN: Map Object in JavaScript",
+        "url": "https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Map",
+        "type": "docs",
+        "description": "Estrutura chave-valor com busca O(1) para armazenar complementos."
+    },
+    {
+        "title": "Stack Overflow: Optimal Two Sum in JS",
+        "url": "https://stackoverflow.com/questions/4784927/optimal-solution-for-two-sum-in-javascript",
+        "type": "stackoverflow",
+        "description": "Comparativo de performance entre O(n²) e Hash Map O(n)."
+    },
+    {
+        "title": "DevQuest Visualizer: Big-O & Busca",
+        "url": "/visualizer",
+        "type": "cheatsheet",
+        "description": "Veja a diferença gráfica de complexidade no visualizador interativo."
+    }
+],
     title: "Dois Números que Somam K (Two Sum)",
     difficulty: "easy",
     category: "arrays",
@@ -65,6 +105,26 @@ export const mockChallenges: Challenge[] = [
   {
     id: "chal-3",
     slug: "valid-parentheses",
+    referenceLinks: [
+    {
+        "title": "MDN: Array.prototype.pop() & push()",
+        "url": "https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array/pop",
+        "type": "docs",
+        "description": "Operações essenciais para manipular pilhas em arrays."
+    },
+    {
+        "title": "DevQuest Visualizer: Estrutura de Pilha (LIFO)",
+        "url": "/visualizer",
+        "type": "cheatsheet",
+        "description": "Simulação animada de inserção e remoção de elementos no topo."
+    },
+    {
+        "title": "W3Schools: JavaScript Arrays Guide",
+        "url": "https://www.w3schools.com/js/js_arrays.asp",
+        "type": "w3schools",
+        "description": "Sintaxe e propriedades de coleções em JavaScript."
+    }
+],
     title: "Validador de Parênteses & Chaves",
     difficulty: "medium",
     category: "algorithms",
@@ -96,6 +156,26 @@ export const mockChallenges: Challenge[] = [
   {
     id: "chal-4",
     slug: "deep-flatten-array",
+    referenceLinks: [
+    {
+        "title": "MDN: Array.prototype.flat()",
+        "url": "https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array/flat",
+        "type": "docs",
+        "description": "Método nativo moderno para achatar arrays com profundidade."
+    },
+    {
+        "title": "W3Schools: JavaScript Recursion",
+        "url": "https://www.w3schools.com/js/js_functions.asp",
+        "type": "w3schools",
+        "description": "Entenda o conceito de funções que chamam a si mesmas."
+    },
+    {
+        "title": "Stack Overflow: How to flatten nested arrays recursively",
+        "url": "https://stackoverflow.com/questions/27266550/how-to-flatten-nested-array-in-javascript",
+        "type": "stackoverflow",
+        "description": "Soluções elegantes usando reduce e operador spread."
+    }
+],
     title: "Achatamento Profundo de Array (Deep Flatten)",
     difficulty: "hard",
     category: "algorithms",
@@ -126,6 +206,26 @@ export const mockChallenges: Challenge[] = [
   {
     id: "chal-5",
     slug: "is-palindrome",
+    referenceLinks: [
+    {
+        "title": "W3Schools: String replace() Method",
+        "url": "https://www.w3schools.com/jsref/jsref_replace.asp",
+        "type": "w3schools",
+        "description": "Como remover espaços e caracteres não alfanuméricos com regex."
+    },
+    {
+        "title": "MDN: Regular Expressions Guide",
+        "url": "https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Guide/Regular_expressions",
+        "type": "docs",
+        "description": "Padrões de regex para limpeza de strings e pontuação."
+    },
+    {
+        "title": "DevQuest CheatSheets: JavaScript",
+        "url": "/cheatsheets",
+        "type": "cheatsheet",
+        "description": "Referência rápida de métodos de String e Array."
+    }
+],
     title: "Verificador de Palíndromo",
     difficulty: "easy",
     category: "strings",
@@ -157,6 +257,26 @@ export const mockChallenges: Challenge[] = [
   {
     id: "chal-6",
     slug: "max-subarray",
+    referenceLinks: [
+    {
+        "title": "W3Schools: JavaScript Math.max()",
+        "url": "https://www.w3schools.com/jsref/jsref_max.asp",
+        "type": "w3schools",
+        "description": "Comparação rápida de valores numéricos máximos."
+    },
+    {
+        "title": "Wikipedia: Algoritmo de Kadane",
+        "url": "https://pt.wikipedia.org/wiki/Subarranjo_cont%C3%ADguo_de_soma_m%C3%A1xima",
+        "type": "article",
+        "description": "Fundamentos teóricos da técnica de programação dinâmica O(n)."
+    },
+    {
+        "title": "Stack Overflow: Kadane's Algorithm Explained",
+        "url": "https://stackoverflow.com/questions/1547029/kadanes-algorithm",
+        "type": "stackoverflow",
+        "description": "Explicações visuais com passo a passo dos acumuladores."
+    }
+],
     title: "Maior Subarray Contíguo (Kadane's Algorithm)",
     difficulty: "medium",
     category: "arrays",
@@ -188,6 +308,20 @@ export const mockChallenges: Challenge[] = [
   {
     id: "chal-7",
     slug: "group-anagrams",
+    referenceLinks: [
+    {
+        "title": "MDN: Object.values() & Map",
+        "url": "https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Object/values",
+        "type": "docs",
+        "description": "Como extrair grupos agrupados de um dicionário ou mapa."
+    },
+    {
+        "title": "W3Schools: Array.prototype.sort()",
+        "url": "https://www.w3schools.com/js/js_array_sort.asp",
+        "type": "w3schools",
+        "description": "Ordenação alfabética para normalizar chaves de anagramas."
+    }
+],
     title: "Agrupamento de Anagramas",
     difficulty: "medium",
     category: "strings",
@@ -233,6 +367,26 @@ export const mockChallenges: Challenge[] = [
   {
     id: "chal-8",
     slug: "debounce-simulation",
+    referenceLinks: [
+    {
+        "title": "MDN: Window.setTimeout() & clearTimeout()",
+        "url": "https://developer.mozilla.org/pt-BR/docs/Web/API/setTimeout",
+        "type": "docs",
+        "description": "Agendamento e cancelamento de timers assíncronos no runtime."
+    },
+    {
+        "title": "DevQuest Snippets: useDebounce Hook",
+        "url": "/snippets",
+        "type": "cheatsheet",
+        "description": "Implementação completa de debounce pronta para produção."
+    },
+    {
+        "title": "W3Schools: JavaScript Timing Events",
+        "url": "https://www.w3schools.com/js/js_timing.asp",
+        "type": "w3schools",
+        "description": "Guia básico com exemplos de atrasos controlados."
+    }
+],
     title: "Simulador de Debounce",
     difficulty: "medium",
     category: "async",
@@ -264,6 +418,26 @@ export const mockChallenges: Challenge[] = [
   {
     id: "chal-9",
     slug: "merge-intervals",
+    referenceLinks: [
+    {
+        "title": "MDN: Array.prototype.sort() com Comparador",
+        "url": "https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array/sort",
+        "type": "docs",
+        "description": "Como ordenar arrays de intervalos pelo ponto inicial a[0] - b[0]."
+    },
+    {
+        "title": "W3Schools: Sorting Arrays",
+        "url": "https://www.w3schools.com/js/js_array_sort.asp",
+        "type": "w3schools",
+        "description": "Regras de ordenação numérica ascendente em JS."
+    },
+    {
+        "title": "DevQuest Visualizer: Algoritmos de Ordenação",
+        "url": "/visualizer",
+        "type": "cheatsheet",
+        "description": "Entenda visualmente a troca e fixação de posições."
+    }
+],
     title: "Mesclar Intervalos Sobrepostos",
     difficulty: "medium",
     category: "algorithms",
@@ -294,6 +468,26 @@ export const mockChallenges: Challenge[] = [
   {
     id: "chal-10",
     slug: "lru-cache-operations",
+    referenceLinks: [
+    {
+        "title": "MDN: Map Key Insertion Order",
+        "url": "https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Map",
+        "type": "docs",
+        "description": "Como o Map do JS preserva a ordem de inserção para implementar LRU."
+    },
+    {
+        "title": "Stack Overflow: LRU Cache in JavaScript",
+        "url": "https://stackoverflow.com/questions/996505/lru-cache-implementation-in-javascript",
+        "type": "stackoverflow",
+        "description": "Discussão de arquitetura e padrões eficientes em memória."
+    },
+    {
+        "title": "DevQuest Visualizer: Fila e Pilha",
+        "url": "/visualizer",
+        "type": "cheatsheet",
+        "description": "Conceitos de estruturas LIFO e FIFO animadas."
+    }
+],
     title: "Simulador de Cache LRU (Least Recently Used)",
     difficulty: "hard",
     category: "logic",
@@ -341,6 +535,26 @@ export const mockChallenges: Challenge[] = [
   {
     id: "chal-11",
     slug: "fizzbuzz-custom",
+    referenceLinks: [
+    {
+        "title": "W3Schools: JavaScript Modulo (%) Operator",
+        "url": "https://www.w3schools.com/js/js_arithmetic.asp",
+        "type": "w3schools",
+        "description": "Como verificar divisibilidade com resto zero (n % divisor === 0)."
+    },
+    {
+        "title": "W3Schools: JavaScript If / Else",
+        "url": "https://www.w3schools.com/js/js_if_else.asp",
+        "type": "w3schools",
+        "description": "Estruturas condicionais de fluxo de decisão."
+    },
+    {
+        "title": "DevQuest Labs: Web Playground",
+        "url": "/playground",
+        "type": "cheatsheet",
+        "description": "Teste laços for e saídas no console em tempo real."
+    }
+],
     title: "FizzBuzz Dinâmico & Regras Customizadas",
     difficulty: "easy",
     category: "logic",
@@ -387,6 +601,26 @@ export const mockChallenges: Challenge[] = [
   {
     id: "chal-12",
     slug: "palindrome-checker",
+    referenceLinks: [
+    {
+        "title": "MDN: String.prototype.replace()",
+        "url": "https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/String/replace",
+        "type": "docs",
+        "description": "Remoção de pontuação e espaços para normalização de texto."
+    },
+    {
+        "title": "W3Schools: JavaScript Regular Expressions",
+        "url": "https://www.w3schools.com/js/js_regexp.asp",
+        "type": "w3schools",
+        "description": "Uso do flag /g para substituição global de caracteres."
+    },
+    {
+        "title": "DevQuest CheatSheets: JavaScript",
+        "url": "/cheatsheets",
+        "type": "cheatsheet",
+        "description": "Consulte métodos de Array e String."
+    }
+],
     title: "Verificador de Palíndromos Alfanuméricos",
     difficulty: "easy",
     category: "strings",
@@ -438,6 +672,26 @@ export const mockChallenges: Challenge[] = [
   {
     id: "chal-13",
     slug: "currying-sum",
+    referenceLinks: [
+    {
+        "title": "MDN: Closures em JavaScript",
+        "url": "https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Closures",
+        "type": "docs",
+        "description": "Como funções filhas mantêm acesso às variáveis do escopo pai."
+    },
+    {
+        "title": "W3Schools: JavaScript Function Closures",
+        "url": "https://www.w3schools.com/js/js_function_closures.asp",
+        "type": "w3schools",
+        "description": "Explicação introdutória de closures e funções de retorno."
+    },
+    {
+        "title": "DevQuest Home: Dicas de Clean Code",
+        "url": "/",
+        "type": "cheatsheet",
+        "description": "Conheça boas práticas para evitar flags booleanas e funções aninhadas."
+    }
+],
     title: "Soma Encadeada Infinita (Currying)",
     difficulty: "medium",
     category: "logic",
@@ -486,6 +740,26 @@ export const mockChallenges: Challenge[] = [
   {
     id: "chal-14",
     slug: "binary-search",
+    referenceLinks: [
+    {
+        "title": "DevQuest Visualizer: Busca Binária com Ponteiros",
+        "url": "/visualizer",
+        "type": "cheatsheet",
+        "description": "Acompanhe passo a passo os ponteiros low, mid e high na animação."
+    },
+    {
+        "title": "W3Schools: Math.floor() Reference",
+        "url": "https://www.w3schools.com/jsref/jsref_floor.asp",
+        "type": "w3schools",
+        "description": "Cálculo de índice mediano com arredondamento seguro."
+    },
+    {
+        "title": "MDN: Binary Search Algorithm",
+        "url": "https://developer.mozilla.org/en-US/docs/Glossary/Binary_search",
+        "type": "docs",
+        "description": "Conceito e complexidade temporal logarítmica O(log n)."
+    }
+],
     title: "Busca Binária O(log n)",
     difficulty: "medium",
     category: "algorithms",
@@ -538,6 +812,26 @@ export const mockChallenges: Challenge[] = [
   {
     id: "chal-15",
     slug: "deep-clone-object",
+    referenceLinks: [
+    {
+        "title": "MDN: structuredClone() Global Function",
+        "url": "https://developer.mozilla.org/pt-BR/docs/Web/API/Window/structuredClone",
+        "type": "docs",
+        "description": "Clonagem profunda nativa sem as limitações do JSON.stringify."
+    },
+    {
+        "title": "DevQuest Home: Dica do Dia sobre structuredClone",
+        "url": "/",
+        "type": "cheatsheet",
+        "description": "Exemplo prático de clonagem de objetos aninhados."
+    },
+    {
+        "title": "W3Schools: JavaScript Objects",
+        "url": "https://www.w3schools.com/js/js_objects.asp",
+        "type": "w3schools",
+        "description": "Manipulação e cópia de propriedades de objetos em JS."
+    }
+],
     title: "Clonagem Profunda de Objetos (Deep Clone)",
     difficulty: "medium",
     category: "logic",
@@ -584,6 +878,26 @@ export const mockChallenges: Challenge[] = [
   {
     id: "chal-16",
     slug: "rate-limiter-token-bucket",
+    referenceLinks: [
+    {
+        "title": "DevQuest Snippets: Rate Limiter em Memória",
+        "url": "/snippets",
+        "type": "cheatsheet",
+        "description": "Código de produção pronto com sliding window e limite de requisições."
+    },
+    {
+        "title": "MDN: Date.now() & Timestamps",
+        "url": "https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Date/now",
+        "type": "docs",
+        "description": "Medição de janelas de tempo em milissegundos."
+    },
+    {
+        "title": "Cloudflare: What is Rate Limiting?",
+        "url": "https://www.cloudflare.com/learning/bots/what-is-rate-limiting/",
+        "type": "article",
+        "description": "Conceitos de proteção contra abusos e ataques de força bruta."
+    }
+],
     title: "Algoritmo de Rate Limiting (Token Bucket)",
     difficulty: "hard",
     category: "async",

@@ -1,3 +1,5 @@
+import { ReferenceLink } from "./project";
+
 export type ChallengeDifficulty = "easy" | "medium" | "hard";
 export type ChallengeCategory = "logic" | "arrays" | "strings" | "algorithms" | "async";
 
@@ -24,4 +26,5 @@ export interface Challenge {
   hints: string[];
   company?: string;
   companyRole?: string;
+  referenceLinks?: ReferenceLink[];
 }

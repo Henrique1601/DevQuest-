@@ -5,6 +5,32 @@ export const mockProjects: Project[] = [
   {
     id: "proj-1",
     slug: "calculadora-neumorfica",
+    referenceLinks: [
+    {
+        "title": "W3Schools: CSS Grid Layout Tutorial",
+        "url": "https://www.w3schools.com/css/css_grid.asp",
+        "type": "w3schools",
+        "description": "Guia completo com exemplos de grid-template-columns e gap."
+    },
+    {
+        "title": "MDN: EventTarget.addEventListener()",
+        "url": "https://developer.mozilla.org/pt-BR/docs/Web/API/EventTarget/addEventListener",
+        "type": "docs",
+        "description": "Documentação de captura de eventos do teclado e cliques."
+    },
+    {
+        "title": "MDN: Window.localStorage",
+        "url": "https://developer.mozilla.org/pt-BR/docs/Web/API/Window/localStorage",
+        "type": "docs",
+        "description": "Persistência simples de pares chave/valor no navegador."
+    },
+    {
+        "title": "DevQuest Labs: Web Playground",
+        "url": "/playground",
+        "type": "cheatsheet",
+        "description": "Ambiente livre para prototipar seu layout HTML/CSS antes de codificar."
+    }
+],
     title: "Calculadora Interativa & Histórico",
     tagline: "Domine a manipulação do DOM, estados e operadores matemáticos.",
     description: "Crie uma calculadora moderna com suporte a operações em cadeia, histórico de cálculos anteriores e atalhos de teclado.",
@@ -105,6 +131,32 @@ export const mockProjects: Project[] = [
   {
     id: "proj-2",
     slug: "gerador-de-habitos",
+    referenceLinks: [
+    {
+        "title": "React Docs: useState Reference",
+        "url": "https://react.dev/reference/react/useState",
+        "type": "docs",
+        "description": "Documentação oficial de atualização de estados e listas no React 19."
+    },
+    {
+        "title": "MDN: Array.prototype.filter() & map()",
+        "url": "https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array",
+        "type": "docs",
+        "description": "Como filtrar e renderizar listas imutáveis em JavaScript."
+    },
+    {
+        "title": "DevQuest Snippets: useLocalStorage Hook",
+        "url": "/snippets",
+        "type": "cheatsheet",
+        "description": "Hook customizado pronto com sincronização automática entre abas."
+    },
+    {
+        "title": "W3Schools: React Forms & Input Handling",
+        "url": "https://www.w3schools.com/react/react_forms.asp",
+        "type": "w3schools",
+        "description": "Como manipular formulários controlados de tarefas e hábitos."
+    }
+],
     title: "Habit Tracker (Controle de Hábitos)",
     tagline: "Aprenda a criar um CRUD completo no cliente com persistência de dados.",
     description: "Aplicativo de acompanhamento de hábitos diários com streaks de consistência, progresso semanal e métricas visuais.",
@@ -207,6 +259,32 @@ export const mockProjects: Project[] = [
   {
     id: "proj-7",
     slug: "gerador-senhas-entropia",
+    referenceLinks: [
+    {
+        "title": "MDN: Web Crypto API (crypto.getRandomValues)",
+        "url": "https://developer.mozilla.org/pt-BR/docs/Web/API/Crypto/getRandomValues",
+        "type": "docs",
+        "description": "Geração de números pseudoaleatórios criptograficamente seguros."
+    },
+    {
+        "title": "OWASP: Password Storage & Strength CheatSheet",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html",
+        "type": "article",
+        "description": "Diretrizes de segurança para senhas e boas práticas recomendadas."
+    },
+    {
+        "title": "W3Schools: JavaScript Regular Expressions",
+        "url": "https://www.w3schools.com/js/js_regexp.asp",
+        "type": "w3schools",
+        "description": "Expressões regulares para validar requisitos de maiúsculas e símbolos."
+    },
+    {
+        "title": "DevQuest Labs: Playground Web",
+        "url": "/playground",
+        "type": "cheatsheet",
+        "description": "Teste seus algoritmos de cálculo de entropia com feedback visual."
+    }
+],
     title: "Gerador de Senhas Seguras & Analisador de Entropia",
     tagline: "Aprenda criptografia básica no navegador e segurança defensiva.",
     description: "Utilitário de geração de credenciais criptograficamente seguras com parâmetros configuráveis (maiúsculas, símbolos, comprimento), indicador visual de entropia (força da senha) e cópia instantânea.",
@@ -283,6 +361,32 @@ export const mockProjects: Project[] = [
   {
     id: "proj-3",
     slug: "dashboard-clima-tempo",
+    referenceLinks: [
+    {
+        "title": "MDN: Fetch API e Async/Await",
+        "url": "https://developer.mozilla.org/pt-BR/docs/Web/API/Fetch_API/Using_Fetch",
+        "type": "docs",
+        "description": "Como consumir APIs REST assíncronas com tratamento de erros HTTP."
+    },
+    {
+        "title": "OpenWeatherMap Official API Docs",
+        "url": "https://openweathermap.org/api",
+        "type": "docs",
+        "description": "Especificação dos endpoints de previsão do tempo e geocoding."
+    },
+    {
+        "title": "DevQuest Debug Clinic: Erros com useEffect & Fetch",
+        "url": "/debug-clinic",
+        "type": "cheatsheet",
+        "description": "Como prevenir loops infinitos e vazamentos de memória em requisições."
+    },
+    {
+        "title": "W3Schools: JavaScript Async/Await",
+        "url": "https://www.w3schools.com/js/js_async.asp",
+        "type": "w3schools",
+        "description": "Sintaxe moderna para lidar com Promises em JavaScript."
+    }
+],
     title: "Weather Radar & Previsão Global",
     tagline: "Integre APIs REST externas, geolocalização e gráficos dinâmicos.",
     description: "Painel climático interativo que consome dados da OpenWeatherMap API, detecta localização do usuário e exibe previsão horária e para 7 dias.",
@@ -362,6 +466,32 @@ export const mockProjects: Project[] = [
   {
     id: "proj-4",
     slug: "api-gestao-tarefas-jwt",
+    referenceLinks: [
+    {
+        "title": "Node.js Official Documentation",
+        "url": "https://nodejs.org/docs/latest/api/",
+        "type": "docs",
+        "description": "Referência oficial dos módulos nativos de Node.js e HTTP."
+    },
+    {
+        "title": "JWT.io: Introduction to JSON Web Tokens",
+        "url": "https://jwt.io/introduction",
+        "type": "article",
+        "description": "Entenda a estrutura de Header, Payload e Assinatura de tokens JWT."
+    },
+    {
+        "title": "Neon Postgres: Serverless Database Connection",
+        "url": "https://neon.tech/docs/introduction",
+        "type": "docs",
+        "description": "Guia de conexão rápida com Neon Postgres e pooling serverless."
+    },
+    {
+        "title": "W3Schools: SQL Tutorial",
+        "url": "https://www.w3schools.com/sql/",
+        "type": "w3schools",
+        "description": "Sintaxe essencial de tabelas relacionais, chaves estrangeiras e índices."
+    }
+],
     title: "RESTful API de Projetos com JWT & Neon",
     tagline: "Construa um backend seguro, com autenticação por token e migrations.",
     description: "API robusta em Node.js com TypeScript, Drizzle ORM conectado ao Neon Postgres, hash de senhas com bcrypt e validação de payloads com Zod.",
@@ -451,6 +581,32 @@ export const CreateTaskSchema = z.object({
   {
     id: "proj-8",
     slug: "kanban-board-drag-drop",
+    referenceLinks: [
+    {
+        "title": "MDN: HTML Drag and Drop API",
+        "url": "https://developer.mozilla.org/pt-BR/docs/Web/API/HTML_Drag_and_Drop_API",
+        "type": "docs",
+        "description": "API nativa para arrastar e soltar elementos entre containers."
+    },
+    {
+        "title": "W3Schools: HTML5 Drag & Drop Tutorial",
+        "url": "https://www.w3schools.com/html/html5_draganddrop.asp",
+        "type": "w3schools",
+        "description": "Exemplo prático e didático de dragover e drop."
+    },
+    {
+        "title": "dnd kit Documentation",
+        "url": "https://dndkit.com/",
+        "type": "docs",
+        "description": "Biblioteca moderna e acessível de drag-and-drop para React."
+    },
+    {
+        "title": "DevQuest Labs: Web Playground",
+        "url": "/playground",
+        "type": "cheatsheet",
+        "description": "Sandbox interativo para experimentar animações de drop."
+    }
+],
     title: "Quadro Kanban Interativo (Drag & Drop)",
     tagline: "Construa uma interface de produtividade com movimentação fluida de cards.",
     description: "Quadro de tarefas estilo Trello com colunas dinâmicas (A Fazer, Em Progresso, Concluído), suporte a arrastar e soltar suave, tags coloridas e persistência de dados.",
@@ -475,6 +631,32 @@ export const CreateTaskSchema = z.object({
   {
     id: "proj-9",
     slug: "encurtador-url-metricas",
+    referenceLinks: [
+    {
+        "title": "Next.js: Route Handlers",
+        "url": "https://nextjs.org/docs/app/building-your-application/routing/route-handlers",
+        "type": "docs",
+        "description": "Construção de rotas REST seguras com Next.js App Router."
+    },
+    {
+        "title": "Drizzle ORM: PostgreSQL Driver",
+        "url": "https://orm.drizzle.team/docs/get-started-postgresql",
+        "type": "docs",
+        "description": "Mapeamento relacional tipado com Drizzle e Neon Postgres."
+    },
+    {
+        "title": "DevQuest: SQL Playground",
+        "url": "/sql-playground",
+        "type": "cheatsheet",
+        "description": "Teste queries de agregação e contagem de cliques em tabelas simuladas."
+    },
+    {
+        "title": "W3Schools: SQL Group By",
+        "url": "https://www.w3schools.com/sql/sql_groupby.asp",
+        "type": "w3schools",
+        "description": "Como agrupar registros para calcular contagem de cliques diários."
+    }
+],
     title: "Micro-SaaS Encurtador de URLs & QR Code",
     tagline: "Crie um serviço rápido de redirecionamento, métricas de clique e QR Code.",
     description: "Sistema completo onde usuários geram links curtos amigáveis, visualizam gráficos de cliques por país/dispositivo e exportam QR Codes customizados prontos para impressão.",
@@ -501,6 +683,32 @@ export const CreateTaskSchema = z.object({
   {
     id: "proj-5",
     slug: "plataforma-ecommerce-stripe",
+    referenceLinks: [
+    {
+        "title": "Stripe Docs: Checkout & Webhooks",
+        "url": "https://stripe.com/docs/payments/checkout",
+        "type": "docs",
+        "description": "Fluxo oficial de pagamentos com cartão, Pix e validação de webhooks."
+    },
+    {
+        "title": "Next.js: Server Actions & Mutations",
+        "url": "https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations",
+        "type": "docs",
+        "description": "Mutação de dados segura no servidor com validação tipada."
+    },
+    {
+        "title": "DevQuest Snippets: Formatador de Moeda BRL",
+        "url": "/snippets",
+        "type": "cheatsheet",
+        "description": "Utilitário nativo de Intl.NumberFormat para exibir preços em reais."
+    },
+    {
+        "title": "W3Schools: JavaScript Number Methods",
+        "url": "https://www.w3schools.com/js/js_number_methods.asp",
+        "type": "w3schools",
+        "description": "Conversões numéricas e tratamento de centavos em e-commerce."
+    }
+],
     title: "SaaS E-Commerce com Checkout Stripe & Webhooks",
     tagline: "Construa uma loja completa com carrinho persistente, pagamentos e estoque.",
     description: "Aplicação full stack completa com catálogo com filtros server-side, carrinho otimizado, integração real com Stripe Checkout e webhooks para baixa de estoque no Neon Postgres.",
@@ -609,6 +817,26 @@ export async function createCheckoutSession(items: CartItem[], userId: string) {
   {
     id: "proj-6",
     slug: "chat-colaborativo-tempo-real",
+    referenceLinks: [
+    {
+        "title": "Socket.IO: Get Started Guide",
+        "url": "https://socket.io/docs/v4/",
+        "type": "docs",
+        "description": "Comunicação bidirecional com salas, eventos e reconexão automática."
+    },
+    {
+        "title": "MDN: WebSockets API",
+        "url": "https://developer.mozilla.org/pt-BR/docs/Web/API/WebSockets_API",
+        "type": "docs",
+        "description": "Fundamentos do protocolo ws:// para mensagens em tempo real."
+    },
+    {
+        "title": "DevQuest: Video Hub - Aulas de Backend",
+        "url": "/videos",
+        "type": "video",
+        "description": "Aulas aprofundadas com capítulos sobre arquitetura de servidores e APIs."
+    }
+],
     title: "Salas de Chat em Tempo Real & Code Sharing",
     tagline: "Construa um hub colaborativo com WebSockets, canais e editor compartilhado.",
     description: "Sistema com salas temáticas de estudo, presença de usuários online em tempo real, envio de mensagens instantâneas e snippet de código com syntax highlighting compartilhado.",
@@ -684,6 +912,32 @@ export async function createCheckoutSession(items: CartItem[], userId: string) {
   {
     id: "proj-10",
     slug: "monitor-uptime-status-page",
+    referenceLinks: [
+    {
+        "title": "MDN: HTTP Response Status Codes",
+        "url": "https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Status",
+        "type": "docs",
+        "description": "Lista completa de status codes (2xx, 3xx, 4xx, 5xx) e significados."
+    },
+    {
+        "title": "Neon Postgres: Guides for Next.js",
+        "url": "https://neon.tech/docs/guides/nextjs",
+        "type": "docs",
+        "description": "Armazenamento em alta escala com PostgreSQL serverless."
+    },
+    {
+        "title": "DevQuest: CheatSheets de HTTP Status",
+        "url": "/cheatsheets",
+        "type": "cheatsheet",
+        "description": "Guia visual de consulta rápida de códigos HTTP."
+    },
+    {
+        "title": "W3Schools: JavaScript Timing",
+        "url": "https://www.w3schools.com/js/js_timing.asp",
+        "type": "w3schools",
+        "description": "Controle de tempo e execução de tarefas periódicas."
+    }
+],
     title: "Sistema de Monitoramento de Uptime & Status Page",
     tagline: "Desenvolva um observatório de APIs com pings periódicos e métricas de latência.",
     description: "Plataforma de monitoramento contínuo (estilo BetterStack/UptimeRobot) que verifica a disponibilidade de URLs, calcula porcentagem de SLA mensal e publica uma Status Page pública para incidentes.",
@@ -707,6 +961,26 @@ export async function createCheckoutSession(items: CartItem[], userId: string) {
   {
     id: "proj-11",
     slug: "pomodoro-focus-timer",
+    referenceLinks: [
+    {
+        "title": "MDN: Notifications API",
+        "url": "https://developer.mozilla.org/pt-BR/docs/Web/API/Notifications_API",
+        "type": "docs",
+        "description": "Como solicitar permissão e disparar notificações na área de trabalho."
+    },
+    {
+        "title": "W3Schools: JavaScript setInterval() Method",
+        "url": "https://www.w3schools.com/jsref/met_win_setinterval.asp",
+        "type": "w3schools",
+        "description": "Execução periódica de rotinas e controle de pausas com clearInterval."
+    },
+    {
+        "title": "MDN: Web Audio API",
+        "url": "https://developer.mozilla.org/pt-BR/docs/Web/API/Web_Audio_API",
+        "type": "docs",
+        "description": "Sintetização e reprodução de áudios binaurais e ruído branco."
+    }
+],
     title: "Pomodoro Focus & Soundscapes",
     tagline: "Desenvolva um temporizador de produtividade com sons binaurais e notificações.",
     description: "Aplicativo web completo de técnica Pomodoro com ciclos automáticos de foco e descanso, trilhas sonoras ambientes com Web Audio API, atalhos globais de teclado e notificações visuais na barra de título e desktop.",
@@ -730,6 +1004,26 @@ export async function createCheckoutSession(items: CartItem[], userId: string) {
   {
     id: "proj-12",
     slug: "gerador-qrcode-custom",
+    referenceLinks: [
+    {
+        "title": "MDN: Canvas API Tutorial",
+        "url": "https://developer.mozilla.org/pt-BR/docs/Web/API/Canvas_API/Tutorial",
+        "type": "docs",
+        "description": "Desenho de gráficos, retângulos e exportação de imagem no Canvas."
+    },
+    {
+        "title": "W3Schools: HTML5 Canvas Guide",
+        "url": "https://www.w3schools.com/html/html5_canvas.asp",
+        "type": "w3schools",
+        "description": "Referência rápida de coordenadas, fillStyle e toDataURL."
+    },
+    {
+        "title": "DevQuest: Web Playground",
+        "url": "/playground",
+        "type": "cheatsheet",
+        "description": "Sandbox interativo para testar manipulação visual de Canvas em tempo real."
+    }
+],
     title: "QR Code Studio & Pix Dinâmico",
     tagline: "Gere códigos QR para URLs, Wi-Fi e pagamentos Pix com personalização visual.",
     description: "Estúdio de criação de códigos QR customizados com escolha de cores de fundo e frente, inserção de logo central, presets para redes Wi-Fi e Pix com payload CRC16, além de download em PNG e SVG.",
@@ -753,6 +1047,26 @@ export async function createCheckoutSession(items: CartItem[], userId: string) {
   {
     id: "proj-13",
     slug: "mini-spotify-player",
+    referenceLinks: [
+    {
+        "title": "MDN: HTMLAudioElement Interface",
+        "url": "https://developer.mozilla.org/pt-BR/docs/Web/API/HTMLAudioElement",
+        "type": "docs",
+        "description": "Controle de play, pause, volume, currentTime e eventos de áudio."
+    },
+    {
+        "title": "Tailwind CSS: Width & Progress Bar Design",
+        "url": "https://tailwindcss.com/docs/width",
+        "type": "docs",
+        "description": "Construção de barras de progresso modernas e interativas."
+    },
+    {
+        "title": "DevQuest: Video Hub",
+        "url": "/videos",
+        "type": "video",
+        "description": "Aulas sobre componentização e reprodução de mídia."
+    }
+],
     title: "StreamWave: Web Audio Player & Visualizer",
     tagline: "Crie um player de áudio com visualizador de frequências em Canvas e playlist.",
     description: "Reprodutor de música e podcasts moderno com playlist reativa, controle de progresso scrubbable, persistência de volume, modo aleatório/repetir e um visualizador de frequências de áudio em tempo real renderizado com AnalyserNode e Canvas.",
@@ -776,6 +1090,26 @@ export async function createCheckoutSession(items: CartItem[], userId: string) {
   {
     id: "proj-14",
     slug: "markdown-blog-cms",
+    referenceLinks: [
+    {
+        "title": "Next.js: Dynamic Routes & Static Site Generation (SSG)",
+        "url": "https://nextjs.org/docs/app/building-your-application/routing/dynamic-routes",
+        "type": "docs",
+        "description": "Geração estática de páginas de blog com generateStaticParams."
+    },
+    {
+        "title": "DevQuest Snippets: Gerador de Slugs Amigáveis",
+        "url": "/snippets",
+        "type": "cheatsheet",
+        "description": "Código pronto em TypeScript para converter títulos em URLs limpas."
+    },
+    {
+        "title": "W3Schools: What is Markdown?",
+        "url": "https://www.w3schools.com/html/html_markdown.asp",
+        "type": "w3schools",
+        "description": "Sintaxe padrão de Markdown para cabeçalhos, links e blocos de código."
+    }
+],
     title: "DevLog: CMS de Artigos Técnicos & Syntax Highlighting",
     tagline: "Construa um portal editorial com Markdown, estimativa de leitura e busca全文.",
     description: "Plataforma de publicação técnica com renderização rápida de Markdown/MDX, caixas de código com botão de cópia, tabela de conteúdos dinâmica (TOC) gerada pelos cabeçalhos H2/H3, filtro por tags e tempo estimado de leitura.",
@@ -799,6 +1133,26 @@ export async function createCheckoutSession(items: CartItem[], userId: string) {
   {
     id: "proj-15",
     slug: "url-shortener-analytics",
+    referenceLinks: [
+    {
+        "title": "Next.js: Middleware and Redirects",
+        "url": "https://nextjs.org/docs/app/building-your-application/routing/middleware",
+        "type": "docs",
+        "description": "Redirecionamentos com baixa latência na borda (Edge)."
+    },
+    {
+        "title": "Recharts: Composable Charting Library",
+        "url": "https://recharts.org/",
+        "type": "docs",
+        "description": "Gráficos reativos de linha e barras para exibição de cliques e métricas."
+    },
+    {
+        "title": "DevQuest: SQL Playground",
+        "url": "/sql-playground",
+        "type": "cheatsheet",
+        "description": "Pratique queries com GROUP BY e COUNT para relatórios analíticos."
+    }
+],
     title: "LinkPulse: Encurtador de URLs com Métricas Geográficas",
     tagline: "Desenvolva um encurtador de alta performance com telemetria e QR Code.",
     description: "Serviço completo de redirecionamento ultrarrápido (estilo Dub.co/Bitly) com geração de códigos curtos em Base62, rastreamento de cliques com país, navegador e sistema operacional gravados no Neon Postgres, e dashboard de analytics interativo.",
@@ -822,6 +1176,26 @@ export async function createCheckoutSession(items: CartItem[], userId: string) {
   {
     id: "proj-16",
     slug: "ai-code-reviewer-gemini",
+    referenceLinks: [
+    {
+        "title": "Google Gemini API: Developer Quickstart",
+        "url": "https://ai.google.dev/gemini-api/docs/quickstart",
+        "type": "docs",
+        "description": "Como autenticar e enviar prompts para os modelos Gemini."
+    },
+    {
+        "title": "MDN: Server-Sent Events (EventSource)",
+        "url": "https://developer.mozilla.org/pt-BR/docs/Web/API/Server-sent_events",
+        "type": "docs",
+        "description": "Streaming de respostas de inteligência artificial palavra por palavra."
+    },
+    {
+        "title": "DevQuest: Snippet Vault - Rate Limiter",
+        "url": "/snippets",
+        "type": "cheatsheet",
+        "description": "Proteja sua chave de API contra excesso de requisições."
+    }
+],
     title: "CodeSentry: Revisor Automático de Código com IA",
     tagline: "Integre LLMs para inspecionar PRs, detectar vulnerabilidades e refatorar.",
     description: "Plataforma de inspeção de código onde o desenvolvedor cola um arquivo ou trecho de pull request e recebe uma análise estrita de segurança (OWASP), detecção de bugs ocultos, estimativa de complexidade ciclomática e sugestões de refatoração com diff visual interativo.",

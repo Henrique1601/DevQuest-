@@ -9,6 +9,15 @@ export interface ProjectStep {
   codeSnippet?: string;
 }
 
+export type ReferenceType = "docs" | "w3schools" | "video" | "cheatsheet" | "stackoverflow" | "article";
+
+export interface ReferenceLink {
+  title: string;
+  url: string;
+  type: ReferenceType;
+  description?: string;
+}
+
 export interface Project {
   id: string;
   slug: string;
@@ -27,4 +36,5 @@ export interface Project {
   solutionUrl?: string;
   demoUrl?: string;
   company?: string;
+  referenceLinks?: ReferenceLink[];
 }

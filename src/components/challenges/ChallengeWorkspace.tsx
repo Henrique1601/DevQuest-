@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import {
   Play,
   RotateCcw,
@@ -19,9 +20,16 @@ import {
   X,
   Filter,
   Layers,
-  Briefcase
+  Briefcase,
+  BookOpen,
+  ExternalLink,
+  Globe,
+  Video,
+  MessageSquare,
+  FileText
 } from "lucide-react";
 import { Challenge, ChallengeDifficulty, ChallengeCategory } from "@/types/challenge";
+import { ReferenceType } from "@/types/project";
 import { mockChallenges } from "@/lib/data/challenges";
 import { useCodeRunner } from "@/hooks/useCodeRunner";
 import { Button } from "@/components/ui/Button";
@@ -50,7 +58,7 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
 
   const currentChallenge = mockChallenges[selectedChallengeIndex];
   const [code, setCode] = useState(currentChallenge.starterCode);
-  const [activeTab, setActiveTab] = useState<"instructions" | "hints">("instructions");
+  const [activeTab, setActiveTab] = useState<"instructions" | "hints" | "docs">("instructions");
   const [outputTab, setOutputTab] = useState<"tests" | "console">("tests");
   const [solvedChallenges, setSolvedChallenges] = useState<string[]>([]);
 
@@ -115,6 +123,23 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
 
     return matchesQuery && matchesDifficulty && matchesCategory && matchesCompany;
   });
+
+  const getResourceBadge = (type: ReferenceType) => {
+    switch (type) {
+      case "w3schools":
+        return { label: "W3Schools", icon: BookOpen, color: "bg-emerald-500/15 text-emerald-400 border-emerald-500/30" };
+      case "docs":
+        return { label: "Docs / MDN", icon: Globe, color: "bg-cyan-500/15 text-cyan-400 border-cyan-500/30" };
+      case "stackoverflow":
+        return { label: "Stack Overflow", icon: MessageSquare, color: "bg-amber-500/15 text-amber-400 border-amber-500/30" };
+      case "video":
+        return { label: "Vídeo / YouTube", icon: Video, color: "bg-rose-500/15 text-rose-400 border-rose-500/30" };
+      case "cheatsheet":
+        return { label: "DevQuest Labs", icon: Sparkles, color: "bg-primary-500/15 text-primary-400 border-primary-500/30" };
+      default:
+        return { label: "Artigo", icon: FileText, color: "bg-purple-500/15 text-purple-400 border-purple-500/30" };
+    }
+  };
 
   return (
     <div className="flex flex-col h-[calc(100vh-5rem)] bg-background relative">
@@ -222,10 +247,10 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
         {/* Painel Esquerdo: Instruções & Dicas */}
         <div className="lg:col-span-5 border-r border-surface-border bg-surface/40 flex flex-col h-full overflow-hidden">
           {/* Abas */}
-          <div className="flex items-center border-b border-surface-border px-4 text-xs font-mono">
+          <div className="flex items-center border-b border-surface-border px-4 text-xs font-mono overflow-x-auto">
             <button
               onClick={() => setActiveTab("instructions")}
-              className={`py-3 px-4 border-b-2 font-medium transition-colors ${
+              className={`py-3 px-3.5 border-b-2 font-medium transition-colors shrink-0 ${
                 activeTab === "instructions"
                   ? "border-primary-400 text-white"
                   : "border-transparent text-slate-400 hover:text-slate-200"
@@ -235,7 +260,7 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
             </button>
             <button
               onClick={() => setActiveTab("hints")}
-              className={`py-3 px-4 border-b-2 font-medium transition-colors flex items-center gap-1.5 ${
+              className={`py-3 px-3.5 border-b-2 font-medium transition-colors flex items-center gap-1.5 shrink-0 ${
                 activeTab === "hints"
                   ? "border-primary-400 text-white"
                   : "border-transparent text-slate-400 hover:text-slate-200"
@@ -244,11 +269,22 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
               <Lightbulb className="w-3.5 h-3.5 text-amber-400" />
               Dicas ({currentChallenge.hints.length})
             </button>
+            <button
+              onClick={() => setActiveTab("docs")}
+              className={`py-3 px-3.5 border-b-2 font-medium transition-colors flex items-center gap-1.5 shrink-0 ${
+                activeTab === "docs"
+                  ? "border-cyan-400 text-white"
+                  : "border-transparent text-slate-400 hover:text-slate-200"
+              }`}
+            >
+              <BookOpen className="w-3.5 h-3.5 text-cyan-400" />
+              Docs & Links ({currentChallenge.referenceLinks?.length || 0})
+            </button>
           </div>
 
           {/* Conteúdo do Painel */}
           <div className="p-6 overflow-y-auto flex-1 space-y-6">
-            {activeTab === "instructions" ? (
+            {activeTab === "instructions" && (
               <>
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
@@ -296,8 +332,27 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
                     ))}
                   </div>
                 </div>
+
+                {currentChallenge.referenceLinks && currentChallenge.referenceLinks.length > 0 && (
+                  <div className="pt-4 border-t border-surface-border">
+                    <div className="p-3.5 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-between gap-3">
+                      <div className="flex items-center gap-2 text-xs text-cyan-200">
+                        <BookOpen className="w-4 h-4 text-cyan-400 shrink-0" />
+                        <span>Dúvidas de sintaxe? Consulte os materiais de apoio.</span>
+                      </div>
+                      <button
+                        onClick={() => setActiveTab("docs")}
+                        className="text-xs font-mono font-bold text-white hover:text-cyan-300 underline shrink-0"
+                      >
+                        Ver Docs ({currentChallenge.referenceLinks.length}) →
+                      </button>
+                    </div>
+                  </div>
+                )}
               </>
-            ) : (
+            )}
+
+            {activeTab === "hints" && (
               <div className="space-y-4">
                 <h3 className="text-base font-bold text-white flex items-center gap-2">
                   <Lightbulb className="w-4 h-4 text-amber-400" />
@@ -316,6 +371,68 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
                       <p className="leading-relaxed">{hint}</p>
                     </div>
                   ))}
+                </div>
+              </div>
+            )}
+
+            {activeTab === "docs" && (
+              <div className="space-y-4">
+                <div className="space-y-1">
+                  <h3 className="text-base font-bold text-white flex items-center gap-2">
+                    <BookOpen className="w-4 h-4 text-cyan-400" />
+                    Documentação & Links Recomendados
+                  </h3>
+                  <p className="text-xs text-slate-400">
+                    Artigos, tutoriais do W3Schools, MDN e discussões que ajudam a resolver este desafio.
+                  </p>
+                </div>
+
+                <div className="space-y-3">
+                  {currentChallenge.referenceLinks && currentChallenge.referenceLinks.length > 0 ? (
+                    currentChallenge.referenceLinks.map((link, idx) => {
+                      const badge = getResourceBadge(link.type);
+                      const Icon = badge.icon;
+                      const isInternal = link.url.startsWith("/");
+
+                      const inner = (
+                        <div className="group p-3.5 rounded-xl bg-[#070A10] border border-surface-border hover:border-cyan-500/50 hover:bg-surface-hover transition-all space-y-1.5 cursor-pointer">
+                          <div className="flex items-center justify-between gap-2">
+                            <span className={`text-[10px] font-mono uppercase font-bold px-2 py-0.5 rounded-md border flex items-center gap-1.5 ${badge.color}`}>
+                              <Icon className="w-3 h-3" />
+                              <span>{badge.label}</span>
+                            </span>
+                            <ExternalLink className="w-3.5 h-3.5 text-slate-500 group-hover:text-cyan-400 transition-colors shrink-0" />
+                          </div>
+                          <div className="text-xs font-semibold text-white group-hover:text-cyan-300 transition-colors">
+                            {link.title}
+                          </div>
+                          {link.description && (
+                            <p className="text-[11px] text-slate-400 leading-relaxed">
+                              {link.description}
+                            </p>
+                          )}
+                        </div>
+                      );
+
+                      if (isInternal) {
+                        return (
+                          <Link key={idx} href={link.url} target="_blank" className="block">
+                            {inner}
+                          </Link>
+                        );
+                      }
+
+                      return (
+                        <a key={idx} href={link.url} target="_blank" rel="noopener noreferrer" className="block">
+                          {inner}
+                        </a>
+                      );
+                    })
+                  ) : (
+                    <div className="p-6 text-center text-xs text-slate-500 rounded-xl bg-surface/30 border border-surface-border">
+                      Nenhum link adicional registrado para este desafio.
+                    </div>
+                  )}
                 </div>
               </div>
             )}

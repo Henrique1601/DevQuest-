@@ -20,6 +20,7 @@ import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { ProjectTaskChecklist } from "@/components/projects/ProjectTaskChecklist";
 import { ProjectSubmissionCard } from "@/components/projects/ProjectSubmissionCard";
+import { ProjectResourceLinks } from "@/components/projects/ProjectResourceLinks";
 
 interface ProjectPageProps {
   params: Promise<{ slug: string }>;
@@ -179,6 +180,12 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               ))}
             </ul>
           </div>
+
+          {/* Links e Documentação de Apoio */}
+          <ProjectResourceLinks
+            links={project.referenceLinks}
+            projectTitle={project.title}
+          />
 
           {/* Submissão do Repositório */}
           <ProjectSubmissionCard
