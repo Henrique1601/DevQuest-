@@ -26,7 +26,8 @@ import {
   Globe,
   Video,
   MessageSquare,
-  FileText
+  FileText,
+  Bot
 } from "lucide-react";
 import { Challenge, ChallengeDifficulty, ChallengeCategory } from "@/types/challenge";
 import { ReferenceType } from "@/types/project";
@@ -34,6 +35,7 @@ import { mockChallenges } from "@/lib/data/challenges";
 import { useCodeRunner } from "@/hooks/useCodeRunner";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
+import { DevBotMentor } from "@/components/ai/DevBotMentor";
 
 const CodeEditor = dynamic(
   () => import("./CodeEditor").then((mod) => mod.CodeEditor),
@@ -58,7 +60,8 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
 
   const currentChallenge = mockChallenges[selectedChallengeIndex];
   const [code, setCode] = useState(currentChallenge.starterCode);
-  const [activeTab, setActiveTab] = useState<"instructions" | "hints" | "docs">("instructions");
+  const [activeTab, setActiveTab] = useState<"instructions" | "hints" | "docs" | "mentor">("instructions");
+  const [selectedLanguage, setSelectedLanguage] = useState<"javascript" | "typescript" | "python">("javascript");
   const [outputTab, setOutputTab] = useState<"tests" | "console">("tests");
   const [solvedChallenges, setSolvedChallenges] = useState<string[]>([]);
 
@@ -280,6 +283,17 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
               <BookOpen className="w-3.5 h-3.5 text-cyan-400" />
               Docs & Links ({currentChallenge.referenceLinks?.length || 0})
             </button>
+            <button
+              onClick={() => setActiveTab("mentor")}
+              className={`py-3 px-3.5 border-b-2 font-medium transition-colors flex items-center gap-1.5 shrink-0 ${
+                activeTab === "mentor"
+                  ? "border-accent-400 text-accent-300"
+                  : "border-transparent text-slate-400 hover:text-slate-200"
+              }`}
+            >
+              <Bot className="w-3.5 h-3.5 text-accent-400 animate-pulse" />
+              <span>DevBot AI</span>
+            </button>
           </div>
 
           {/* Conteúdo do Painel */}
@@ -436,16 +450,36 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
                 </div>
               </div>
             )}
+
+            {activeTab === "mentor" && (
+              <div className="h-full">
+                <DevBotMentor
+                  currentCode={code}
+                  challengeTitle={currentChallenge.title}
+                  functionName={currentChallenge.functionName}
+                />
+              </div>
+            )}
           </div>
         </div>
 
         {/* Painel Direito: Editor de Código e Saída */}
         <div className="lg:col-span-7 flex flex-col h-full overflow-hidden bg-[#070A10]">
-          {/* Editor Header */}
+          {/* Editor Header com Seletor de Linguagens */}
           <div className="h-10 border-b border-surface-border bg-surface/80 px-4 flex items-center justify-between text-xs font-mono text-slate-400">
-            <div className="flex items-center gap-2">
-              <Code className="w-3.5 h-3.5 text-primary-400" />
-              <span>JavaScript (ES2022)</span>
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-1.5">
+                <Code className="w-3.5 h-3.5 text-primary-400" />
+                <select
+                  value={selectedLanguage}
+                  onChange={(e) => setSelectedLanguage(e.target.value as any)}
+                  className="bg-[#05070E] text-slate-200 border border-surface-border rounded-lg px-2 py-0.5 text-[11px] focus:outline-none focus:border-primary-400 font-mono cursor-pointer"
+                >
+                  <option value="javascript">JavaScript (ES2022)</option>
+                  <option value="typescript">TypeScript (TS 5.x)</option>
+                  <option value="python">Python 3 (Beta)</option>
+                </select>
+              </div>
               <span className="hidden sm:inline-block text-[10px] text-slate-500 border border-surface-border px-1.5 py-0.5 rounded">
                 Ctrl + Enter para testar
               </span>
@@ -459,6 +493,7 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
               value={code}
               onChange={(val) => setCode(val)}
               onRun={handleRun}
+              language={selectedLanguage}
             />
           </div>
 

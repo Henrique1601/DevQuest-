@@ -50,6 +50,11 @@ type: moc
 * [[03.10 - Flashcards Anki 3D|Flashcards Anki 3D]]: Repetição espaçada com cartões giratórios 3D.
 * [[03.11 - SQL Playground & Banco em Memória|SQL Playground]]: Editor SQL com consultas relacionais e tabelas mockadas.
 * [[03.12 - Debug Clinic & Snippet Vault|Debug Clinic & Snippet Vault]]: Biblioteca de erros clássicos do dia a dia e cofre de snippets de produção.
+* [[03.13 - Desafio Diário (Daily Quest) & Heatmap|Desafio Diário (Daily Quest) & Heatmap]]: Desafio rotativo a cada 24h e matriz de atividade anual no estilo GitHub.
+* [[03.14 - Mentor de Código com IA (DevBot AI)|Mentor de Código com IA (DevBot AI)]]: Assistente socrático integrado na arena com dicas progressivas e análise de complexidade.
+* [[03.15 - Desafios de UI-UX Pixel-Perfect (Frontend Mentor)|Desafios de UI/UX Pixel-Perfect]]: Desafios visuais com comparador slider split-view entre o design original e a solução do aluno.
+* [[03.16 - Portfólio Público do Desenvolvedor|Portfólio Público do Desenvolvedor (/u/[username])]]: Página profissional pública com heatmap, matriz de habilidades, badges e projetos validados.
+* [[03.17 - Suporte Multi-Linguagem (JS, TS, Python)|Suporte Multi-Linguagem (JS, TS, Python)]]: Suporte no CodeMirror 6 para alternar entre JavaScript, TypeScript e Python.
 
 ---
 

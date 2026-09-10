@@ -1,9 +1,12 @@
 "use client";
 
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { javascript } from "@codemirror/lang-javascript";
+import { python } from "@codemirror/lang-python";
 import { EditorView } from "@codemirror/view";
+
+export type SupportedLanguage = "javascript" | "typescript" | "python";
 
 interface CodeEditorProps {
   value: string;
@@ -11,6 +14,7 @@ interface CodeEditorProps {
   onRun?: () => void;
   placeholder?: string;
   readOnly?: boolean;
+  language?: SupportedLanguage;
 }
 
 // Tema dark customizado nos tokens do DevQuest
@@ -48,7 +52,14 @@ const devQuestTheme = EditorView.theme({
   },
 });
 
-export function CodeEditor({ value, onChange, onRun, placeholder, readOnly = false }: CodeEditorProps) {
+export function CodeEditor({
+  value,
+  onChange,
+  onRun,
+  placeholder,
+  readOnly = false,
+  language = "javascript"
+}: CodeEditorProps) {
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
       // Atalho Ctrl+Enter ou Cmd+Enter para disparar execução
@@ -60,6 +71,17 @@ export function CodeEditor({ value, onChange, onRun, placeholder, readOnly = fal
     [onRun]
   );
 
+  const langExtension = useMemo(() => {
+    switch (language) {
+      case "python":
+        return python();
+      case "typescript":
+        return javascript({ jsx: true, typescript: true });
+      default:
+        return javascript({ jsx: true, typescript: false });
+    }
+  }, [language]);
+
   return (
     <div
       onKeyDown={handleKeyDown}
@@ -69,7 +91,7 @@ export function CodeEditor({ value, onChange, onRun, placeholder, readOnly = fal
         value={value}
         height="100%"
         theme="dark"
-        extensions={[javascript({ jsx: true, typescript: true }), devQuestTheme]}
+        extensions={[langExtension, devQuestTheme]}
         onChange={onChange}
         placeholder={placeholder || "// Escreva seu código aqui..."}
         readOnly={readOnly}

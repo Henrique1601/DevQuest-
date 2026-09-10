@@ -22,7 +22,9 @@ import {
   Bug,
   FileCode2,
   Briefcase,
-  Crown
+  Crown,
+  Flame,
+  Palette
 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { GithubIcon } from "@/components/ui/GithubIcon";
@@ -67,6 +69,14 @@ export function Navbar() {
             <Zap className="w-4 h-4" />
             Arena
           </Link>
+          <Link href="/daily" className="flex items-center gap-1.5 hover:text-amber-400 transition-colors">
+            <Flame className="w-4 h-4 text-amber-400" />
+            Daily
+          </Link>
+          <Link href="/ui-challenges" className="flex items-center gap-1.5 hover:text-pink-400 transition-colors">
+            <Palette className="w-4 h-4 text-pink-400" />
+            UI/UX
+          </Link>
           <Link href="/interviews" className="flex items-center gap-1.5 hover:text-accent-400 transition-colors">
             <Briefcase className="w-4 h-4 text-accent-400" />
             Entrevistas
@@ -99,6 +109,32 @@ export function Navbar() {
                     <div className="px-2.5 py-1 text-[10px] font-mono uppercase font-bold tracking-wider text-slate-500">
                       Ambientes Interativos
                     </div>
+
+                    <Link
+                      href="/daily"
+                      className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-surface-hover text-slate-300 hover:text-white transition-colors group"
+                    >
+                      <div className="p-1.5 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20 group-hover:scale-105 transition-transform shrink-0">
+                        <Flame className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold">Desafio do Dia (Daily)</div>
+                        <div className="text-[10px] text-slate-500">Ofensiva & Heatmap anual</div>
+                      </div>
+                    </Link>
+
+                    <Link
+                      href="/ui-challenges"
+                      className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-surface-hover text-slate-300 hover:text-white transition-colors group"
+                    >
+                      <div className="p-1.5 rounded-lg bg-pink-500/10 text-pink-400 border border-pink-500/20 group-hover:scale-105 transition-transform shrink-0">
+                        <Palette className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold">Frontend Pixel-Perfect</div>
+                        <div className="text-[10px] text-slate-500">Comparador slider de UI/UX</div>
+                      </div>
+                    </Link>
 
                     <Link
                       href="/playground"
@@ -336,6 +372,22 @@ export function Navbar() {
             Arena de Código (Editor Web)
           </Link>
           <Link
+            href="/daily"
+            onClick={() => setMobileMenuOpen(false)}
+            className="flex items-center gap-2 px-3 py-2 text-base font-medium text-amber-400 hover:bg-white/5 rounded-lg"
+          >
+            <Flame className="w-4 h-4" />
+            Desafio do Dia (Daily Quest)
+          </Link>
+          <Link
+            href="/ui-challenges"
+            onClick={() => setMobileMenuOpen(false)}
+            className="flex items-center gap-2 px-3 py-2 text-base font-medium text-pink-400 hover:bg-white/5 rounded-lg"
+          >
+            <Palette className="w-4 h-4" />
+            Desafios UI/UX (Pixel-Perfect)
+          </Link>
+          <Link
             href="/interviews"
             onClick={() => setMobileMenuOpen(false)}
             className="block px-3 py-2 text-base font-medium text-slate-300 hover:text-white hover:bg-white/5 rounded-lg"
@@ -357,6 +409,22 @@ export function Navbar() {
               Labs & Ferramentas
             </div>
             <div className="grid grid-cols-1 gap-1 mt-1">
+              <Link
+                href="/daily"
+                onClick={() => setMobileMenuOpen(false)}
+                className="px-3 py-1.5 text-sm text-slate-300 hover:text-white flex items-center gap-2 rounded-lg hover:bg-white/5"
+              >
+                <Flame className="w-4 h-4 text-amber-400" />
+                Desafio do Dia (Daily Quest)
+              </Link>
+              <Link
+                href="/ui-challenges"
+                onClick={() => setMobileMenuOpen(false)}
+                className="px-3 py-1.5 text-sm text-slate-300 hover:text-white flex items-center gap-2 rounded-lg hover:bg-white/5"
+              >
+                <Palette className="w-4 h-4 text-pink-400" />
+                Frontend Pixel-Perfect
+              </Link>
               <Link
                 href="/playground"
                 onClick={() => setMobileMenuOpen(false)}
