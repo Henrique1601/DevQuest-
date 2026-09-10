@@ -20,10 +20,85 @@ export const mockProjects: Project[] = [
       "Alternância entre tema claro e escuro"
     ],
     steps: [
-      { order: 1, title: "Estrutura e Layout", description: "Crie a grade de botões (grid) e o visor digital responsivo." },
-      { order: 2, title: "Máquina de Estados", description: "Gerencie o valor atual, operador pendente e valor acumulado." },
-      { order: 3, title: "Tratamento de Exceções", description: "Impeça divisão por zero e múltiplos pontos decimais." },
-      { order: 4, title: "Persistência", description: "Grave os últimos 10 cálculos no localStorage para consulta." }
+      {
+        order: 1,
+        title: "Estrutura e Layout Neumórfico",
+        description: "Crie a grade de botões (grid) e o visor digital responsivo usando Tailwind CSS.",
+        tips: [
+          "Use CSS Grid com 'grid-cols-4 gap-3' para posicionar os botões numéricos e de operações perfeitamente.",
+          "Para o efeito neumórfico em modo escuro, use sombras duplas: 'shadow-[-5px_-5px_10px_rgba(255,255,255,0.05),5px_5px_15px_rgba(0,0,0,0.5)]'.",
+          "Mantenha o visor com 'overflow-x-auto' para números com muitos dígitos não quebrarem o layout responsivo."
+        ],
+        codeSnippet: `<div className="grid grid-cols-4 gap-3 p-4 bg-slate-900 rounded-3xl shadow-2xl">
+  <div className="col-span-4 h-20 bg-slate-950/80 rounded-2xl flex items-center justify-end px-6 font-mono text-3xl text-cyan-400 overflow-x-auto">
+    {displayValue}
+  </div>
+  {/* Botões numéricos e operadores */}
+</div>`
+      },
+      {
+        order: 2,
+        title: "Máquina de Estados de Operação",
+        description: "Gerencie o valor atual, operador pendente e valor acumulado com lógica pura e segura.",
+        tips: [
+          "Separe o estado em: currentValue (string), previousValue (string | null) e operation (string | null).",
+          "Evite usar a função nativa eval() por razões graves de segurança e performance; crie uma função pura compute(a, b, op).",
+          "Ao pressionar '=', calcule o resultado e armazene no histórico antes de limpar o operador."
+        ],
+        codeSnippet: `function compute(a: number, b: number, op: string): number {
+  switch (op) {
+    case '+': return a + b;
+    case '-': return a - b;
+    case '×': return a * b;
+    case '÷': return b !== 0 ? a / b : NaN;
+    default: return b;
+  }
+}`
+      },
+      {
+        order: 3,
+        title: "Tratamento de Exceções & Atalhos de Teclado",
+        description: "Impeça divisão por zero, múltiplos pontos decimais e adicione listener de teclado.",
+        tips: [
+          "Bloqueie múltiplos cliques no ponto decimal: se currentValue já contiver '.', ignore novos pontos.",
+          "Adicione um listener de 'keydown' no window para mapear teclas 0-9, +, -, *, /, Enter e Escape (para limpar C).",
+          "Se a divisão for por zero, exiba a mensagem 'Erro: Indefinido' e desabilite operadores até pressionar AC."
+        ],
+        codeSnippet: `useEffect(() => {
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (/[0-9]/.test(e.key)) inputDigit(e.key);
+    if (['+', '-', '*', '/'].includes(e.key)) setOperator(e.key);
+    if (e.key === 'Enter') handleCalculate();
+    if (e.key === 'Escape') handleClear();
+  };
+  window.addEventListener('keydown', handleKeyDown);
+  return () => window.removeEventListener('keydown', handleKeyDown);
+}, []);`
+      },
+      {
+        order: 4,
+        title: "Persistência do Histórico em LocalStorage",
+        description: "Grave os últimos cálculos realizados para consulta mesmo após recarregar a página.",
+        tips: [
+          "Limite o histórico aos últimos 10 a 20 cálculos usando array.slice(-10).",
+          "Crie uma gaveta lateral ou modal retrátil para inspecionar o histórico e clicar para reutilizar um resultado anterior.",
+          "Sempre utilize JSON.stringify para salvar e um try/catch no JSON.parse para evitar quebras por dados corrompidos."
+        ]
+      }
+    ],
+    recommendedFolderStructure: `src/
+├── components/
+│   ├── Calculator.tsx       # Componente mestre com visor e botões
+│   ├── HistoryDrawer.tsx    # Gaveta com histórico de cálculos
+│   └── Display.tsx          # Visor digital formatado
+├── hooks/
+│   └── useCalculator.ts     # Hook desacoplado com a máquina de estados
+└── utils/
+    └── math.ts              # Funções puras de cálculo e formatação`,
+    architectureTips: [
+      "No README do seu repositório, destaque que você evitou 'eval()' criando um parser seguro de expressões matemáticas.",
+      "Grave um GIF de 5 segundos demonstrando a digitação no teclado físico e adicione no topo do README.",
+      "Mostre domínio de Clean Code separando a lógica matemática em um Custom Hook reutilizável (useCalculator)."
     ]
   },
   {
@@ -44,9 +119,87 @@ export const mockProjects: Project[] = [
       "Filtros por categoria (Saúde, Estudos, Trabalho)"
     ],
     steps: [
-      { order: 1, title: "Modelagem do Hábito", description: "Defina os types em TypeScript com ID, título, frequência e histórico." },
-      { order: 2, title: "Matriz Semanal", description: "Construa o componente de calendário dos últimos 7 dias." },
-      { order: 3, title: "Lógica de Sequência", description: "Implemente a função que calcula os dias ininterruptos." }
+      {
+        order: 1,
+        title: "Modelagem do Hábito & Tipagem",
+        description: "Defina os types em TypeScript com ID, título, frequência, categoria e histórico de datas completadas.",
+        tips: [
+          "Defina datas em formato ISO YYYY-MM-DD (string) para evitar problemas de fuso horário ao comparar dias no calendário.",
+          "Crie uma interface Habit e uma interface HabitCategory com ícones e cores associadas.",
+          "Utilize crypto.randomUUID() para IDs únicos."
+        ],
+        codeSnippet: `export interface Habit {
+  id: string;
+  title: string;
+  category: 'health' | 'study' | 'work' | 'mindfulness';
+  color: string;
+  completedDates: string[]; // ["2026-09-10", "2026-09-09"]
+  createdAt: string;
+}`
+      },
+      {
+        order: 2,
+        title: "Matriz Semanal de Progresso",
+        description: "Construa o componente visual dos últimos 7 dias com check circular interativo para cada dia.",
+        tips: [
+          "Gere dinamicamente os últimos 7 dias subtraindo i dias da data atual com date-fns ou vanilla JS.",
+          "Adicione animação suave de scale no botão de check ao marcar o dia concluído.",
+          "Calcule a porcentagem de conclusão diária do usuário para alimentar a barra de meta do dia."
+        ],
+        codeSnippet: `const getLast7Days = () => {
+  return Array.from({ length: 7 }).map((_, i) => {
+    const d = new Date();
+    d.setDate(d.getDate() - (6 - i));
+    return d.toISOString().split('T')[0];
+  });
+};`
+      },
+      {
+        order: 3,
+        title: "Lógica de Sequência (Streak Counter)",
+        description: "Implemente a função pura que calcula dias seguidos ininterruptos de execução do hábito.",
+        tips: [
+          "Ordene as datas concluídas em ordem decrescente.",
+          "Verifique se hoje ou ontem foi marcado. Se nenhum dos dois foi marcado, a streak atual é 0.",
+          "Percorra dia a dia para trás incrementando a streak enquanto a diferença for exatamente 1 dia."
+        ],
+        codeSnippet: `function calculateStreak(dates: string[]): number {
+  if (dates.length === 0) return 0;
+  const sorted = [...new Set(dates)].sort().reverse();
+  const today = new Date().toISOString().split('T')[0];
+  const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+
+  if (sorted[0] !== today && sorted[0] !== yesterday) return 0;
+
+  let streak = 0;
+  let checkDate = new Date(sorted[0]);
+
+  for (const dateStr of sorted) {
+    const d = new Date(dateStr);
+    const diffDays = Math.round((checkDate.getTime() - d.getTime()) / 86400000);
+    if (diffDays <= 1) {
+      streak++;
+      checkDate = d;
+    } else break;
+  }
+  return streak;
+}`
+      }
+    ],
+    recommendedFolderStructure: `src/
+├── components/
+│   ├── HabitCard.tsx         # Card individual com matriz de 7 dias
+│   ├── HabitFormModal.tsx    # Modal de criação e edição com seletor de cores
+│   ├── WeekCalendar.tsx      # Barra com os dias da semana atual
+│   └── StreakBadge.tsx       # Badge animada de chamas (fogo) com a contagem
+├── hooks/
+│   └── useHabits.ts          # CRUD completo com sincronização em LocalStorage
+└── types/
+    └── habit.ts              # Definições estritas de TypeScript`,
+    architectureTips: [
+      "Explique na documentação do projeto o algoritmo de cálculo de streaks; é uma pergunta muito comum em entrevistas técnicas para juniors e plenos.",
+      "Mostre persistência resiliente: crie um fallback para que o app nunca quebre mesmo se o LocalStorage estiver desabilitado no navegador.",
+      "Adicione micro-interações táteis: use pequenos confetes ou animações GSAP quando o usuário atingir uma streak de 7 dias."
     ]
   },
   {
@@ -67,9 +220,59 @@ export const mockProjects: Project[] = [
       "Botão de cópia para área de transferência com feedback visual temporário"
     ],
     steps: [
-      { order: 1, title: "Interface do Gerador", description: "Monte o layout com slider de tamanho e checkboxes de caracteres." },
-      { order: 2, title: "Algoritmo de Geração Criptográfica", description: "Utilize a Web Crypto API para aleatoriedade de padrão industrial." },
-      { order: 3, title: "Cálculo de Entropia Shannon", description: "Calcule a fórmula de bits de entropia baseada no conjunto de caracteres." }
+      {
+        order: 1,
+        title: "Interface do Gerador & Controles",
+        description: "Monte o layout com display de senha destacado, slider de tamanho (8 a 64) e checkboxes de tipos de caracteres.",
+        tips: [
+          "Garanta que pelo menos um checkbox de tipo de caractere permaneça sempre marcado para evitar estados impossíveis.",
+          "Use fontes monoespaçadas (ex: JetBrains Mono ou Courier) no visor para facilitar a distinção entre caracteres como '0' e 'O' ou 'l' e '1'."
+        ]
+      },
+      {
+        order: 2,
+        title: "Algoritmo Criptograficamente Seguro (CSPRNG)",
+        description: "Utilize a Web Crypto API para gerar aleatoriedade de padrão bancário em vez de Math.random().",
+        tips: [
+          "Math.random() é determinístico e previsível; para segurança real, utilize 'window.crypto.getRandomValues(new Uint32Array(length))'.",
+          "Monte o pool de caracteres combinando maiúsculas, minúsculas, números e símbolos permitidos.",
+          "Garanta que a senha gerada contenha ao menos um caractere de cada categoria selecionada pelo usuário."
+        ],
+        codeSnippet: `function generateSecurePassword(length: number, charset: string): string {
+  const values = new Uint32Array(length);
+  window.crypto.getRandomValues(values);
+  let result = '';
+  for (let i = 0; i < length; i++) {
+    result += charset[values[i] % charset.length];
+  }
+  return result;
+}`
+      },
+      {
+        order: 3,
+        title: "Cálculo de Entropia de Shannon & Estimativa de Crack",
+        description: "Calcule a métrica matemática de bits de entropia (E = L * log2(N)) e classifique a resistência da senha.",
+        tips: [
+          "A fórmula de entropia é: Entropia = Comprimento * Math.log2(TamanhoDoPool).",
+          "Classificação recomendada: < 40 bits = Fraca; 40-60 bits = Média; 60-80 bits = Forte; > 80 bits = Excelente (Padrão Militar).",
+          "Estime o tempo para quebra por força bruta assumindo 10 bilhões de palpites por segundo."
+        ],
+        codeSnippet: `function calculateEntropy(password: string, poolSize: number): number {
+  return Math.round(password.length * Math.log2(poolSize));
+}`
+      }
+    ],
+    recommendedFolderStructure: `src/
+├── components/
+│   ├── PasswordDisplay.tsx   # Visor com destaque de cor por tipo de caractere
+│   ├── StrengthMeter.tsx     # Barra gradiente indicando bits de entropia
+│   └── ConfigPanel.tsx       # Sliders e checkboxes de configuração
+└── utils/
+    ├── crypto.ts             # Web Crypto CSPRNG generator
+    └── entropy.ts            # Cálculo de Shannon e tempo estimado de quebra`,
+    architectureTips: [
+      "Recrutadores adoram ver desenvolvedores que conhecem a diferença entre Math.random() e Web Crypto API. Destaque isso logo na primeira linha do seu README!",
+      "Mostre que você pensou na UX com o feedback visual 'Copiado!' que some automaticamente após 2 segundos."
     ]
   },
 
@@ -92,9 +295,64 @@ export const mockProjects: Project[] = [
       "Ícones climáticos animados baseados nas condições atuais"
     ],
     steps: [
-      { order: 1, title: "Setup da API de Clima", description: "Configure as chaves no .env e crie o wrapper de requisições." },
-      { order: 2, title: "Tratamento de Estados", description: "Implemente skeletons de carregamento e telas amigáveis de erro." },
-      { order: 3, title: "Visualização com Gráficos", description: "Plote as previsões horárias em um gráfico de linha interativo." }
+      {
+        order: 1,
+        title: "Setup da API de Clima & Integração com Fetch",
+        description: "Configure a chave da OpenWeatherMap API ou WeatherAPI no .env e crie o wrapper de requisições tipado.",
+        tips: [
+          "Crie uma rota interna em '/api/weather' para esconder a sua API Key do navegador e evitar que usuários roubem sua cota gratuita.",
+          "Trate timeouts de requisição com AbortController para não deixar o usuário esperando indefinidamente em conexões lentas.",
+          "Tipifique a resposta completa da API em um arquivo 'weather.ts' para ter autocomplete total dos campos."
+        ],
+        codeSnippet: `export async function fetchCityWeather(city: string) {
+  const res = await fetch(\`/api/weather?city=\${encodeURIComponent(city)}\`);
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+    throw new Error(errorData.message || 'Cidade não encontrada');
+  }
+  return res.json();
+}`
+      },
+      {
+        order: 2,
+        title: "Detecção por Geolocation API & Skeletons de Loading",
+        description: "Capture as coordenadas do usuário automaticamente com permissão do navegador e mostre skeletons visuais.",
+        tips: [
+          "Use 'navigator.geolocation.getCurrentPosition' com fallback para uma cidade padrão (ex: 'São Paulo') caso o usuário recuse permissão.",
+          "Construa componentes de Skeleton com animação de 'pulse' do Tailwind para uma transição suave e sem layout shift (CLS)."
+        ],
+        codeSnippet: `useEffect(() => {
+  if ('geolocation' in navigator) {
+    navigator.geolocation.getCurrentPosition(
+      (pos) => fetchWeatherByCoords(pos.coords.latitude, pos.coords.longitude),
+      () => fetchCityWeather('São Paulo') // Fallback amigável
+    );
+  }
+}, []);`
+      },
+      {
+        order: 3,
+        title: "Visualização com Gráficos Recharts",
+        description: "Plote as previsões horárias e variações de temperatura ao longo de 24h em um gráfico responsivo.",
+        tips: [
+          "Utilize o ResponsiveContainer do Recharts com AreaChart ou LineChart com gradiente suave no preenchimento.",
+          "Formate o eixo X com horários simplificados ('12:00', '15:00', '18:00') e o tooltip com símbolo de graus Celsius (°C)."
+        ]
+      }
+    ],
+    recommendedFolderStructure: `src/
+├── app/
+│   ├── api/weather/route.ts  # BFF (Backend for Frontend) que oculta a API Key
+│   └── page.tsx              # Dashboard principal
+├── components/
+│   ├── WeatherCard.tsx       # Card hero com temperatura atual e ícone animado
+│   ├── ForecastChart.tsx     # Gráfico horário de temperatura com Recharts
+│   └── CitySearchBar.tsx     # Busca com debounce e histórico recente
+└── types/
+    └── weather.ts            # Interfaces TypeScript da API climática`,
+    architectureTips: [
+      "Ter uma rota de API no Next.js protegendo a API Key externa mostra maturidade em segurança da informação.",
+      "Mostre no portfólio como você tratou o 'Cumulative Layout Shift' (CLS) usando Skeletons idênticos ao layout final."
     ]
   },
   {
@@ -115,9 +373,74 @@ export const mockProjects: Project[] = [
       "Documentação das rotas e validações de input automáticas"
     ],
     steps: [
-      { order: 1, title: "Modelagem Relacional", description: "Escreva o schema no Drizzle com tabelas users, projects e tasks." },
-      { order: 2, title: "Fluxo de Autenticação", description: "Crie os endpoints de /auth/register e /auth/login com hash seguro." },
-      { order: 3, title: "Camada de Negócio e Middlewares", description: "Valide permissões: usuários só alteram seus próprios projetos." }
+      {
+        order: 1,
+        title: "Modelagem Relacional com Drizzle ORM no Neon",
+        description: "Escreva o schema no Drizzle com tabelas users, projects e tasks com chaves estrangeiras.",
+        tips: [
+          "Defina 'onDelete: cascade' nas tarefas para que ao excluir um projeto, suas tarefas sejam excluídas automaticamente.",
+          "Crie índices nas colunas de busca frequente (ex: 'userId' e 'slug') para acelerar consultas no Postgres.",
+          "Rode 'npx drizzle-kit push' para sincronizar com o banco Neon."
+        ],
+        codeSnippet: `export const tasks = pgTable('tasks', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  projectId: text('project_id').references(() => projects.id, { onDelete: 'cascade' }).notNull(),
+  title: text('title').notNull(),
+  completed: boolean('completed').default(false).notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});`
+      },
+      {
+        order: 2,
+        title: "Fluxo de Autenticação JWT & Hash com Bcrypt",
+        description: "Crie os endpoints de cadastro e login com hash seguro de 10 rounds e geração de token JWT assinado.",
+        tips: [
+          "Nunca grave senhas em texto puro; utilize bcrypt.hash(password, 10).",
+          "No login, use bcrypt.compare(password, user.passwordHash) com tempo constante para mitigar timing attacks.",
+          "Defina um tempo de expiração seguro no JWT (ex: '15m' para access token e '7d' para refresh token)."
+        ],
+        codeSnippet: `import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+
+export async function login(email: string, pass: string, user: any) {
+  const match = await bcrypt.compare(pass, user.passwordHash);
+  if (!match) throw new Error('Credenciais inválidas');
+  
+  const token = jwt.sign({ sub: user.id, email: user.email }, process.env.JWT_SECRET!, { expiresIn: '1h' });
+  return token;
+}`
+      },
+      {
+        order: 3,
+        title: "Middlewares de Proteção & Validação Zod",
+        description: "Valide permissões (usuários só alteram seus próprios recursos) e schemas de requisição com Zod.",
+        tips: [
+          "Crie um middleware 'requireAuth' que extrai o Bearer token do header 'Authorization' e anexa o userId no contexto.",
+          "Use Zod para validar body e query params antes de bater no banco de dados, retornando erros claros no formato RFC 7807."
+        ],
+        codeSnippet: `import { z } from 'zod';
+
+export const CreateTaskSchema = z.object({
+  title: z.string().min(3, 'Título muito curto').max(100),
+  projectId: z.string().uuid(),
+});`
+      }
+    ],
+    recommendedFolderStructure: `src/
+├── db/
+│   ├── index.ts              # Conexão Neon Serverless
+│   └── schema.ts             # Schemas Drizzle ORM
+├── middlewares/
+│   ├── auth.ts               # Validação de token JWT Bearer
+│   └── validate.ts           # Interceptor Zod
+├── routes/
+│   ├── auth.ts               # /register e /login
+│   └── tasks.ts              # CRUD com checagem de propriedade
+└── schemas/
+    └── task.schema.ts        # Schemas de validação Zod`,
+    architectureTips: [
+      "Destaque o uso do Neon Serverless Postgres com connection pooling e Drizzle ORM para queries type-safe.",
+      "Mencione nos diferenciais do projeto a proteção contra injeção de SQL (garantida nativamente pelo Drizzle) e validação rigorosa com Zod."
     ]
   },
   {
@@ -186,9 +509,93 @@ export const mockProjects: Project[] = [
       "Webhook com assinatura validada para confirmar pedidos no banco"
     ],
     steps: [
-      { order: 1, title: "Arquitetura Next.js Server Components", description: "Renderize produtos no servidor com zero JavaScript desnecessário." },
-      { order: 2, title: "Integração com Stripe", description: "Gere sessões de checkout com itens dinâmicos e metadados." },
-      { order: 3, title: "Worker de Webhook", description: "Processe o evento checkout.session.completed com transação atômica." }
+      {
+        order: 1,
+        title: "Arquitetura Next.js Server Components & Carrinho Otimizado",
+        description: "Renderize produtos no servidor com zero JavaScript desnecessário e gerencie o carrinho de compras no cliente.",
+        tips: [
+          "Utilize Server Components para carregar o catálogo diretamente do Neon Postgres sem expor rotas REST adicionais.",
+          "Para o carrinho, use um contexto React ou Zustand com persistência automática no LocalStorage.",
+          "Calcule subtotais e frete com centavos inteiros (ex: R$ 19,90 = 1990) para prevenir erros de arredondamento de ponto flutuante."
+        ],
+        codeSnippet: `// Sempre armazene e processe valores monetários em centavos (inteiros)
+export interface CartItem {
+  productId: string;
+  name: string;
+  unitPriceInCents: number; // 2990 = R$ 29,90
+  quantity: number;
+}`
+      },
+      {
+        order: 2,
+        title: "Sessão de Checkout com Stripe Checkout API",
+        description: "Gere sessões seguras de pagamento com itens dinâmicos, metadados do cliente e URLs de sucesso e cancelamento.",
+        tips: [
+          "Crie a sessão na Server Action ou Route Handler passando 'line_items' validados com os preços vindos do banco de dados (nunca confie nos preços enviados pelo frontend!).",
+          "Adicione o 'userId' e 'orderId' no campo 'metadata' do Stripe para correlacionar no webhook."
+        ],
+        codeSnippet: `import Stripe from 'stripe';
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2024-12-18.acacia' });
+
+export async function createCheckoutSession(items: CartItem[], userId: string) {
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ['card'],
+    line_items: items.map(item => ({
+      price_data: {
+        currency: 'brl',
+        product_data: { name: item.name },
+        unit_amount: item.unitPriceInCents,
+      },
+      quantity: item.quantity,
+    })),
+    mode: 'payment',
+    success_url: \`\${process.env.NEXT_PUBLIC_APP_URL}/orders/success?session_id={CHECKOUT_SESSION_ID}\`,
+    cancel_url: \`\${process.env.NEXT_PUBLIC_APP_URL}/cart\`,
+    metadata: { userId },
+  });
+  return session.url;
+}`
+      },
+      {
+        order: 3,
+        title: "Worker de Webhook com Validação de Assinatura",
+        description: "Processe o evento checkout.session.completed com transação atômica e baixa de estoque no Neon Postgres.",
+        tips: [
+          "Use 'stripe.webhooks.constructEvent' com o 'endpointSecret' e o raw body para evitar ataques de falsificação de requisições.",
+          "Garanta idempotência: registre o 'paymentIntentId' em uma tabela de transações para nunca dar baixa de estoque duas vezes no mesmo pagamento."
+        ],
+        codeSnippet: `export async function POST(req: Request) {
+  const body = await req.text();
+  const signature = req.headers.get('stripe-signature')!;
+  const event = stripe.webhooks.constructEvent(body, signature, process.env.STRIPE_WEBHOOK_SECRET!);
+
+  if (event.type === 'checkout.session.completed') {
+    const session = event.data.object as Stripe.Checkout.Session;
+    await db.transaction(async (tx) => {
+      // 1. Atualizar pedido para PAGO
+      // 2. Decrementar estoque dos produtos
+    });
+  }
+  return new Response('OK');
+}`
+      }
+    ],
+    recommendedFolderStructure: `src/
+├── app/
+│   ├── (shop)/page.tsx       # Catálogo SSR rápido
+│   ├── api/webhooks/stripe/  # Endpoint seguro do Webhook
+│   └── cart/page.tsx         # Resumo de compras
+├── components/
+│   ├── ProductCard.tsx       # Card de produto com botão comprar
+│   └── CartDrawer.tsx        # Gaveta lateral reativa do carrinho
+├── lib/
+│   ├── stripe.ts             # Instância configurada do Stripe SDK
+│   └── db/schema.ts          # Tabelas products, orders e order_items
+└── stores/
+    └── useCartStore.ts       # Estado global com Zustand/Context`,
+    architectureTips: [
+      "Processar webhooks de pagamento com assinatura criptográfica e transações atômicas no banco é o maior chamariz para vagas Fullstack Pleno/Sênior.",
+      "Mostre que você pensou na segurança dos preços: nunca envie o preço do produto pelo corpo da requisição do cliente!"
     ]
   },
   {
@@ -209,9 +616,60 @@ export const mockProjects: Project[] = [
       "Histórico de mensagens recente carregado do banco"
     ],
     steps: [
-      { order: 1, title: "Servidor de WebSockets", description: "Estruture o gateway de eventos e broadcasting por salas (rooms)." },
-      { order: 2, title: "Interface Reativa do Chat", description: "Construa a lista com auto-scroll suave e renderização rápida." },
-      { order: 3, title: "Microinterações com GSAP", description: "Anime a entrada de novas mensagens e notificações visuais." }
+      {
+        order: 1,
+        title: "Servidor de WebSockets & Gateway de Salas",
+        description: "Estruture o gateway de eventos e broadcasting por salas temáticas com Socket.io ou ws nativo.",
+        tips: [
+          "Autentique o handshake do WebSocket usando o token JWT para saber exatamente quem é o usuário conectado.",
+          "Use 'socket.join(roomId)' para isolar o tráfego de mensagens apenas aos membros que estão naquela sala.",
+          "Gerencie a lista de usuários online em memória ou com Redis pub/sub."
+        ],
+        codeSnippet: `io.on('connection', (socket) => {
+  socket.on('join_room', (roomId) => {
+    socket.join(roomId);
+    io.to(roomId).emit('user_joined', { userId: socket.data.user.id });
+  });
+
+  socket.on('send_message', async (data) => {
+    // 1. Salvar no Neon Postgres
+    // 2. Broadcast para os outros membros da sala
+    socket.to(data.roomId).emit('new_message', data);
+  });
+});`
+      },
+      {
+        order: 2,
+        title: "Interface Reativa do Chat & Auto-Scroll",
+        description: "Construa a lista de mensagens com auto-scroll inteligente (que não pula quando o usuário está lendo histórico acima).",
+        tips: [
+          "Verifique se o usuário já está no final da rolagem antes de forçar o scroll para baixo ao receber uma nova mensagem.",
+          "Implemente debounce no evento de digitação: envie 'user_typing' imediatamente e cancele após 1.5s sem novas teclas."
+        ]
+      },
+      {
+        order: 3,
+        title: "Microinterações com GSAP & Code Snippet Sharing",
+        description: "Anime a entrada de novas mensagens e notificações visuais, com renderização de blocos de código formatados.",
+        tips: [
+          "Use GSAP para animar sutilmente 'opacity: 0, y: 10' para cada novo balão de mensagem.",
+          "Adicione detecção de blocos de código com markdown ```js para renderizar com syntax highlighting e botão de copiar."
+        ]
+      }
+    ],
+    recommendedFolderStructure: `src/
+├── server/
+│   └── websocket.ts          # Servidor Node.js com Socket.io e JWT auth
+├── components/
+│   ├── ChatRoom.tsx          # Janela principal de conversa
+│   ├── MessageBubble.tsx     # Balão de mensagem com suporte a código
+│   ├── TypingIndicator.tsx   # Indicador de 'Fulano está digitando...'
+│   └── ChannelList.tsx       # Lista lateral de canais com contadores
+└── hooks/
+    └── useSocket.ts          # Custom hook de conexão e listeners`,
+    architectureTips: [
+      "Explique a diferença entre HTTP Polling e WebSockets bidirecionais contínuos no README.",
+      "Mostre como você lidou com reconexão automática e mensagens offline."
     ]
   },
   {

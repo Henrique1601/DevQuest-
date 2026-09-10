@@ -6,6 +6,7 @@ export interface ProjectStep {
   title: string;
   description: string;
   tips?: string[];
+  codeSnippet?: string;
 }
 
 export interface Project {
@@ -21,6 +22,8 @@ export interface Project {
   prerequisites: string[];
   features: string[];
   steps: ProjectStep[];
+  architectureTips?: string[];
+  recommendedFolderStructure?: string;
   solutionUrl?: string;
   demoUrl?: string;
 }

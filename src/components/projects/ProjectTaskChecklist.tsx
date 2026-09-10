@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { CheckCircle2, Circle, Lightbulb, ChevronDown, ChevronUp } from "lucide-react";
+import { CheckCircle2, Circle, Lightbulb, ChevronDown, ChevronUp, Code2, Copy, Check } from "lucide-react";
 import { ProjectStep } from "@/types/project";
 
 interface ProjectTaskChecklistProps {
@@ -12,6 +12,7 @@ interface ProjectTaskChecklistProps {
 export function ProjectTaskChecklist({ projectSlug, steps }: ProjectTaskChecklistProps) {
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
   const [openTips, setOpenTips] = useState<{ [key: number]: boolean }>({});
+  const [copiedSnippet, setCopiedSnippet] = useState<number | null>(null);
 
   // Carrega passos concluídos do localStorage
   useEffect(() => {
@@ -38,6 +39,12 @@ export function ProjectTaskChecklist({ projectSlug, steps }: ProjectTaskChecklis
 
   const toggleTip = (order: number) => {
     setOpenTips((prev) => ({ ...prev, [order]: !prev[order] }));
+  };
+
+  const copyCode = (code: string, order: number) => {
+    navigator.clipboard.writeText(code);
+    setCopiedSnippet(order);
+    setTimeout(() => setCopiedSnippet(null), 2000);
   };
 
   const progressPercentage = steps.length > 0
@@ -73,7 +80,7 @@ export function ProjectTaskChecklist({ projectSlug, steps }: ProjectTaskChecklis
       <div className="space-y-4">
         {steps.map((step) => {
           const isCompleted = completedSteps.includes(step.order);
-          const hasTips = step.tips && step.tips.length > 0;
+          const hasTips = (step.tips && step.tips.length > 0) || !!step.codeSnippet;
           const isTipOpen = !!openTips[step.order];
 
           return (
@@ -120,19 +127,19 @@ export function ProjectTaskChecklist({ projectSlug, steps }: ProjectTaskChecklis
                 </div>
               </div>
 
-              {/* Dicas / Tips Opcionais */}
+              {/* Dicas Técnicas & Snippets de Código */}
               {hasTips && (
-                <div className="border-t border-surface-border/50 bg-[#070A10]/50 px-5 py-3">
+                <div className="border-t border-surface-border/50 bg-[#070A10]/60 px-5 py-3.5 space-y-3">
                   <button
                     type="button"
                     onClick={(e) => {
                       e.stopPropagation();
                       toggleTip(step.order);
                     }}
-                    className="flex items-center gap-1.5 text-xs font-mono text-amber-400 hover:text-amber-300 transition-colors"
+                    className="flex items-center gap-1.5 text-xs font-mono font-medium text-amber-400 hover:text-amber-300 transition-colors"
                   >
                     <Lightbulb className="w-3.5 h-3.5" />
-                    <span>{isTipOpen ? "Ocultar orientações" : "Ver orientações desta etapa"}</span>
+                    <span>{isTipOpen ? "Ocultar dicas e código sugerido" : "Ver dicas práticas e código de apoio"}</span>
                     {isTipOpen ? (
                       <ChevronUp className="w-3.5 h-3.5" />
                     ) : (
@@ -141,13 +148,54 @@ export function ProjectTaskChecklist({ projectSlug, steps }: ProjectTaskChecklis
                   </button>
 
                   {isTipOpen && (
-                    <ul className="mt-2.5 space-y-1.5 pl-5 list-disc text-xs text-slate-300">
-                      {step.tips!.map((tip, idx) => (
-                        <li key={idx} className="leading-relaxed">
-                          {tip}
-                        </li>
-                      ))}
-                    </ul>
+                    <div className="pt-2 space-y-3">
+                      {step.tips && step.tips.length > 0 && (
+                        <div className="space-y-1.5">
+                          <span className="text-[11px] uppercase tracking-wider font-mono text-slate-400">
+                            Orientações de Implementação:
+                          </span>
+                          <ul className="space-y-1.5 pl-1">
+                            {step.tips.map((tip, idx) => (
+                              <li key={idx} className="flex items-start gap-2 text-xs text-slate-300">
+                                <span className="text-primary-400 font-bold mt-0.5">•</span>
+                                <span className="leading-relaxed">{tip}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+
+                      {step.codeSnippet && (
+                        <div className="space-y-1.5">
+                          <div className="flex items-center justify-between">
+                            <span className="text-[11px] uppercase tracking-wider font-mono text-cyan-400 flex items-center gap-1">
+                              <Code2 className="w-3.5 h-3.5" />
+                              Código / Estrutura Recomendada:
+                            </span>
+                            <button
+                              type="button"
+                              onClick={() => copyCode(step.codeSnippet!, step.order)}
+                              className="inline-flex items-center gap-1 text-[11px] font-mono text-slate-400 hover:text-white transition-colors"
+                            >
+                              {copiedSnippet === step.order ? (
+                                <>
+                                  <Check className="w-3 h-3 text-emerald-400" />
+                                  <span className="text-emerald-400">Copiado!</span>
+                                </>
+                              ) : (
+                                <>
+                                  <Copy className="w-3 h-3" />
+                                  <span>Copiar</span>
+                                </>
+                              )}
+                            </button>
+                          </div>
+                          <div className="p-3.5 rounded-xl bg-[#05070B] border border-surface-border text-xs font-mono text-slate-200 overflow-x-auto leading-relaxed">
+                            <pre className="whitespace-pre">{step.codeSnippet}</pre>
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   )}
                 </div>
               )}

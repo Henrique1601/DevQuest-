@@ -11,7 +11,9 @@ import {
   Sparkles,
   ChevronLeft,
   ChevronRight,
-  BookOpen
+  BookOpen,
+  FolderTree,
+  Lightbulb
 } from "lucide-react";
 import { mockProjects } from "@/lib/data/projects";
 import { Badge } from "@/components/ui/Badge";
@@ -186,15 +188,15 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         </div>
 
         {/* Lado Direito: Checklist de Etapas Passo a Passo (7 colunas) */}
-        <div className="lg:col-span-7 space-y-6">
+        <div className="lg:col-span-7 space-y-8">
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-xl font-bold text-white flex items-center gap-2">
                 <Layers className="w-5 h-5 text-primary-400" />
-                <span>Roteiro de Implementação</span>
+                <span>Roteiro de Implementação Passo a Passo</span>
               </h2>
               <p className="text-xs text-slate-400 mt-0.5">
-                Siga as etapas recomendadas e marque conforme for progredindo.
+                Siga as etapas recomendadas, abra as dicas práticas e marque conforme for progredindo.
               </p>
             </div>
           </div>
@@ -203,6 +205,43 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             projectSlug={project.slug}
             steps={project.steps}
           />
+
+          {/* Estrutura de Pastas Recomendada (se disponível) */}
+          {project.recommendedFolderStructure && (
+            <div className="p-6 rounded-2xl bg-surface/80 border border-surface-border space-y-3">
+              <div className="flex items-center gap-2 text-white font-bold text-base">
+                <FolderTree className="w-4 h-4 text-cyan-400" />
+                <span>Estrutura de Pastas Recomendada</span>
+              </div>
+              <p className="text-xs text-slate-400">
+                Uma organização limpa para o seu repositório de projeto:
+              </p>
+              <div className="p-4 rounded-xl bg-[#05070B] border border-surface-border font-mono text-xs text-slate-200 overflow-x-auto">
+                <pre className="whitespace-pre">{project.recommendedFolderStructure}</pre>
+              </div>
+            </div>
+          )}
+
+          {/* Dicas de Carreira e Boas Práticas (se disponível) */}
+          {project.architectureTips && project.architectureTips.length > 0 && (
+            <div className="p-6 rounded-2xl bg-amber-500/5 border border-amber-500/20 space-y-3">
+              <div className="flex items-center gap-2 text-amber-400 font-bold text-base">
+                <Lightbulb className="w-4 h-4" />
+                <span>Dicas de Ouro para o seu Portfólio</span>
+              </div>
+              <p className="text-xs text-slate-400">
+                Como valorizar este projeto no seu GitHub e entrevistas técnicas:
+              </p>
+              <ul className="space-y-2 pt-1">
+                {project.architectureTips.map((tip, idx) => (
+                  <li key={idx} className="flex items-start gap-2.5 text-xs text-slate-200">
+                    <span className="text-amber-400 font-bold">•</span>
+                    <span className="leading-relaxed">{tip}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       </div>
     </div>
