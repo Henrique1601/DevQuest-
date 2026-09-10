@@ -26,4 +26,5 @@ export interface Project {
   recommendedFolderStructure?: string;
   solutionUrl?: string;
   demoUrl?: string;
+  company?: string;
 }

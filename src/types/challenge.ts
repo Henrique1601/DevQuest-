@@ -22,4 +22,6 @@ export interface Challenge {
   functionName: string;
   testCases: TestCase[];
   hints: string[];
+  company?: string;
+  companyRole?: string;
 }

@@ -12,6 +12,7 @@ export const mockProjects: Project[] = [
     category: "frontend",
     estimatedHours: 4,
     tags: ["HTML", "CSS/Tailwind", "JavaScript", "DOM"],
+    company: "Apple / Casio",
     prerequisites: ["Variáveis e tipos de dados", "Funções básicas", "Event Listeners"],
     features: [
       "Operações básicas (+, -, *, / e porcentagem)",
@@ -111,6 +112,7 @@ export const mockProjects: Project[] = [
     category: "frontend",
     estimatedHours: 6,
     tags: ["React", "TypeScript", "Tailwind CSS", "LocalStorage"],
+    company: "Notion",
     prerequisites: ["Componentes React", "useState e useEffect", "Renderização de listas"],
     features: [
       "Criação, edição e exclusão de hábitos",
@@ -212,6 +214,7 @@ export const mockProjects: Project[] = [
     category: "frontend",
     estimatedHours: 5,
     tags: ["JavaScript / TypeScript", "Web Crypto API", "Tailwind CSS", "Clipboard API"],
+    company: "1Password",
     prerequisites: ["Operações com strings e arrays", "Geração de números pseudoaleatórios", "Eventos de formulário"],
     features: [
       "Geração usando window.crypto.getRandomValues para alta segurança",
@@ -287,6 +290,7 @@ export const mockProjects: Project[] = [
     category: "frontend",
     estimatedHours: 10,
     tags: ["Next.js", "APIs REST", "Lucide Icons", "Recharts", "Tailwind"],
+    company: "Google",
     prerequisites: ["Async/Await & Fetch API", "Gerenciamento de loading e erro", "Componentes controlados"],
     features: [
       "Busca de cidades com autocomplete inteligente",
@@ -365,6 +369,7 @@ export const mockProjects: Project[] = [
     category: "backend",
     estimatedHours: 12,
     tags: ["Node.js", "Express / Next API", "Neon Postgres", "Drizzle ORM", "JWT", "Zod"],
+    company: "Nubank",
     prerequisites: ["Arquitetura REST", "Conceito de middlewares", "SQL e modelagem relacional"],
     features: [
       "Cadastro e login com geração de Access e Refresh Token",
@@ -453,6 +458,7 @@ export const CreateTaskSchema = z.object({
     category: "frontend",
     estimatedHours: 14,
     tags: ["React", "HTML5 Drag & Drop / dnd-kit", "TypeScript", "Tailwind CSS"],
+    company: "Trello",
     prerequisites: ["Gerenciamento de estado complexo", "Manipulação de listas imutáveis", "Eventos de Drag & Drop"],
     features: [
       "Arrastar e soltar cards entre colunas diferentes com animações suaves",
@@ -476,6 +482,7 @@ export const CreateTaskSchema = z.object({
     category: "fullstack",
     estimatedHours: 16,
     tags: ["Next.js App Router", "Neon Postgres", "Drizzle ORM", "QRCode.js", "Tailwind"],
+    company: "Bitly / X",
     prerequisites: ["Redirecionamentos HTTP 301 vs 302", "Headers de User-Agent e IP", "Modelagem de dados analíticos"],
     features: [
       "Geração de slugs alfanuméricos curtos aleatórios ou personalizados",
@@ -501,6 +508,7 @@ export const CreateTaskSchema = z.object({
     category: "fullstack",
     estimatedHours: 24,
     tags: ["Next.js App Router", "Server Actions", "Stripe API", "Neon Postgres", "Drizzle ORM", "Tailwind CSS"],
+    company: "Mercado Livre",
     prerequisites: ["Server Components vs Client Components", "Webhooks e segurança criptográfica", "Transações no banco de dados"],
     features: [
       "Catálogo de produtos com paginação e busca full-text",
@@ -608,6 +616,7 @@ export async function createCheckoutSession(items: CartItem[], userId: string) {
     category: "fullstack",
     estimatedHours: 20,
     tags: ["WebSockets / Socket.io", "Node.js", "React", "GSAP", "Neon Postgres"],
+    company: "Netflix / Discord",
     prerequisites: ["Conceitos de WebSockets (Handshake, Eventos)", "Gerenciamento de conexões concorrentes", "Design de UI em tempo real"],
     features: [
       "Entrada e saída em múltiplos canais simultâneos",

@@ -28,7 +28,9 @@ export const mockChallenges: Challenge[] = [
       "Você pode transformar a string em um array com .split('')",
       "Arrays possuem o método nativo .reverse()",
       "Depois é só unir novamente com .join('')"
-    ]
+    ],
+    company: "Mercado Livre",
+    companyRole: "Frontend Jr"
   },
   {
     id: "chal-2",
@@ -56,7 +58,9 @@ export const mockChallenges: Challenge[] = [
     hints: [
       "Uma abordagem de força bruta com dois loops for funciona em O(n²).",
       "Você pode atingir O(n) utilizando um Map ou objeto para guardar os complementos já vistos!"
-    ]
+    ],
+    company: "Google",
+    companyRole: "Software Engineer"
   },
   {
     id: "chal-3",
@@ -85,7 +89,9 @@ export const mockChallenges: Challenge[] = [
     hints: [
       "Esta é a aplicação clássica de uma estrutura de dados de Pilha (Stack).",
       "Ao encontrar um caractere de abertura, empilhe. Ao encontrar fechamento, verifique se o topo da pilha bate."
-    ]
+    ],
+    company: "Amazon",
+    companyRole: "Backend Engineer"
   },
   {
     id: "chal-4",
@@ -113,7 +119,9 @@ export const mockChallenges: Challenge[] = [
     hints: [
       "Você pode usar recursão: percorra cada item do array. Se for Array.isArray(item), chame flattenArray recursivamente.",
       "Também é possível resolver de forma iterativa usando uma pilha (stack)."
-    ]
+    ],
+    company: "Meta",
+    companyRole: "Senior Frontend"
   },
   {
     id: "chal-5",
@@ -142,7 +150,9 @@ export const mockChallenges: Challenge[] = [
     hints: [
       "Use expressão regular para filtrar apenas caracteres alfanuméricos: str.toLowerCase().replace(/[^a-z0-9]/g, '')",
       "Compare a string limpa com ela mesma invertida ou use dois ponteiros (left e right)."
-    ]
+    ],
+    company: "Spotify",
+    companyRole: "Fullstack Engineer"
   },
   {
     id: "chal-6",
@@ -171,7 +181,9 @@ export const mockChallenges: Challenge[] = [
     hints: [
       "O Algoritmo de Kadane resolve este problema em tempo O(n) e espaço O(1).",
       "Mantenha duas variáveis: currentSum e maxSum. Em cada elemento, decida se continua somando ou começa um novo subarray a partir do número atual: currentSum = Math.max(num, currentSum + num)."
-    ]
+    ],
+    company: "Netflix",
+    companyRole: "Algorithms Specialist"
   },
   {
     id: "chal-7",
@@ -214,7 +226,9 @@ export const mockChallenges: Challenge[] = [
     hints: [
       "Se você ordenar as letras de uma palavra (ex: 'tea'.split('').sort().join('')), você obtém uma chave canônica única ('aet').",
       "Use um Map ou objeto JavaScript onde a chave é a versão ordenada e o valor é a lista de palavras que geram essa chave!"
-    ]
+    ],
+    company: "Uber",
+    companyRole: "Software Engineer"
   },
   {
     id: "chal-8",
@@ -243,7 +257,9 @@ export const mockChallenges: Challenge[] = [
     hints: [
       "Para cada índice i, compare timestamps[i+1] - timestamps[i].",
       "Se a diferença for menor ou igual ao delay, significa que a chamada foi resetada por um novo evento."
-    ]
+    ],
+    company: "Nubank",
+    companyRole: "Frontend Specialist"
   },
   {
     id: "chal-9",
@@ -271,7 +287,9 @@ export const mockChallenges: Challenge[] = [
     hints: [
       "Primeiro passo crucial: ordene a lista de intervalos pelo valor inicial: intervals.sort((a, b) => a[0] - b[0]).",
       "Itere pela lista e verifique se o início do intervalo atual é menor ou igual ao fim do último intervalo adicionado no resultado."
-    ]
+    ],
+    company: "Google",
+    companyRole: "Cloud Platform Engineer"
   },
   {
     id: "chal-10",
@@ -316,7 +334,9 @@ export const mockChallenges: Challenge[] = [
       "Em JavaScript moderno, o objeto Map nativo preserva a ordem de inserção das chaves!",
       "Ao acessar (GET) ou atualizar (PUT) uma chave existente, você pode deletá-la e reinseri-la no Map para movê-la para o final (mais recente).",
       "A chave menos recentemente usada é a primeira do Map: map.keys().next().value."
-    ]
+    ],
+    company: "Netflix",
+    companyRole: "Distributed Systems"
   },
   {
     id: "chal-11",
@@ -360,7 +380,9 @@ export const mockChallenges: Challenge[] = [
     hints: [
       "Você pode obter os divisores com Object.keys(rules).map(Number).sort((a, b) => a - b).",
       "Para cada i de 1 até n, verifique se i % divisor === 0 e acumule o texto."
-    ]
+    ],
+    company: "Mercado Livre",
+    companyRole: "Junior Developer"
   },
   {
     id: "chal-12",
@@ -409,7 +431,9 @@ export const mockChallenges: Challenge[] = [
     hints: [
       "Use expressão regular para filtrar apenas alfanuméricos: str.toLowerCase().replace(/[^a-z0-9]/g, '').",
       "Pode usar dois ponteiros (início e fim) para comparar os caracteres sem criar strings reversas extras."
-    ]
+    ],
+    company: "Spotify",
+    companyRole: "Core Web"
   },
   {
     id: "chal-13",
@@ -455,7 +479,9 @@ export const mockChallenges: Challenge[] = [
     hints: [
       "Crie uma função interna recursiva que mantém a soma total acumulada em seu escopo léxico (closure).",
       "Quando o argumento recebido for undefined, retorne a soma atual. Caso contrário, adicione ao acumulador e retorne a própria função."
-    ]
+    ],
+    company: "Nubank",
+    companyRole: "Senior Developer"
   },
   {
     id: "chal-14",
@@ -505,7 +531,9 @@ export const mockChallenges: Challenge[] = [
     hints: [
       "Use dois ponteiros: left = 0 e right = nums.length - 1.",
       "A cada iteração calcule mid = Math.floor((left + right) / 2) e compare nums[mid] com target."
-    ]
+    ],
+    company: "Google",
+    companyRole: "Systems Engineer"
   },
   {
     id: "chal-15",
@@ -549,7 +577,9 @@ export const mockChallenges: Challenge[] = [
       "Verifique se o valor é nulo ou não é um objeto (typeof obj !== 'object'). Se for primitivo, retorne o próprio valor.",
       "Se Array.isArray(obj), itere com .map(item => deepClone(item)).",
       "Para objetos, crie uma cópia {} e itere sobre Object.entries(obj)."
-    ]
+    ],
+    company: "Meta",
+    companyRole: "Web Platform"
   },
   {
     id: "chal-16",
@@ -595,6 +625,8 @@ export const mockChallenges: Challenge[] = [
       "Calcule o tempo decorrido: (currentTimestamp - lastTimestamp) / 1000.",
       "Adicione os novos tokens: tokens = Math.min(capacity, tokens + elapsedSec * refillRatePerSec).",
       "Se tokens >= 1: tokens -= 1 e registre true. Senão registre false."
-    ]
+    ],
+    company: "Nubank",
+    companyRole: "Fintech Platform"
   }
 ];

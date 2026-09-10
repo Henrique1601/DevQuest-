@@ -18,7 +18,8 @@ import {
   Search,
   X,
   Filter,
-  Layers
+  Layers,
+  Briefcase
 } from "lucide-react";
 import { Challenge, ChallengeDifficulty, ChallengeCategory } from "@/types/challenge";
 import { mockChallenges } from "@/lib/data/challenges";
@@ -58,6 +59,7 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
   const [searchQuery, setSearchQuery] = useState("");
   const [filterDifficulty, setFilterDifficulty] = useState<ChallengeDifficulty | "all">("all");
   const [filterCategory, setFilterCategory] = useState<ChallengeCategory | "all">("all");
+  const [filterCompany, setFilterCompany] = useState<string>("all");
 
   const { isRunning, results, consoleLogs, error, runChallenge } = useCodeRunner();
 
@@ -99,7 +101,8 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
     const matchesQuery =
       chal.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       chal.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      chal.category.toLowerCase().includes(searchQuery.toLowerCase());
+      chal.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (chal.company && chal.company.toLowerCase().includes(searchQuery.toLowerCase()));
 
     const matchesDifficulty =
       filterDifficulty === "all" || chal.difficulty === filterDifficulty;
@@ -107,7 +110,10 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
     const matchesCategory =
       filterCategory === "all" || chal.category === filterCategory;
 
-    return matchesQuery && matchesDifficulty && matchesCategory;
+    const matchesCompany =
+      filterCompany === "all" || chal.company === filterCompany;
+
+    return matchesQuery && matchesDifficulty && matchesCategory && matchesCompany;
   });
 
   return (
@@ -125,8 +131,8 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
-            <span className="text-xs font-mono text-slate-400">
-              {selectedChallengeIndex + 1} / {mockChallenges.length}
+            <span className="text-xs font-mono text-slate-400 px-1">
+              {selectedChallengeIndex + 1}/{mockChallenges.length}
             </span>
             <button
               onClick={() => setSelectedChallengeIndex((prev) => Math.min(mockChallenges.length - 1, prev + 1))}
@@ -158,6 +164,12 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
               <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-mono flex items-center gap-1">
                 <CheckCircle2 className="w-3 h-3" />
                 Resolvido
+              </span>
+            )}
+            {currentChallenge.company && (
+              <span className="hidden md:inline-flex items-center gap-1 text-[10px] font-mono px-2 py-0.5 rounded-full bg-violet-500/15 text-violet-300 border border-violet-500/30">
+                <Briefcase className="w-2.5 h-2.5 text-violet-400" />
+                {currentChallenge.company}
               </span>
             )}
           </h2>
@@ -485,29 +497,52 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
                 )}
               </div>
 
-              {/* Filtros de Dificuldade e Categoria */}
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                {/* Dificuldade */}
-                <div className="flex items-center gap-1">
-                  {(["all", "easy", "medium", "hard"] as const).map((diff) => (
+              {/* Filtros de Dificuldade, Empresa e Categoria */}
+              <div className="space-y-3">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  {/* Dificuldade */}
+                  <div className="flex items-center gap-1">
+                    {(["all", "easy", "medium", "hard"] as const).map((diff) => (
+                      <button
+                        key={diff}
+                        onClick={() => setFilterDifficulty(diff)}
+                        className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all ${
+                          filterDifficulty === diff
+                            ? "bg-primary-500 text-white"
+                            : "text-slate-400 hover:text-white bg-surface"
+                        }`}
+                      >
+                        {diff === "all" ? "Todas Dificuldades" : diff === "easy" ? "Fácil" : diff === "medium" ? "Médio" : "Difícil"}
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Contagem */}
+                  <span className="text-xs font-mono text-slate-400">
+                    {filteredChallenges.length} {filteredChallenges.length === 1 ? "desafio" : "desafios"}
+                  </span>
+                </div>
+
+                {/* Filtro por Empresa (Big Techs & Fintechs) */}
+                <div className="flex items-center gap-1.5 overflow-x-auto pb-1 text-xs">
+                  <span className="text-slate-500 text-[11px] font-mono shrink-0 flex items-center gap-1 mr-1">
+                    <Briefcase className="w-3 h-3 text-slate-400" />
+                    Empresa:
+                  </span>
+                  {["all", "Google", "Nubank", "Mercado Livre", "Netflix", "Amazon", "Meta", "Spotify", "Uber"].map((comp) => (
                     <button
-                      key={diff}
-                      onClick={() => setFilterDifficulty(diff)}
-                      className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all ${
-                        filterDifficulty === diff
-                          ? "bg-primary-500 text-white"
-                          : "text-slate-400 hover:text-white bg-surface"
+                      key={comp}
+                      onClick={() => setFilterCompany(comp)}
+                      className={`px-2 py-0.5 rounded-md text-[11px] font-mono shrink-0 transition-colors ${
+                        filterCompany === comp
+                          ? "bg-violet-500 text-white font-semibold"
+                          : "bg-surface border border-surface-border text-slate-400 hover:text-white"
                       }`}
                     >
-                      {diff === "all" ? "Todos" : diff === "easy" ? "Fácil" : diff === "medium" ? "Médio" : "Difícil"}
+                      {comp === "all" ? "Todas" : comp}
                     </button>
                   ))}
                 </div>
-
-                {/* Contagem */}
-                <span className="text-xs font-mono text-slate-400">
-                  {filteredChallenges.length} {filteredChallenges.length === 1 ? "desafio" : "desafios"}
-                </span>
               </div>
             </div>
 
@@ -538,10 +573,16 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
                       }`}
                     >
                       <div className="space-y-1">
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 flex-wrap">
                           <h4 className="text-sm font-bold text-white">
                             {chal.title}
                           </h4>
+                          {chal.company && (
+                            <span className="text-[10px] px-2 py-0.5 rounded-full bg-violet-500/10 text-violet-300 border border-violet-500/20 font-mono flex items-center gap-1">
+                              <Briefcase className="w-2.5 h-2.5" />
+                              {chal.company}
+                            </span>
+                          )}
                           {isChalSolved && (
                             <span className="text-[10px] px-2 py-0.2 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-mono">
                               ✓ Resolvido

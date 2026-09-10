@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { Clock, CheckCircle, ChevronRight, Search, X, Layers } from "lucide-react";
+import { Clock, CheckCircle, ChevronRight, Search, X, Layers, Briefcase } from "lucide-react";
 import { mockProjects } from "@/lib/data/projects";
 import { ProjectDifficulty } from "@/types/project";
 import { Badge } from "@/components/ui/Badge";
@@ -21,6 +21,7 @@ export function ProjectsShowcase() {
       p.title.toLowerCase().includes(query) ||
       p.tagline.toLowerCase().includes(query) ||
       p.description.toLowerCase().includes(query) ||
+      (p.company && p.company.toLowerCase().includes(query)) ||
       p.tags.some((t) => t.toLowerCase().includes(query));
 
     return matchesDifficulty && matchesSearch;
@@ -93,28 +94,26 @@ export function ProjectsShowcase() {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Buscar por tecnologia (React, Stripe, Neon, WebSocket...)"
+            placeholder="Buscar por tecnologia ou empresa (React, Stripe, Neon, Nubank...)"
             className="w-full bg-surface text-slate-200 text-xs sm:text-sm pl-10 pr-10 py-2.5 rounded-xl border border-surface-border focus:outline-none focus:border-primary-500 placeholder:text-slate-500"
           />
           {searchQuery && (
             <button
               onClick={() => setSearchQuery("")}
-              className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
+              className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-xs"
             >
               <X className="w-4 h-4" />
             </button>
           )}
         </div>
 
-        {/* Grid de Projetos */}
+        {/* Grade de Projetos */}
         {filteredProjects.length === 0 ? (
-          <div className="p-12 text-center rounded-2xl bg-surface/40 border border-surface-border space-y-3">
-            <Layers className="w-10 h-10 text-slate-500 mx-auto" />
-            <p className="text-slate-300 text-sm">
-              Nenhum projeto encontrado para os termos pesquisados.
-            </p>
+          <div className="text-center py-16 bg-surface/50 rounded-2xl border border-surface-border space-y-3">
+            <Layers className="w-10 h-10 mx-auto text-slate-500" />
+            <p className="text-slate-400 text-sm">Nenhum projeto encontrado para os filtros atuais.</p>
             <Button
-              variant="outline"
+              variant="secondary"
               size="sm"
               onClick={() => {
                 setSearchQuery("");
@@ -146,10 +145,18 @@ export function ProjectsShowcase() {
                         ? "Intermediário"
                         : "Avançado"}
                     </Badge>
-                    <span className="text-xs text-slate-400 font-mono flex items-center gap-1">
-                      <Clock className="w-3 h-3" />
-                      ~{project.estimatedHours}h est.
-                    </span>
+                    <div className="flex items-center gap-2">
+                      {project.company && (
+                        <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-violet-500/15 text-violet-300 border border-violet-500/30 flex items-center gap-1">
+                          <Briefcase className="w-2.5 h-2.5 text-violet-400" />
+                          {project.company}
+                        </span>
+                      )}
+                      <span className="text-xs text-slate-400 font-mono flex items-center gap-1">
+                        <Clock className="w-3 h-3" />
+                        ~{project.estimatedHours}h est.
+                      </span>
+                    </div>
                   </div>
 
                   {/* Título & Tagline */}

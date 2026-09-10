@@ -13,13 +13,18 @@ import {
   Menu,
   X,
   User,
-  LogIn
+  LogIn,
+  ChevronDown,
+  Database,
+  Zap,
+  SquareCode
 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { GithubIcon } from "@/components/ui/GithubIcon";
 
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [labsDropdownOpen, setLabsDropdownOpen] = useState(false);
   const { data: session } = useSession();
 
   return (
@@ -44,7 +49,7 @@ export function Navbar() {
         </Link>
 
         {/* Links Desktop */}
-        <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+        <nav className="hidden md:flex items-center gap-7 text-sm font-medium text-slate-300">
           <Link href="/#trilhas" className="flex items-center gap-2 hover:text-primary-400 transition-colors">
             <BookOpen className="w-4 h-4 text-slate-400" />
             Trilhas
@@ -53,14 +58,95 @@ export function Navbar() {
             <Layers className="w-4 h-4 text-slate-400" />
             Projetos
           </Link>
-          <Link href="/#desafios" className="flex items-center gap-2 hover:text-primary-400 transition-colors">
-            <Terminal className="w-4 h-4 text-slate-400" />
-            Desafios
-          </Link>
           <Link href="/challenges" className="flex items-center gap-1.5 text-accent-400 hover:text-accent-300 transition-colors">
             <Trophy className="w-4 h-4" />
             Arena de Código
           </Link>
+
+          {/* Dropdown Labs & Prática */}
+          <div
+            className="relative"
+            onMouseEnter={() => setLabsDropdownOpen(true)}
+            onMouseLeave={() => setLabsDropdownOpen(false)}
+          >
+            <button
+              onClick={() => setLabsDropdownOpen(!labsDropdownOpen)}
+              className="flex items-center gap-1.5 hover:text-primary-400 text-slate-300 transition-colors py-2 focus:outline-none"
+            >
+              <Sparkles className="w-4 h-4 text-primary-400" />
+              <span>Labs & Ferramentas</span>
+              <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${labsDropdownOpen ? "rotate-180" : ""}`} />
+            </button>
+
+            {labsDropdownOpen && (
+              <div className="absolute top-full left-0 w-64 p-2 bg-[#0A0E17]/95 border border-surface-border rounded-2xl shadow-2xl backdrop-blur-xl space-y-1 animate-fade-in z-50">
+                <Link
+                  href="/playground"
+                  className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-surface-hover text-slate-300 hover:text-white transition-colors group"
+                >
+                  <div className="p-2 rounded-lg bg-orange-500/10 text-orange-400 border border-orange-500/20 group-hover:scale-105 transition-transform">
+                    <SquareCode className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold">Web Playground</div>
+                    <div className="text-[11px] text-slate-500">Sandbox HTML, CSS e JS</div>
+                  </div>
+                </Link>
+
+                <Link
+                  href="/visualizer"
+                  className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-surface-hover text-slate-300 hover:text-white transition-colors group"
+                >
+                  <div className="p-2 rounded-lg bg-primary-500/10 text-primary-400 border border-primary-500/20 group-hover:scale-105 transition-transform">
+                    <Zap className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold">Visualizador de Algoritmos</div>
+                    <div className="text-[11px] text-slate-500">Busca, Ordenação e Pilhas</div>
+                  </div>
+                </Link>
+
+                <Link
+                  href="/flashcards"
+                  className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-surface-hover text-slate-300 hover:text-white transition-colors group"
+                >
+                  <div className="p-2 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20 group-hover:scale-105 transition-transform">
+                    <Sparkles className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold">Flashcards Anki</div>
+                    <div className="text-[11px] text-slate-500">Repetição espaçada 3D</div>
+                  </div>
+                </Link>
+
+                <Link
+                  href="/terminal"
+                  className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-surface-hover text-slate-300 hover:text-white transition-colors group"
+                >
+                  <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 group-hover:scale-105 transition-transform">
+                    <Terminal className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold">Terminal Linux & Git</div>
+                    <div className="text-[11px] text-slate-500">Shell interativo e missões</div>
+                  </div>
+                </Link>
+
+                <Link
+                  href="/sql-playground"
+                  className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-surface-hover text-slate-300 hover:text-white transition-colors group"
+                >
+                  <div className="p-2 rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 group-hover:scale-105 transition-transform">
+                    <Database className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold">SQL Playground</div>
+                    <div className="text-[11px] text-slate-500">Queries e desafios em tabelas</div>
+                  </div>
+                </Link>
+              </div>
+            )}
+          </div>
         </nav>
 
         {/* CTA e Usuário */}
@@ -155,6 +241,56 @@ export function Navbar() {
           >
             Arena de Código (Editor Web)
           </Link>
+
+          {/* Seção Labs Mobile */}
+          <div className="pt-2 border-t border-surface-border/50">
+            <div className="px-3 py-1 text-xs font-mono font-bold uppercase tracking-wider text-primary-400 flex items-center gap-1.5">
+              <Sparkles className="w-3.5 h-3.5" />
+              Labs & Prática
+            </div>
+            <div className="grid grid-cols-1 gap-1 mt-1">
+              <Link
+                href="/playground"
+                onClick={() => setMobileMenuOpen(false)}
+                className="px-3 py-1.5 text-sm text-slate-300 hover:text-white flex items-center gap-2 rounded-lg hover:bg-white/5"
+              >
+                <SquareCode className="w-4 h-4 text-orange-400" />
+                Web Playground
+              </Link>
+              <Link
+                href="/visualizer"
+                onClick={() => setMobileMenuOpen(false)}
+                className="px-3 py-1.5 text-sm text-slate-300 hover:text-white flex items-center gap-2 rounded-lg hover:bg-white/5"
+              >
+                <Zap className="w-4 h-4 text-primary-400" />
+                Visualizador de Algoritmos
+              </Link>
+              <Link
+                href="/flashcards"
+                onClick={() => setMobileMenuOpen(false)}
+                className="px-3 py-1.5 text-sm text-slate-300 hover:text-white flex items-center gap-2 rounded-lg hover:bg-white/5"
+              >
+                <Sparkles className="w-4 h-4 text-amber-400" />
+                Flashcards Anki
+              </Link>
+              <Link
+                href="/terminal"
+                onClick={() => setMobileMenuOpen(false)}
+                className="px-3 py-1.5 text-sm text-slate-300 hover:text-white flex items-center gap-2 rounded-lg hover:bg-white/5"
+              >
+                <Terminal className="w-4 h-4 text-emerald-400" />
+                Terminal Linux & Git
+              </Link>
+              <Link
+                href="/sql-playground"
+                onClick={() => setMobileMenuOpen(false)}
+                className="px-3 py-1.5 text-sm text-slate-300 hover:text-white flex items-center gap-2 rounded-lg hover:bg-white/5"
+              >
+                <Database className="w-4 h-4 text-cyan-400" />
+                SQL Playground
+              </Link>
+            </div>
+          </div>
 
           {session ? (
             <Link
