@@ -236,5 +236,144 @@ export const mockProjects: Project[] = [
       { order: 2, title: "Painel de Métricas e Gráficos", description: "Exiba gráficos de latência p95 e uptime percentual." },
       { order: 3, title: "Status Page Pública", description: "Renderize uma página leve e limpa para os clientes do serviço consultarem." }
     ]
+  },
+  {
+    id: "proj-11",
+    slug: "pomodoro-focus-timer",
+    title: "Pomodoro Focus & Soundscapes",
+    tagline: "Desenvolva um temporizador de produtividade com sons binaurais e notificações.",
+    description: "Aplicativo web completo de técnica Pomodoro com ciclos automáticos de foco e descanso, trilhas sonoras ambientes com Web Audio API, atalhos globais de teclado e notificações visuais na barra de título e desktop.",
+    difficulty: "beginner",
+    category: "frontend",
+    estimatedHours: 5,
+    tags: ["React", "TypeScript", "Tailwind CSS", "Web Audio API", "Notification API"],
+    prerequisites: ["setInterval e limpeza de efeitos no useEffect", "Manipulação de áudio em HTML5", "LocalStorage para estatísticas"],
+    features: [
+      "Ciclos configuráveis de foco (25m), descanso curto (5m) e descanso longo (15m)",
+      "Ruído branco, som de chuva e cafeteria via Web Audio API",
+      "Notificações sonoras e no desktop via Notification API quando o tempo esgota",
+      "Contagem de ciclos diários concluídos persistidos no navegador"
+    ],
+    steps: [
+      { order: 1, title: "Motor de Temporização", description: "Construa um custom hook useTimer robusto e preciso com timestamps." },
+      { order: 2, title: "Engine de Sons Ambientes", description: "Integre sintetizadores de áudio e reprodutores sem interrupção." },
+      { order: 3, title: "Notificações & Atalhos", description: "Implemente atalhos de barra de espaço e integração com permissões do browser." }
+    ]
+  },
+  {
+    id: "proj-12",
+    slug: "gerador-qrcode-custom",
+    title: "QR Code Studio & Pix Dinâmico",
+    tagline: "Gere códigos QR para URLs, Wi-Fi e pagamentos Pix com personalização visual.",
+    description: "Estúdio de criação de códigos QR customizados com escolha de cores de fundo e frente, inserção de logo central, presets para redes Wi-Fi e Pix com payload CRC16, além de download em PNG e SVG.",
+    difficulty: "beginner",
+    category: "frontend",
+    estimatedHours: 6,
+    tags: ["Next.js", "TypeScript", "Tailwind CSS", "Canvas API", "SVG Export"],
+    prerequisites: ["Manipulação de Canvas HTML5", "Formatos de texto Wi-Fi e Pix", "Download de blobs no cliente"],
+    features: [
+      "Presets para URL, Texto livre, Conexão Wi-Fi (WPA/WPA2) e Chave Pix",
+      "Personalização de cor do módulo e cantos (finder patterns)",
+      "Exportação em alta resolução (PNG 1024x1024 e SVG vetorial)",
+      "Histórico dos últimos QR Codes gerados salvo localmente"
+    ],
+    steps: [
+      { order: 1, title: "Formulários e Modos de Entrada", description: "Crie formulários específicos para cada modalidade (Wi-Fi, Pix, Link)." },
+      { order: 2, title: "Renderização do Canvas", description: "Desenhe a matriz de bits com margem de segurança e cores customizadas." },
+      { order: 3, title: "Pipeline de Exportação", description: "Gere links de download instantâneo usando canvas.toDataURL e XMLSerializer." }
+    ]
+  },
+  {
+    id: "proj-13",
+    slug: "mini-spotify-player",
+    title: "StreamWave: Web Audio Player & Visualizer",
+    tagline: "Crie um player de áudio com visualizador de frequências em Canvas e playlist.",
+    description: "Reprodutor de música e podcasts moderno com playlist reativa, controle de progresso scrubbable, persistência de volume, modo aleatório/repetir e um visualizador de frequências de áudio em tempo real renderizado com AnalyserNode e Canvas.",
+    difficulty: "intermediate",
+    category: "frontend",
+    estimatedHours: 12,
+    tags: ["React 19", "Web Audio API", "Canvas 2D", "Tailwind CSS", "Lucide Icons"],
+    prerequisites: ["AudioContext e AnalyserNode", "requestAnimationFrame para animações a 60fps", "Gerenciamento de filas de reprodução"],
+    features: [
+      "Controle de reprodução fluido (play, pause, next, prev, shuffle, repeat)",
+      "Visualizador de barras e ondas sonoras sincronizado com o áudio em tempo real",
+      "Barra de progresso interativa com preview de tempo ao passar o mouse",
+      "Suporte a atalhos de teclado (Espaço para pause, setas para volume e skip)"
+    ],
+    steps: [
+      { order: 1, title: "Arquitetura do Audio Engine", description: "Conecte o elemento HTML5 Audio ao AudioContext e AnalyserNode." },
+      { order: 2, title: "Canvas Wave Visualizer", description: "Capture os dados de frequência (getByteFrequencyData) e desenhe no Canvas." },
+      { order: 3, title: "Gerenciador de Playlist", description: "Estruture o estado da fila com transições suaves entre faixas." }
+    ]
+  },
+  {
+    id: "proj-14",
+    slug: "markdown-blog-cms",
+    title: "DevLog: CMS de Artigos Técnicos & Syntax Highlighting",
+    tagline: "Construa um portal editorial com Markdown, estimativa de leitura e busca全文.",
+    description: "Plataforma de publicação técnica com renderização rápida de Markdown/MDX, caixas de código com botão de cópia, tabela de conteúdos dinâmica (TOC) gerada pelos cabeçalhos H2/H3, filtro por tags e tempo estimado de leitura.",
+    difficulty: "intermediate",
+    category: "fullstack",
+    estimatedHours: 14,
+    tags: ["Next.js App Router", "Neon Postgres", "Drizzle ORM", "Markdown Parser", "Tailwind Typography"],
+    prerequisites: ["Server Components e geração estática", "Estruturação de AST (Abstract Syntax Tree)", "Consultas com filtros no Postgres"],
+    features: [
+      "Editor de Markdown com preview lado a lado em tempo real",
+      "Highlight automático de blocos de código com cópia em um clique",
+      "Sumário automático (Table of Contents) que destaca o cabeçalho visível no scroll",
+      "Cálculo automático de palavras e tempo estimado de leitura"
+    ],
+    steps: [
+      { order: 1, title: "Modelagem dos Artigos no Neon", description: "Defina a tabela articles com slug, markdownContent e publishedAt." },
+      { order: 2, title: "Pipeline de Renderização Markdown", description: "Converta tokens em componentes React customizados com Tailwind." },
+      { order: 3, title: "TOC com IntersectionObserver", description: "Destaque a seção ativa na barra lateral conforme o leitor rola a página." }
+    ]
+  },
+  {
+    id: "proj-15",
+    slug: "url-shortener-analytics",
+    title: "LinkPulse: Encurtador de URLs com Métricas Geográficas",
+    tagline: "Desenvolva um encurtador de alta performance com telemetria e QR Code.",
+    description: "Serviço completo de redirecionamento ultrarrápido (estilo Dub.co/Bitly) com geração de códigos curtos em Base62, rastreamento de cliques com país, navegador e sistema operacional gravados no Neon Postgres, e dashboard de analytics interativo.",
+    difficulty: "advanced",
+    category: "fullstack",
+    estimatedHours: 22,
+    tags: ["Next.js App Router", "Neon Postgres", "Drizzle ORM", "Base62 Hashing", "Recharts", "GeoIP"],
+    prerequisites: ["Redirecionamentos 301/308 de alta performance", "Agrupamento analítico em SQL (COUNT, GROUP BY)", "Decodificação de User-Agent"],
+    features: [
+      "Geração de slugs únicos de 6 caracteres via algoritmo Base62",
+      "Redirecionamento instantâneo via Next.js Route Handlers",
+      "Gravação assíncrona de telemetria de cliques (país, referrer, browser)",
+      "Dashboard analítico com gráficos de cliques por dia e mapa de distribuição"
+    ],
+    steps: [
+      { order: 1, title: "Algoritmo de Hash e Tabela de Links", description: "Estruture as tabelas links e clicks com chaves estrangeiras no Neon." },
+      { order: 2, title: "Handler de Redirecionamento 308", description: "Otimize o endpoint de redirecionamento para resposta em menos de 50ms." },
+      { order: 3, title: "Painel Analítico do Link", description: "Consulte e agrupe métricas com Drizzle ORM e exiba em gráficos visuais." }
+    ]
+  },
+  {
+    id: "proj-16",
+    slug: "ai-code-reviewer-gemini",
+    title: "CodeSentry: Revisor Automático de Código com IA",
+    tagline: "Integre LLMs para inspecionar PRs, detectar vulnerabilidades e refatorar.",
+    description: "Plataforma de inspeção de código onde o desenvolvedor cola um arquivo ou trecho de pull request e recebe uma análise estrita de segurança (OWASP), detecção de bugs ocultos, estimativa de complexidade ciclomática e sugestões de refatoração com diff visual interativo.",
+    difficulty: "advanced",
+    category: "fullstack",
+    estimatedHours: 24,
+    tags: ["Next.js", "Gemini API / LLM SDK", "Neon Postgres", "Drizzle ORM", "Diff Viewer", "Tailwind CSS"],
+    prerequisites: ["Integração com APIs de IA (Streaming e Structured Outputs)", "Visualização de diffs de código (side-by-side e unified)", "Segurança e validação de prompts"],
+    features: [
+      "Envio de trechos de código em JavaScript, TypeScript, Python e SQL",
+      "Análise streaming com resposta em tempo real usando Gemini API",
+      "Classificação de alertas por severidade (Crítico, Alto, Médio, Dica)",
+      "Visualização de antes/depois (diff) para as refatorações sugeridas",
+      "Histórico de análises gravadas no Neon Postgres associadas ao perfil do usuário"
+    ],
+    steps: [
+      { order: 1, title: "Gateway com SDK de IA", description: "Estruture o endpoint com streaming de resposta e schema de saída tipado." },
+      { order: 2, title: "Visualizador de Diff Interativo", description: "Renderize as linhas adicionadas e removidas com syntax highlighting." },
+      { order: 3, title: "Histórico e Persistência", description: "Grave o veredito da revisão no Neon para consulta posterior no perfil." }
+    ]
   }
 ];

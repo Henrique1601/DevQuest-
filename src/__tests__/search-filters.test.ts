@@ -3,8 +3,8 @@ import { mockChallenges } from "@/lib/data/challenges";
 import { mockProjects } from "@/lib/data/projects";
 
 describe("Busca e Filtros de Conteúdo", () => {
-  it("deve conter 10 desafios cadastrados cobrindo todas as categorias", () => {
-    expect(mockChallenges.length).toBe(10);
+  it("deve conter pelo menos 16 desafios cadastrados cobrindo todas as categorias", () => {
+    expect(mockChallenges.length).toBe(16);
 
     const categories = new Set(mockChallenges.map((c) => c.category));
     expect(categories.has("strings")).toBe(true);
@@ -26,8 +26,8 @@ describe("Busca e Filtros de Conteúdo", () => {
     expect(filtered[0].slug).toBe("max-subarray");
   });
 
-  it("deve conter 10 projetos cobrindo iniciante, intermediário e avançado", () => {
-    expect(mockProjects.length).toBe(10);
+  it("deve conter pelo menos 16 projetos cobrindo iniciante, intermediário e avançado", () => {
+    expect(mockProjects.length).toBe(16);
 
     const beginners = mockProjects.filter((p) => p.difficulty === "beginner");
     const intermediates = mockProjects.filter((p) => p.difficulty === "intermediate");

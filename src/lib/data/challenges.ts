@@ -317,5 +317,284 @@ export const mockChallenges: Challenge[] = [
       "Ao acessar (GET) ou atualizar (PUT) uma chave existente, você pode deletá-la e reinseri-la no Map para movê-la para o final (mais recente).",
       "A chave menos recentemente usada é a primeira do Map: map.keys().next().value."
     ]
+  },
+  {
+    id: "chal-11",
+    slug: "fizzbuzz-custom",
+    title: "FizzBuzz Dinâmico & Regras Customizadas",
+    difficulty: "easy",
+    category: "logic",
+    xp: 60,
+    description: "Crie uma função que gere a sequência de 1 a n aplicando regras de substituição configuráveis passadas como um objeto divisor:palavra.",
+    instructions: [
+      "Recebe n (inteiro positivo) e rules (objeto onde as chaves numéricas são divisores e os valores são palavras, ex: { 3: 'Fizz', 5: 'Buzz' }).",
+      "Para cada número de 1 a n, se for divisível por uma ou mais regras, concatene as palavras na ordem crescente dos divisores.",
+      "Se não for divisível por nenhum, retorne o número em formato de string.",
+      "Retorne um array com as n strings resultantes."
+    ],
+    starterCode: `function customFizzBuzz(n, rules) {
+  // Seu código aqui
+  return [];
+}`,
+    functionName: "customFizzBuzz",
+    testCases: [
+      {
+        id: "tc-1",
+        input: [5, { "3": "Fizz", "5": "Buzz" }],
+        expected: ["1", "2", "Fizz", "4", "Buzz"],
+        description: "Regras clássicas até 5"
+      },
+      {
+        id: "tc-2",
+        input: [15, { "3": "Fizz", "5": "Buzz" }],
+        expected: ["1", "2", "Fizz", "4", "Buzz", "Fizz", "7", "8", "Fizz", "Buzz", "11", "Fizz", "13", "14", "FizzBuzz"],
+        description: "Múltiplo comum (15) combina FizzBuzz"
+      },
+      {
+        id: "tc-3",
+        input: [6, { "2": "Par", "3": "Trio" }],
+        expected: ["1", "Par", "Trio", "Par", "5", "ParTrio"],
+        description: "Regras arbitrárias (2 e 3)"
+      }
+    ],
+    hints: [
+      "Você pode obter os divisores com Object.keys(rules).map(Number).sort((a, b) => a - b).",
+      "Para cada i de 1 até n, verifique se i % divisor === 0 e acumule o texto."
+    ]
+  },
+  {
+    id: "chal-12",
+    slug: "palindrome-checker",
+    title: "Verificador de Palíndromos Alfanuméricos",
+    difficulty: "easy",
+    category: "strings",
+    xp: 60,
+    description: "Determine se uma frase ou palavra é um palíndromo, ignorando maiúsculas, minúsculas, espaços e pontuações.",
+    instructions: [
+      "Remova todos os caracteres que não sejam letras ou números.",
+      "Converta tudo para minúsculas antes de validar.",
+      "Retorne true se a sequência for lida da mesma forma de trás para frente, caso contrário false."
+    ],
+    starterCode: `function isPalindrome(str) {
+  // Seu código aqui
+  return false;
+}`,
+    functionName: "isPalindrome",
+    testCases: [
+      {
+        id: "tc-1",
+        input: ["A man, a plan, a canal: Panama"],
+        expected: true,
+        description: "Palíndromo clássico com pontuação e espaços"
+      },
+      {
+        id: "tc-2",
+        input: ["race a car"],
+        expected: false,
+        description: "Não é palíndromo"
+      },
+      {
+        id: "tc-3",
+        input: ["0P"],
+        expected: false,
+        description: "Diferença alfanumérica"
+      },
+      {
+        id: "tc-4",
+        input: ["Socorram-me, subi no onibus em Marrocos"],
+        expected: true,
+        description: "Palíndromo em português com traço e espaços"
+      }
+    ],
+    hints: [
+      "Use expressão regular para filtrar apenas alfanuméricos: str.toLowerCase().replace(/[^a-z0-9]/g, '').",
+      "Pode usar dois ponteiros (início e fim) para comparar os caracteres sem criar strings reversas extras."
+    ]
+  },
+  {
+    id: "chal-13",
+    slug: "currying-sum",
+    title: "Soma Encadeada Infinita (Currying)",
+    difficulty: "medium",
+    category: "logic",
+    xp: 110,
+    description: "Crie uma função de currying chamada 'currySum' que pode ser chamada sucessivamente com argumentos individuais e retorna a soma acumulada quando chamada sem argumentos.",
+    instructions: [
+      "currySum(1)(2)(3)() deve retornar 6.",
+      "currySum(5)() deve retornar 5.",
+      "currySum() sem argumentos iniciais deve retornar 0."
+    ],
+    starterCode: `function currySum(a) {
+  // Seu código aqui
+  if (a === undefined) return 0;
+  return function next(b) {
+    return 0;
+  };
+}`,
+    functionName: "currySum",
+    testCases: [
+      {
+        id: "tc-1",
+        input: [1, 2, 3],
+        expected: 6,
+        description: "currySum(1)(2)(3)() -> 6"
+      },
+      {
+        id: "tc-2",
+        input: [10, -5, 20],
+        expected: 25,
+        description: "Soma com números negativos e positivos"
+      },
+      {
+        id: "tc-3",
+        input: [],
+        expected: 0,
+        description: "currySum() imediato retorna 0"
+      }
+    ],
+    hints: [
+      "Crie uma função interna recursiva que mantém a soma total acumulada em seu escopo léxico (closure).",
+      "Quando o argumento recebido for undefined, retorne a soma atual. Caso contrário, adicione ao acumulador e retorne a própria função."
+    ]
+  },
+  {
+    id: "chal-14",
+    slug: "binary-search",
+    title: "Busca Binária O(log n)",
+    difficulty: "medium",
+    category: "algorithms",
+    xp: 130,
+    description: "Implemente o algoritmo de busca binária em um array ordenado de números inteiros para encontrar o índice de um valor alvo.",
+    instructions: [
+      "nums é uma lista de inteiros ordenados em ordem estritamente crescente.",
+      "Se target existir no array, retorne seu índice.",
+      "Se target não existir, retorne -1.",
+      "O algoritmo deve ter complexidade de tempo O(log n)."
+    ],
+    starterCode: `function binarySearch(nums, target) {
+  // Seu código aqui em O(log n)
+  return -1;
+}`,
+    functionName: "binarySearch",
+    testCases: [
+      {
+        id: "tc-1",
+        input: [[-1, 0, 3, 5, 9, 12], 9],
+        expected: 4,
+        description: "Encontra o 9 no índice 4"
+      },
+      {
+        id: "tc-2",
+        input: [[-1, 0, 3, 5, 9, 12], 2],
+        expected: -1,
+        description: "Elemento 2 ausente retorna -1"
+      },
+      {
+        id: "tc-3",
+        input: [[5], 5],
+        expected: 0,
+        description: "Array de elemento único encontrado"
+      },
+      {
+        id: "tc-4",
+        input: [[1, 3, 5, 7, 9, 11, 13, 15], 1],
+        expected: 0,
+        description: "Primeiro elemento da lista"
+      }
+    ],
+    hints: [
+      "Use dois ponteiros: left = 0 e right = nums.length - 1.",
+      "A cada iteração calcule mid = Math.floor((left + right) / 2) e compare nums[mid] com target."
+    ]
+  },
+  {
+    id: "chal-15",
+    slug: "deep-clone-object",
+    title: "Clonagem Profunda de Objetos (Deep Clone)",
+    difficulty: "medium",
+    category: "logic",
+    xp: 140,
+    description: "Crie uma função para clonar profundamente estruturas aninhadas de objetos e arrays em JavaScript sem compartilhar referências de memória.",
+    instructions: [
+      "Suporte tipos primitivos (números, strings, booleanos, null, undefined).",
+      "Suporte arrays e objetos aninhados com profundidade arbitrária.",
+      "Não utilize JSON.parse(JSON.stringify(obj)) para preservar valores indefinidos e tipos especiais."
+    ],
+    starterCode: `function deepClone(obj) {
+  // Seu código aqui (sem usar JSON.parse)
+  return obj;
+}`,
+    functionName: "deepClone",
+    testCases: [
+      {
+        id: "tc-1",
+        input: [{ a: 1, b: { c: 2, d: [3, 4] } }],
+        expected: { a: 1, b: { c: 2, d: [3, 4] } },
+        description: "Objeto complexo com arrays e objetos aninhados"
+      },
+      {
+        id: "tc-2",
+        input: [[1, [2, 3], { x: 99 }]],
+        expected: [1, [2, 3], { x: 99 }],
+        description: "Array com sub-array e sub-objeto"
+      },
+      {
+        id: "tc-3",
+        input: [42],
+        expected: 42,
+        description: "Tipo primitivo direto"
+      }
+    ],
+    hints: [
+      "Verifique se o valor é nulo ou não é um objeto (typeof obj !== 'object'). Se for primitivo, retorne o próprio valor.",
+      "Se Array.isArray(obj), itere com .map(item => deepClone(item)).",
+      "Para objetos, crie uma cópia {} e itere sobre Object.entries(obj)."
+    ]
+  },
+  {
+    id: "chal-16",
+    slug: "rate-limiter-token-bucket",
+    title: "Algoritmo de Rate Limiting (Token Bucket)",
+    difficulty: "hard",
+    category: "async",
+    xp: 240,
+    description: "Implemente uma simulação do algoritmo Token Bucket para controle de tráfego de requisições de API.",
+    instructions: [
+      "Recebe timestamps (array de números em ms), capacity (número máximo de tokens que o balde suporta) e refillRatePerSec (tokens gerados por segundo).",
+      "O balde inicia cheio com 'capacity' tokens no timestamp da primeira requisição.",
+      "A cada requisição, tokens são repostos proporcionalmente ao tempo decorrido desde a última requisição: tempoPassadoSegundos * refillRatePerSec.",
+      "Se houver pelo menos 1 token disponível, a requisição consome 1 token e é permitida (true). Caso contrário, é rejeitada (false).",
+      "Retorne um array de booleanos correspondente a cada requisição."
+    ],
+    starterCode: `function tokenBucket(timestamps, capacity, refillRatePerSec) {
+  // Retorne um array de booleanos [true, false, ...]
+  return [];
+}`,
+    functionName: "tokenBucket",
+    testCases: [
+      {
+        id: "tc-1",
+        input: [[0, 100, 200, 300, 400], 3, 2],
+        expected: [true, true, true, false, false],
+        description: "Capacidade 3 esgotada rapidamente em 200ms antes de novo token ser gerado"
+      },
+      {
+        id: "tc-2",
+        input: [[0, 1000, 2000], 1, 1],
+        expected: [true, true, true],
+        description: "1 token por segundo reposto a tempo para cada requisição"
+      },
+      {
+        id: "tc-3",
+        input: [[0, 500, 600, 1500], 2, 2],
+        expected: [true, true, false, true],
+        description: "Consumo de 2 tokens, terceiro falha e quarto após 900ms é aceito"
+      }
+    ],
+    hints: [
+      "Calcule o tempo decorrido: (currentTimestamp - lastTimestamp) / 1000.",
+      "Adicione os novos tokens: tokens = Math.min(capacity, tokens + elapsedSec * refillRatePerSec).",
+      "Se tokens >= 1: tokens -= 1 e registre true. Senão registre false."
+    ]
   }
 ];
