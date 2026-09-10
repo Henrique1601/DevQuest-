@@ -17,7 +17,10 @@ import {
   ChevronDown,
   Database,
   Zap,
-  SquareCode
+  SquareCode,
+  Video,
+  Bug,
+  FileCode2
 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { GithubIcon } from "@/components/ui/GithubIcon";
@@ -79,71 +82,139 @@ export function Navbar() {
             </button>
 
             {labsDropdownOpen && (
-              <div className="absolute top-full left-0 w-64 p-2 bg-[#0A0E17]/95 border border-surface-border rounded-2xl shadow-2xl backdrop-blur-xl space-y-1 animate-fade-in z-50">
-                <Link
-                  href="/playground"
-                  className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-surface-hover text-slate-300 hover:text-white transition-colors group"
-                >
-                  <div className="p-2 rounded-lg bg-orange-500/10 text-orange-400 border border-orange-500/20 group-hover:scale-105 transition-transform">
-                    <SquareCode className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <div className="text-xs font-bold">Web Playground</div>
-                    <div className="text-[11px] text-slate-500">Sandbox HTML, CSS e JS</div>
-                  </div>
-                </Link>
+              <div className="absolute top-full left-0 w-[540px] p-4 bg-[#0A0E17]/95 border border-surface-border rounded-3xl shadow-2xl backdrop-blur-xl animate-fade-in z-50">
+                <div className="grid grid-cols-2 gap-3">
+                  {/* Coluna 1: Labs Interativos */}
+                  <div className="space-y-1">
+                    <div className="px-2.5 py-1 text-[10px] font-mono uppercase font-bold tracking-wider text-slate-500">
+                      Ambientes Interativos
+                    </div>
 
-                <Link
-                  href="/visualizer"
-                  className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-surface-hover text-slate-300 hover:text-white transition-colors group"
-                >
-                  <div className="p-2 rounded-lg bg-primary-500/10 text-primary-400 border border-primary-500/20 group-hover:scale-105 transition-transform">
-                    <Zap className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <div className="text-xs font-bold">Visualizador de Algoritmos</div>
-                    <div className="text-[11px] text-slate-500">Busca, Ordenação e Pilhas</div>
-                  </div>
-                </Link>
+                    <Link
+                      href="/playground"
+                      className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-surface-hover text-slate-300 hover:text-white transition-colors group"
+                    >
+                      <div className="p-1.5 rounded-lg bg-orange-500/10 text-orange-400 border border-orange-500/20 group-hover:scale-105 transition-transform shrink-0">
+                        <SquareCode className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold">Web Playground</div>
+                        <div className="text-[10px] text-slate-500">Sandbox HTML/CSS/JS</div>
+                      </div>
+                    </Link>
 
-                <Link
-                  href="/flashcards"
-                  className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-surface-hover text-slate-300 hover:text-white transition-colors group"
-                >
-                  <div className="p-2 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20 group-hover:scale-105 transition-transform">
-                    <Sparkles className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <div className="text-xs font-bold">Flashcards Anki</div>
-                    <div className="text-[11px] text-slate-500">Repetição espaçada 3D</div>
-                  </div>
-                </Link>
+                    <Link
+                      href="/visualizer"
+                      className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-surface-hover text-slate-300 hover:text-white transition-colors group"
+                    >
+                      <div className="p-1.5 rounded-lg bg-primary-500/10 text-primary-400 border border-primary-500/20 group-hover:scale-105 transition-transform shrink-0">
+                        <Zap className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold">Visualizador Big-O</div>
+                        <div className="text-[10px] text-slate-500">Algoritmos passo a passo</div>
+                      </div>
+                    </Link>
 
-                <Link
-                  href="/terminal"
-                  className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-surface-hover text-slate-300 hover:text-white transition-colors group"
-                >
-                  <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 group-hover:scale-105 transition-transform">
-                    <Terminal className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <div className="text-xs font-bold">Terminal Linux & Git</div>
-                    <div className="text-[11px] text-slate-500">Shell interativo e missões</div>
-                  </div>
-                </Link>
+                    <Link
+                      href="/flashcards"
+                      className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-surface-hover text-slate-300 hover:text-white transition-colors group"
+                    >
+                      <div className="p-1.5 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20 group-hover:scale-105 transition-transform shrink-0">
+                        <Sparkles className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold">Flashcards Anki</div>
+                        <div className="text-[10px] text-slate-500">Repetição espaçada 3D</div>
+                      </div>
+                    </Link>
 
-                <Link
-                  href="/sql-playground"
-                  className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-surface-hover text-slate-300 hover:text-white transition-colors group"
-                >
-                  <div className="p-2 rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 group-hover:scale-105 transition-transform">
-                    <Database className="w-4 h-4" />
+                    <Link
+                      href="/terminal"
+                      className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-surface-hover text-slate-300 hover:text-white transition-colors group"
+                    >
+                      <div className="p-1.5 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 group-hover:scale-105 transition-transform shrink-0">
+                        <Terminal className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold">Terminal UNIX & Git</div>
+                        <div className="text-[10px] text-slate-500">Shell e missões CLI</div>
+                      </div>
+                    </Link>
+
+                    <Link
+                      href="/sql-playground"
+                      className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-surface-hover text-slate-300 hover:text-white transition-colors group"
+                    >
+                      <div className="p-1.5 rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 group-hover:scale-105 transition-transform shrink-0">
+                        <Database className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold">SQL Playground</div>
+                        <div className="text-[10px] text-slate-500">Postgres e queries mock</div>
+                      </div>
+                    </Link>
                   </div>
-                  <div>
-                    <div className="text-xs font-bold">SQL Playground</div>
-                    <div className="text-[11px] text-slate-500">Queries e desafios em tabelas</div>
+
+                  {/* Coluna 2: Docs & Dicas de Comunidade */}
+                  <div className="space-y-1 border-l border-surface-border/60 pl-3">
+                    <div className="px-2.5 py-1 text-[10px] font-mono uppercase font-bold tracking-wider text-slate-500">
+                      Docs & Apoio ao Dev
+                    </div>
+
+                    <Link
+                      href="/cheatsheets"
+                      className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-surface-hover text-slate-300 hover:text-white transition-colors group"
+                    >
+                      <div className="p-1.5 rounded-lg bg-blue-500/10 text-blue-400 border border-blue-500/20 group-hover:scale-105 transition-transform shrink-0">
+                        <BookOpen className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold">CheatSheets (W3)</div>
+                        <div className="text-[10px] text-slate-500">JS, CSS, Git, SQL e HTTP</div>
+                      </div>
+                    </Link>
+
+                    <Link
+                      href="/debug-clinic"
+                      className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-surface-hover text-slate-300 hover:text-white transition-colors group"
+                    >
+                      <div className="p-1.5 rounded-lg bg-rose-500/10 text-rose-400 border border-rose-500/20 group-hover:scale-105 transition-transform shrink-0">
+                        <Bug className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold">Debug Clinic (Stack)</div>
+                        <div className="text-[10px] text-slate-500">Erros comuns e soluções</div>
+                      </div>
+                    </Link>
+
+                    <Link
+                      href="/videos"
+                      className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-surface-hover text-slate-300 hover:text-white transition-colors group"
+                    >
+                      <div className="p-1.5 rounded-lg bg-red-500/10 text-red-400 border border-red-500/20 group-hover:scale-105 transition-transform shrink-0">
+                        <Video className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold">Video Hub (YouTube)</div>
+                        <div className="text-[10px] text-slate-500">Aulas com capítulos</div>
+                      </div>
+                    </Link>
+
+                    <Link
+                      href="/snippets"
+                      className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-surface-hover text-slate-300 hover:text-white transition-colors group"
+                    >
+                      <div className="p-1.5 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 group-hover:scale-105 transition-transform shrink-0">
+                        <FileCode2 className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold">Snippet Vault</div>
+                        <div className="text-[10px] text-slate-500">Hooks e helpers prontos</div>
+                      </div>
+                    </Link>
                   </div>
-                </Link>
+                </div>
               </div>
             )}
           </div>
@@ -246,7 +317,7 @@ export function Navbar() {
           <div className="pt-2 border-t border-surface-border/50">
             <div className="px-3 py-1 text-xs font-mono font-bold uppercase tracking-wider text-primary-400 flex items-center gap-1.5">
               <Sparkles className="w-3.5 h-3.5" />
-              Labs & Prática
+              Labs & Ferramentas
             </div>
             <div className="grid grid-cols-1 gap-1 mt-1">
               <Link
@@ -288,6 +359,38 @@ export function Navbar() {
               >
                 <Database className="w-4 h-4 text-cyan-400" />
                 SQL Playground
+              </Link>
+              <Link
+                href="/cheatsheets"
+                onClick={() => setMobileMenuOpen(false)}
+                className="px-3 py-1.5 text-sm text-slate-300 hover:text-white flex items-center gap-2 rounded-lg hover:bg-white/5"
+              >
+                <BookOpen className="w-4 h-4 text-blue-400" />
+                CheatSheets & DevDocs
+              </Link>
+              <Link
+                href="/debug-clinic"
+                onClick={() => setMobileMenuOpen(false)}
+                className="px-3 py-1.5 text-sm text-slate-300 hover:text-white flex items-center gap-2 rounded-lg hover:bg-white/5"
+              >
+                <Bug className="w-4 h-4 text-rose-400" />
+                Debug Clinic (Erros)
+              </Link>
+              <Link
+                href="/videos"
+                onClick={() => setMobileMenuOpen(false)}
+                className="px-3 py-1.5 text-sm text-slate-300 hover:text-white flex items-center gap-2 rounded-lg hover:bg-white/5"
+              >
+                <Video className="w-4 h-4 text-red-400" />
+                Video Hub & Aulas
+              </Link>
+              <Link
+                href="/snippets"
+                onClick={() => setMobileMenuOpen(false)}
+                className="px-3 py-1.5 text-sm text-slate-300 hover:text-white flex items-center gap-2 rounded-lg hover:bg-white/5"
+              >
+                <FileCode2 className="w-4 h-4 text-emerald-400" />
+                Snippet Vault de Produção
               </Link>
             </div>
           </div>

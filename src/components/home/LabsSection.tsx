@@ -59,6 +59,42 @@ const LAB_TOOLS = [
     icon: Database,
     badge: "Postgres Mock",
     accentColor: "from-cyan-500/20 to-blue-500/10 border-cyan-500/30 text-cyan-400"
+  },
+  {
+    slug: "/cheatsheets",
+    title: "DevDocs & CheatSheets",
+    tagline: "Estilo W3Schools & MDN",
+    description: "Referência rápida e interativa para JavaScript, CSS Flexbox, SQL, Git e HTTP com botão 'Testar no Playground'.",
+    icon: SquareCode,
+    badge: "DevDocs",
+    accentColor: "from-blue-500/20 to-cyan-500/10 border-blue-500/30 text-blue-400"
+  },
+  {
+    slug: "/debug-clinic",
+    title: "Debug Clinic & Erros",
+    tagline: "Estilo Stack Overflow",
+    description: "Central de diagnóstico dos erros mais comuns com sintoma, explicação e comparador visual Antes ❌ vs Depois ✅.",
+    icon: Zap,
+    badge: "Diagnóstico",
+    accentColor: "from-rose-500/20 to-red-500/10 border-rose-500/30 text-rose-400"
+  },
+  {
+    slug: "/videos",
+    title: "Video Hub & Aulas",
+    tagline: "Estilo YouTube Academy",
+    description: "Aulas aprofundadas com capítulos sincronizados cobrindo React 19, Next.js, Drizzle, SQL e entrevistas técnicas.",
+    icon: Sparkles,
+    badge: "Aulas em Vídeo",
+    accentColor: "from-red-500/20 to-rose-500/10 border-red-500/30 text-red-400"
+  },
+  {
+    slug: "/snippets",
+    title: "Snippet Vault de Produção",
+    tagline: "Custom Hooks & Utilitários",
+    description: "Biblioteca de códigos prontos para copiar: useDebounce, useLocalStorage, validadores de CPF, rate limits e mais.",
+    icon: Terminal,
+    badge: "Helpers Prontos",
+    accentColor: "from-emerald-500/20 to-green-500/10 border-emerald-500/30 text-emerald-400"
   }
 ];
 
