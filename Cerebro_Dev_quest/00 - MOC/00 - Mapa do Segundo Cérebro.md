@@ -60,6 +60,7 @@ type: moc
 * [[03.19 - Laboratório de Agentes de IA (ReAct Simulator)|Laboratório de Agentes de IA (ReAct Simulator)]]: Simulador visual do ciclo Thought -> Action (Tool Call) -> Observation com catálogo de JSON Schemas.
 * [[03.20 - Sistema de Conquistas & Gamificação|Sistema de Conquistas & Gamificação (Achievements)]]: Medalhas colecionáveis, persistência no Neon Postgres e recompensas de XP.
 * [[03.21 - Command Palette & Ergonomia da Arena|Command Palette & Ergonomia da Arena]]: Navegação instantânea (Ctrl+K), Split Pane ajustável, temas CodeMirror, Modo Zen e Web Audio.
+* [[03.22 - Desafios de Preenchimento de Lacunas (Code Cloze)|Preenchimento de Lacunas & Quizzes (Code Cloze)]]: Exercícios focados em sintaxe nos modos Múltipla Escolha e Digitação Direta com sandbox de execução.
 
 ---
 

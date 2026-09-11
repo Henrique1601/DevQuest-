@@ -253,6 +253,13 @@ export function useCodeRunner() {
     setConsoleLogs([]);
   };
 
+  const resetRunnerState = () => {
+    setResults([]);
+    setError(null);
+    setConsoleLogs([]);
+    setIsRunning(false);
+  };
+
   return {
     isRunning,
     results,
@@ -260,5 +267,6 @@ export function useCodeRunner() {
     error,
     runChallenge,
     clearLogs,
+    resetRunnerState,
   };
 }

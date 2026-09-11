@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import {
   X,
@@ -23,7 +24,8 @@ import {
   VolumeX,
   Search,
   ExternalLink,
-  Code2
+  Code2,
+  Puzzle
 } from "lucide-react";
 import { sfx } from "@/lib/audio/sfx";
 import { GithubIcon } from "@/components/ui/GithubIcon";
@@ -34,7 +36,12 @@ interface AppSidebarProps {
 }
 
 export function AppSidebar({ isOpen, onClose }: AppSidebarProps) {
-  const [isMuted, setIsMuted] = React.useState(false);
+  const [isMuted, setIsMuted] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     setIsMuted(sfx.isMuted());
@@ -63,14 +70,14 @@ export function AppSidebar({ isOpen, onClose }: AppSidebarProps) {
     };
   }, [isOpen]);
 
-  if (!isOpen) return null;
+  if (!isOpen || !mounted) return null;
 
-  return (
-    <div className="fixed inset-0 z-[100] flex justify-end animate-fade-in">
+  return createPortal(
+    <div className="fixed inset-0 z-[9999] flex justify-end animate-fade-in">
       {/* Backdrop Escurecido com Blur */}
       <div
         onClick={onClose}
-        className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
+        className="fixed inset-0 bg-black/75 backdrop-blur-md transition-opacity"
         aria-hidden="true"
       />
 
@@ -130,6 +137,23 @@ export function AppSidebar({ isOpen, onClose }: AppSidebarProps) {
                 <div>
                   <div className="text-xs font-bold text-white group-hover:text-cyan-300">AI Agents Lab</div>
                   <div className="text-[11px] text-slate-400">Simulador ReAct & Tool Calling</div>
+                </div>
+              </Link>
+
+              <Link
+                href="/code-blanks"
+                onClick={onClose}
+                className="flex items-center gap-3 p-2.5 rounded-xl bg-[#0B1120]/80 border border-surface-border hover:border-emerald-500/50 hover:bg-surface-hover transition-all group"
+              >
+                <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 group-hover:scale-105 transition-transform">
+                  <Puzzle className="w-4 h-4" />
+                </div>
+                <div>
+                  <div className="text-xs font-bold text-white group-hover:text-emerald-300 flex items-center gap-1.5">
+                    Preencher Lacunas
+                    <span className="text-[9px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-mono">NOVO</span>
+                  </div>
+                  <div className="text-[11px] text-slate-400">Cloze test & Quizzes de código</div>
                 </div>
               </Link>
 
@@ -378,6 +402,7 @@ export function AppSidebar({ isOpen, onClose }: AppSidebarProps) {
           </a>
         </div>
       </aside>
-    </div>
+    </div>,
+    document.body
   );
 }

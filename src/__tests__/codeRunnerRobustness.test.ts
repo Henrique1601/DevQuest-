@@ -105,4 +105,31 @@ describe("useCodeRunner - Robustez e Proteções", () => {
     expect(result.current.consoleLogs.length).toBeGreaterThan(0);
     expect(result.current.results.every((r) => r.passed)).toBe(true);
   });
+
+  it("deve resetar completamente o estado do runner ao invocar resetRunnerState()", async () => {
+    const { result } = renderHook(() => useCodeRunner());
+
+    const sampleCode = `
+      function reverseString(str) {
+        console.log("Log de teste");
+        return str.split('').reverse().join('');
+      }
+    `;
+
+    await act(async () => {
+      await result.current.runChallenge(sampleChallenge, sampleCode);
+    });
+
+    expect(result.current.results.length).toBeGreaterThan(0);
+    expect(result.current.consoleLogs.length).toBeGreaterThan(0);
+
+    act(() => {
+      result.current.resetRunnerState();
+    });
+
+    expect(result.current.results.length).toBe(0);
+    expect(result.current.consoleLogs.length).toBe(0);
+    expect(result.current.error).toBeNull();
+    expect(result.current.isRunning).toBe(false);
+  });
 });

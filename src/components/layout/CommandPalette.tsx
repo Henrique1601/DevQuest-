@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useMemo } from "react";
+import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import {
   Search,
@@ -17,7 +18,8 @@ import {
   ArrowRight,
   Sparkles,
   Command,
-  X
+  X,
+  Puzzle
 } from "lucide-react";
 import { mockChallenges } from "@/lib/data/challenges";
 import { mockProjects } from "@/lib/data/projects";
@@ -38,13 +40,19 @@ export function CommandPalette() {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [mounted, setMounted] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Itens indexados
   const allItems: PaletteItem[] = useMemo(() => {
     const tools: PaletteItem[] = [
       { id: "tool-daily", title: "Daily Quest & Ofensiva", subtitle: "Desafio do dia com 2x XP e heatmap", category: "Ferramenta", url: "/daily", icon: Flame, badge: "2x XP" },
+      { id: "tool-blanks", title: "Preencher Lacunas de Código", subtitle: "Quizzes interativos e Cloze tests de JavaScript, React e SQL", category: "Ferramenta", url: "/code-blanks", icon: Puzzle, badge: "Novo" },
       { id: "tool-leaderboard", title: "Ranking Global & Ligas", subtitle: "Ligas Diamante, Ouro, Prata e Bronze", category: "Ferramenta", url: "/leaderboard", icon: Trophy },
       { id: "tool-review", title: "Code Review com IA (Pull Request)", subtitle: "Auditoria estática, OWASP e visualizador de diff", category: "Ferramenta", url: "/code-review", icon: Bot, badge: "IA" },
       { id: "tool-ailab", title: "Laboratório de Agentes de IA", subtitle: "Simulador ReAct e engenharia de prompts", category: "Ferramenta", url: "/ai-lab", icon: Sparkles, badge: "IA" },
@@ -149,11 +157,11 @@ export function CommandPalette() {
     router.push(item.url);
   };
 
-  if (!isOpen) return null;
+  if (!isOpen || !mounted) return null;
 
-  return (
+  return createPortal(
     <div
-      className="fixed inset-0 z-[100] flex items-start justify-center pt-16 sm:pt-24 px-4 bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-150"
+      className="fixed inset-0 z-[9999] flex items-start justify-center pt-16 sm:pt-24 px-4 bg-slate-950/85 backdrop-blur-md animate-in fade-in duration-150"
       onClick={() => setIsOpen(false)}
       role="dialog"
       aria-modal="true"
@@ -267,6 +275,7 @@ export function CommandPalette() {
           </span>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

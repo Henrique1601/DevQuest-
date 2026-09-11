@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import {
@@ -33,7 +33,8 @@ import {
   Minimize2,
   Palette,
   Check,
-  Trash2
+  Trash2,
+  Puzzle
 } from "lucide-react";
 import { Challenge, ChallengeDifficulty, ChallengeCategory } from "@/types/challenge";
 import { ReferenceType } from "@/types/project";
@@ -94,7 +95,14 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
   const [filterCategory, setFilterCategory] = useState<ChallengeCategory | "all">("all");
   const [filterCompany, setFilterCompany] = useState<string>("all");
 
-  const { isRunning, results, consoleLogs, error, runChallenge, clearLogs } = useCodeRunner();
+  const { isRunning, results, consoleLogs, error, runChallenge, clearLogs, resetRunnerState } = useCodeRunner();
+  const lastExecutedChallengeRef = useRef<string | null>(null);
+
+  // Limpa estado de testes e saída ao trocar de desafio para evitar falso-positivo
+  useEffect(() => {
+    resetRunnerState();
+    lastExecutedChallengeRef.current = null;
+  }, [currentChallenge.id]);
 
   // Carrega preferências salvas do localStorage
   useEffect(() => {
@@ -138,12 +146,13 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
     if (mobileTab === "editor") {
       setMobileTab("output");
     }
+    lastExecutedChallengeRef.current = currentChallenge.id;
     await runChallenge(currentChallenge, code);
   };
 
   // Feedback audiovisual (Confetes & Som) e salvamento de resolvidos
   useEffect(() => {
-    if (results.length > 0) {
+    if (results.length > 0 && lastExecutedChallengeRef.current === currentChallenge.id) {
       if (results.every((r) => r.passed) && !error) {
         sfx.playSuccessChime();
         triggerNeonConfetti();
@@ -155,6 +164,7 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
       } else {
         sfx.playErrorTone();
       }
+      lastExecutedChallengeRef.current = null;
     }
   }, [results, error, currentChallenge.id, solvedChallenges]);
 
@@ -286,6 +296,18 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
             >
               <GitPullRequest className="w-3.5 h-3.5 text-cyan-400" />
               <span>PR Review</span>
+            </Button>
+          </Link>
+
+          <Link href="/code-blanks">
+            <Button
+              variant="secondary"
+              size="sm"
+              className="font-mono text-xs gap-1.5 hidden lg:flex border-emerald-500/30 text-emerald-300 hover:text-white hover:border-emerald-400"
+              title="Ir para o modo Preencher Lacunas (Code Cloze & Quizzes)"
+            >
+              <Puzzle className="w-3.5 h-3.5 text-emerald-400" />
+              <span>Preencher Lacunas</span>
             </Button>
           </Link>
 

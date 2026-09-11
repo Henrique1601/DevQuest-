@@ -18,6 +18,7 @@ describe("Componente AppSidebar", () => {
 
     // Verifica presença de atalhos chave
     expect(screen.getByText("AI Agents Lab")).toBeInTheDocument();
+    expect(screen.getByText("Preencher Lacunas")).toBeInTheDocument();
     expect(screen.getByText("Code Review IA (PR)")).toBeInTheDocument();
     expect(screen.getByText("Web Playground")).toBeInTheDocument();
   });
