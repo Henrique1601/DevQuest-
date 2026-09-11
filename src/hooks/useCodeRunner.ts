@@ -38,7 +38,7 @@ self.onmessage = function(e) {
       "console",
       userCode + "\\n" +
       "if (typeof " + challenge.functionName + " !== 'function') {\\n" +
-      "  throw new Error('A função \\'' + challenge.functionName + '\\' não foi definida.');\\n" +
+      "  throw new Error('A função \\\"" + challenge.functionName + "\\\" não foi definida.');\\n" +
       "}\\n" +
       "return " + challenge.functionName + ";\\n"
     );

@@ -45,4 +45,20 @@ describe("useCodeRunner - Robustez e Proteções", () => {
     expect(result.current.consoleLogs.some((l) => l.includes("[AVISO]"))).toBe(true);
     expect(result.current.consoleLogs.some((l) => l.includes("[ERRO]"))).toBe(true);
   });
+
+  it("deve informar erro amigável quando a função esperada não for definida", async () => {
+    const { result } = renderHook(() => useCodeRunner());
+
+    const wrongNameCode = `
+      function inverterString(texto) {
+        return texto.split('').reverse().join('');
+      }
+    `;
+
+    await act(async () => {
+      await result.current.runChallenge(sampleChallenge, wrongNameCode);
+    });
+
+    expect(result.current.error).toContain("A função 'reverseString' não foi definida.");
+  });
 });
