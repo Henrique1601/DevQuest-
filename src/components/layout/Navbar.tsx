@@ -24,7 +24,9 @@ import {
   Briefcase,
   Crown,
   Flame,
-  Palette
+  Palette,
+  GitPullRequest,
+  Bot
 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { GithubIcon } from "@/components/ui/GithubIcon";
@@ -137,6 +139,19 @@ export function Navbar() {
                     </Link>
 
                     <Link
+                      href="/ai-lab"
+                      className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-surface-hover text-slate-300 hover:text-white transition-colors group"
+                    >
+                      <div className="p-1.5 rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 group-hover:scale-105 transition-transform shrink-0">
+                        <Bot className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold">AI Agents Lab</div>
+                        <div className="text-[10px] text-slate-500">Ciclo ReAct & Tool Calling</div>
+                      </div>
+                    </Link>
+
+                    <Link
                       href="/playground"
                       className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-surface-hover text-slate-300 hover:text-white transition-colors group"
                     >
@@ -207,6 +222,19 @@ export function Navbar() {
                     <div className="px-2.5 py-1 text-[10px] font-mono uppercase font-bold tracking-wider text-slate-500">
                       Docs & Apoio ao Dev
                     </div>
+
+                    <Link
+                      href="/code-review"
+                      className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-surface-hover text-slate-300 hover:text-white transition-colors group"
+                    >
+                      <div className="p-1.5 rounded-lg bg-purple-500/10 text-purple-400 border border-purple-500/20 group-hover:scale-105 transition-transform shrink-0">
+                        <GitPullRequest className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold">Code Review IA (PR)</div>
+                        <div className="text-[10px] text-slate-500">OWASP, Clean Code e Diff</div>
+                      </div>
+                    </Link>
 
                     <Link
                       href="/cheatsheets"
@@ -424,6 +452,22 @@ export function Navbar() {
               >
                 <Palette className="w-4 h-4 text-pink-400" />
                 Frontend Pixel-Perfect
+              </Link>
+              <Link
+                href="/ai-lab"
+                onClick={() => setMobileMenuOpen(false)}
+                className="px-3 py-1.5 text-sm text-slate-300 hover:text-white flex items-center gap-2 rounded-lg hover:bg-white/5"
+              >
+                <Bot className="w-4 h-4 text-cyan-400" />
+                AI Agents Lab (ReAct)
+              </Link>
+              <Link
+                href="/code-review"
+                onClick={() => setMobileMenuOpen(false)}
+                className="px-3 py-1.5 text-sm text-slate-300 hover:text-white flex items-center gap-2 rounded-lg hover:bg-white/5"
+              >
+                <GitPullRequest className="w-4 h-4 text-purple-400" />
+                Code Review IA (PR)
               </Link>
               <Link
                 href="/playground"

@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { Terminal, Layout, Server, Flame, Clock, BookOpen, ArrowRight } from "lucide-react";
+import { Terminal, Layout, Server, Flame, Bot, Clock, BookOpen, ArrowRight } from "lucide-react";
 import { mockTracks } from "@/lib/data/tracks";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
@@ -14,6 +14,8 @@ export function TracksPreview() {
         return <Layout className="w-5 h-5" />;
       case "Server":
         return <Server className="w-5 h-5" />;
+      case "Bot":
+        return <Bot className="w-5 h-5" />;
       case "Flame":
       default:
         return <Flame className="w-5 h-5" />;

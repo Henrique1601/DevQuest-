@@ -55,12 +55,15 @@ type: moc
 * [[03.15 - Desafios de UI-UX Pixel-Perfect (Frontend Mentor)|Desafios de UI/UX Pixel-Perfect]]: Desafios visuais com comparador slider split-view entre o design original e a solução do aluno.
 * [[03.16 - Portfólio Público do Desenvolvedor|Portfólio Público do Desenvolvedor (/u/[username])]]: Página profissional pública com heatmap, matriz de habilidades, badges e projetos validados.
 * [[03.17 - Suporte Multi-Linguagem (JS, TS, Python)|Suporte Multi-Linguagem (JS, TS, Python)]]: Suporte no CodeMirror 6 para alternar entre JavaScript, TypeScript e Python.
+* [[03.18 - Code Review Automatizado (Pull Request IA)|Code Review Automatizado (Pull Request IA)]]: Análise estática OWASP, Clean Code, veredito de PR e comparador visual de diff lado a lado.
+* [[03.19 - Laboratório de Agentes de IA (ReAct Simulator)|Laboratório de Agentes de IA (ReAct Simulator)]]: Simulador visual do ciclo Thought -> Action (Tool Call) -> Observation com catálogo de JSON Schemas.
 
 ---
 
 ### 🎓 4. Conteúdo Pedagógico
 * [[04.1 - Trilhas de Aprendizado|Trilhas de Estudo]]: Do zero ao Full Stack Cloud.
-* [[04.2 - Projetos Práticos Guiados|Projetos Práticos Guiados]]: 16 projetos com especificações, arquitetura e submissão via GitHub.
+* [[04.2 - Projetos Práticos Guiados|Projetos Práticos Guiados]]: 17 projetos com especificações, arquitetura e submissão via GitHub.
+* [[04.3 - Trilha de Engenharia de IA & Agentes Autônomos|Trilha de IA, LLMs & Agentes Autônomos]]: Formação avançada de 55h em Prompt Engineering, Tool Calling, RAG e pgvector.
 
 ---
 

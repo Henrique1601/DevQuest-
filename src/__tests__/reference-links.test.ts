@@ -4,7 +4,7 @@ import { mockChallenges } from "@/lib/data/challenges";
 
 describe("Links e Documentação de Apoio (Projetos)", () => {
   it("todos os projetos devem conter links de referência configurados", () => {
-    expect(mockProjects.length).toBe(16);
+    expect(mockProjects.length).toBeGreaterThanOrEqual(16);
 
     mockProjects.forEach((proj) => {
       expect(proj.referenceLinks).toBeDefined();

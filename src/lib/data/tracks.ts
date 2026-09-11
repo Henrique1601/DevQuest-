@@ -74,5 +74,24 @@ export const mockTracks: Track[] = [
       { id: "m5", title: "Deploy Contínuo na Vercel & GitHub Actions", description: "Variáveis de ambiente, previews e produção", lessonsCount: 6 },
       { id: "m6", title: "Projeto Avançado", description: "SaaS E-Commerce com Stripe e Neon", lessonsCount: 1, projectSlug: "plataforma-ecommerce-stripe" }
     ]
+  },
+  {
+    id: "track-5",
+    slug: "ia-e-agentes-autonomos",
+    title: "Engenharia de IA, LLMs & Agentes Autônomos",
+    description: "Domine a construção de sistemas inteligentes: Prompt Engineering avançado, Function Calling estruturado, RAG com bancos vetoriais e arquitetura de agentes ReAct.",
+    iconName: "Bot",
+    level: "Avançado",
+    totalHours: 55,
+    modulesCount: 6,
+    color: "from-cyan-500/20 to-purple-600/20 border-cyan-500/30",
+    modules: [
+      { id: "m1", title: "Fundamentos de LLMs, Tokens & Prompting", description: "Few-shot, Chain of Thought e restrições de saída", lessonsCount: 9 },
+      { id: "m2", title: "Tool Use & Function Calling com JSON Schema", description: "Capacitando modelos a interagir com APIs e bancos de dados", lessonsCount: 11 },
+      { id: "m3", title: "RAG (Retrieval-Augmented Generation) & Embeddings", description: "Indexação semântica, similaridade por cosseno e PGVector", lessonsCount: 12 },
+      { id: "m4", title: "Arquiteturas de Agentes (ReAct & Loop Autônomo)", description: "Reasoning, acting, observation e controle de parada", lessonsCount: 10 },
+      { id: "m5", title: "Avaliação, Guardrails & Segurança em IA", description: "Mitigação de Prompt Injection e jailbreaks", lessonsCount: 8 },
+      { id: "m6", title: "Projeto Final de IA", description: "Agente de Pesquisa com Tool Calling e RAG", lessonsCount: 1, projectSlug: "agente-pesquisa-rag" }
+    ]
   }
 ];

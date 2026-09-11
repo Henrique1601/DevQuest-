@@ -1216,5 +1216,50 @@ export async function createCheckoutSession(items: CartItem[], userId: string) {
       { order: 2, title: "Visualizador de Diff Interativo", description: "Renderize as linhas adicionadas e removidas com syntax highlighting." },
       { order: 3, title: "Histórico e Persistência", description: "Grave o veredito da revisão no Neon para consulta posterior no perfil." }
     ]
+  },
+  {
+    id: "proj-17",
+    slug: "agente-pesquisa-rag",
+    referenceLinks: [
+      {
+        title: "Anthropic: Building Effective Agents",
+        url: "https://www.anthropic.com/research/building-effective-agents",
+        type: "docs",
+        description: "Padrões fundamentais de orquestração de agentes e loops ReAct."
+      },
+      {
+        title: "Neon Postgres: pgvector Extension Guide",
+        url: "https://neon.tech/docs/extensions/pgvector",
+        type: "docs",
+        description: "Armazenamento e busca por similaridade vetorial com HNSW/IVFFlat."
+      },
+      {
+        title: "DevQuest Labs: AI Agent Simulator",
+        url: "/ai-lab",
+        type: "cheatsheet",
+        description: "Laboratório visual para testar o ciclo Thought -> Action -> Observation."
+      }
+    ],
+    title: "OmniAgent: Agente Autônomo com Tool Calling & RAG",
+    tagline: "Crie um agente inteligente capaz de pesquisar, consultar banco e agir.",
+    description: "Construa um agente de inteligência artificial autônomo baseado no padrão ReAct (Reason + Act + Observe). O agente recebe uma meta complexa em linguagem natural, decompõe em etapas lógicas, decide quais ferramentas invocar (busca na web, consulta SQL, conversão de moedas) e sintetiza o resultado final com citações confiáveis.",
+    difficulty: "advanced",
+    category: "fullstack",
+    estimatedHours: 30,
+    tags: ["TypeScript", "LLM Function Calling", "RAG", "pgvector", "Neon Postgres", "Agent Architecture"],
+    prerequisites: ["Engenharia de Prompts e Structured JSON Outputs", "Bancos de dados vetoriais e embeddings", "Controle de loops de execução e tokens"],
+    features: [
+      "Definição de ferramentas com JSON Schemas estritos e type-safety",
+      "Loop autônomo de raciocínio ReAct com controle de profundidade e timeout",
+      "Indexação de documentos com embeddings e busca semântica no Neon pgvector",
+      "Painel de observabilidade em tempo real com visualização da cadeia de pensamentos",
+      "Mecanismo de Guardrails para evitar loops infinitos e prompt injection"
+    ],
+    steps: [
+      { order: 1, title: "Especificação do Catálogo de Ferramentas", description: "Modele os JSON Schemas e handlers das ferramentas invocáveis pelo agente." },
+      { order: 2, title: "Orquestrador do Loop ReAct", description: "Implemente o ciclo de pensamento, invocação de ferramenta e observação." },
+      { order: 3, title: "Pipeline de RAG Vetorial", description: "Gere embeddings de documentos e implemente busca por similaridade de cosseno com pgvector." },
+      { order: 4, title: "Painel de Observabilidade & Logs", description: "Construa a UI em tempo real com streaming de pensamentos e auditoria de ações." }
+    ]
   }
 ];

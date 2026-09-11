@@ -10,6 +10,7 @@ import {
   Layout,
   Server,
   Flame,
+  Bot,
   CheckCircle2,
   FolderGit2,
   ArrowRight,
@@ -57,6 +58,8 @@ export default async function TrackPage({ params }: TrackPageProps) {
         return <Layout className="w-6 h-6" />;
       case "Server":
         return <Server className="w-6 h-6" />;
+      case "Bot":
+        return <Bot className="w-6 h-6" />;
       case "Flame":
       default:
         return <Flame className="w-6 h-6" />;

@@ -27,7 +27,8 @@ import {
   Video,
   MessageSquare,
   FileText,
-  Bot
+  Bot,
+  GitPullRequest
 } from "lucide-react";
 import { Challenge, ChallengeDifficulty, ChallengeCategory } from "@/types/challenge";
 import { ReferenceType } from "@/types/project";
@@ -221,6 +222,18 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
             <Trophy className="w-3 h-3 mr-1" />
             +{currentChallenge.xp} XP
           </Badge>
+
+          <Link href="/code-review">
+            <Button
+              variant="secondary"
+              size="sm"
+              className="font-mono text-xs gap-1 hidden md:flex border-cyan-500/30 text-cyan-300 hover:text-white"
+              title="Solicitar Code Review estilo Pull Request"
+            >
+              <GitPullRequest className="w-3.5 h-3.5 text-cyan-400" />
+              <span>PR Review</span>
+            </Button>
+          </Link>
 
           <Button
             variant="ghost"

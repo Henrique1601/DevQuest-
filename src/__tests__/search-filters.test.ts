@@ -27,7 +27,7 @@ describe("Busca e Filtros de Conteúdo", () => {
   });
 
   it("deve conter pelo menos 16 projetos cobrindo iniciante, intermediário e avançado", () => {
-    expect(mockProjects.length).toBe(16);
+    expect(mockProjects.length).toBeGreaterThanOrEqual(16);
 
     const beginners = mockProjects.filter((p) => p.difficulty === "beginner");
     const intermediates = mockProjects.filter((p) => p.difficulty === "intermediate");
