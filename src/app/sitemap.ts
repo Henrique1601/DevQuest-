@@ -1,9 +1,10 @@
-﻿import type { MetadataRoute } from "next";
+import type { MetadataRoute } from "next";
 import { mockTracks } from "@/lib/data/tracks";
 import { mockProjects } from "@/lib/data/projects";
+import { getBaseUrl } from "@/lib/utils";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://devquest-zeta.vercel.app";
+  const baseUrl = getBaseUrl();
   const currentDate = new Date();
 
   const staticRoutes: MetadataRoute.Sitemap = [

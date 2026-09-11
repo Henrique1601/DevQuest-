@@ -15,3 +15,13 @@ export function formatDifficulty(diff: "beginner" | "intermediate" | "advanced")
       return { label: "Avançado", color: "text-rose-400 bg-rose-500/10 border-rose-500/20" };
   }
 }
+
+export function getBaseUrl(): string {
+  const raw =
+    process.env.NEXT_PUBLIC_APP_URL ||
+    process.env.NEXT_APP_URL ||
+    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "") ||
+    "https://devquest-zeta.vercel.app";
+  return raw.replace(/\/+$/, "");
+}
+

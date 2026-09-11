@@ -3,8 +3,9 @@ import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { AuthProvider } from "@/components/auth/AuthProvider";
+import { getBaseUrl } from "@/lib/utils";
 
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://devquest-zeta.vercel.app";
+const APP_URL = getBaseUrl();
 
 export const metadata: Metadata = {
   metadataBase: new URL(APP_URL),
