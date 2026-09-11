@@ -76,6 +76,7 @@ type: moc
 * [[05.3 - Guia de Comandos & Scripts NPM|Guia de Comandos & Scripts]]: `npm run dev`, `build`, `test`, `db:push`, `db:seed`.
 * [[05.4 - SEO Técnico, Indexação & Badges Dinâmicos|SEO Técnico, Indexação & Badges Dinâmicos]]: Sitemap dinâmico, robots.txt, Schema.org e API de Badges SVG para GitHub.
 * [[05.5 - Rastreador de Bugs, Edge Cases & Correções|Rastreador de Bugs, Edge Cases & Correções]]: Catálogo de post-mortems, autoplay policy, SSR hydration e mitigação de regressões.
+* [[05.6 - Catálogo de Skills, Automações & DX do Agente|Catálogo de Skills, Automações & DX do Agente]]: Matriz completa de competências do agente (UI, Testes, Neon, Áudio, PDF, Governança).
 
 ---
 
