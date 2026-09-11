@@ -28,12 +28,20 @@ import {
   MessageSquare,
   FileText,
   Bot,
-  GitPullRequest
+  GitPullRequest,
+  Maximize2,
+  Minimize2,
+  Palette,
+  Check
 } from "lucide-react";
 import { Challenge, ChallengeDifficulty, ChallengeCategory } from "@/types/challenge";
 import { ReferenceType } from "@/types/project";
 import { mockChallenges } from "@/lib/data/challenges";
 import { useCodeRunner } from "@/hooks/useCodeRunner";
+import { useCodeDraft } from "@/hooks/useCodeDraft";
+import { sfx } from "@/lib/audio/sfx";
+import { triggerNeonConfetti } from "@/lib/utils/confetti";
+import { EDITOR_THEMES, EditorThemeId } from "@/lib/theme/editorThemes";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { DevBotMentor } from "@/components/ai/DevBotMentor";
@@ -60,11 +68,22 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
   });
 
   const currentChallenge = mockChallenges[selectedChallengeIndex];
-  const [code, setCode] = useState(currentChallenge.starterCode);
-  const [activeTab, setActiveTab] = useState<"instructions" | "hints" | "docs" | "mentor">("instructions");
   const [selectedLanguage, setSelectedLanguage] = useState<"javascript" | "typescript" | "python">("javascript");
+  const { code, setCode, resetToStarter, isSaved: isDraftSaved } = useCodeDraft(
+    currentChallenge.id,
+    currentChallenge.starterCode,
+    selectedLanguage
+  );
+  const [activeTab, setActiveTab] = useState<"instructions" | "hints" | "docs" | "mentor">("instructions");
   const [outputTab, setOutputTab] = useState<"tests" | "console">("tests");
   const [solvedChallenges, setSolvedChallenges] = useState<string[]>([]);
+
+  // Estados de Ergonomia (Modo Zen, Temas, Split Pane e Mobile)
+  const [isZenMode, setIsZenMode] = useState(false);
+  const [editorTheme, setEditorTheme] = useState<EditorThemeId>("tokyo-night");
+  const [splitPercent, setSplitPercent] = useState(42);
+  const [isDraggingSplit, setIsDraggingSplit] = useState(false);
+  const [mobileTab, setMobileTab] = useState<"instructions" | "editor" | "output">("editor");
 
   // Estados do Modal de Busca e Filtros
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -75,13 +94,11 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
 
   const { isRunning, results, consoleLogs, error, runChallenge } = useCodeRunner();
 
-  // Atualiza o código ao trocar de desafio
+  // Carrega preferências salvas do localStorage
   useEffect(() => {
-    setCode(currentChallenge.starterCode);
-  }, [currentChallenge]);
+    const savedTheme = localStorage.getItem("devquest_editor_theme") as EditorThemeId;
+    if (savedTheme) setEditorTheme(savedTheme);
 
-  // Carrega desafios resolvidos do localStorage
-  useEffect(() => {
     const saved = localStorage.getItem("devquest_solved_challenges");
     if (saved) {
       try {
@@ -90,20 +107,52 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
     }
   }, []);
 
+  // Redimensionamento interativo do Split Pane
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isDraggingSplit) return;
+      const newPercent = (e.clientX / window.innerWidth) * 100;
+      if (newPercent >= 25 && newPercent <= 65) {
+        setSplitPercent(newPercent);
+      }
+    };
+
+    const handleMouseUp = () => {
+      setIsDraggingSplit(false);
+    };
+
+    if (isDraggingSplit) {
+      window.addEventListener("mousemove", handleMouseMove);
+      window.addEventListener("mouseup", handleMouseUp);
+    }
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [isDraggingSplit]);
+
   const handleRun = async () => {
+    sfx.playClickSfx();
     await runChallenge(currentChallenge, code);
   };
 
-  // Salva no localStorage quando todos os testes passarem
+  // Feedback audiovisual (Confetes & Som) e salvamento de resolvidos
   useEffect(() => {
-    if (results.length > 0 && results.every((r) => r.passed) && !error) {
-      if (!solvedChallenges.includes(currentChallenge.id)) {
-        const updated = [...solvedChallenges, currentChallenge.id];
-        setSolvedChallenges(updated);
-        localStorage.setItem("devquest_solved_challenges", JSON.stringify(updated));
+    if (results.length > 0) {
+      if (results.every((r) => r.passed) && !error) {
+        sfx.playSuccessChime();
+        triggerNeonConfetti();
+        if (!solvedChallenges.includes(currentChallenge.id)) {
+          const updated = [...solvedChallenges, currentChallenge.id];
+          setSolvedChallenges(updated);
+          localStorage.setItem("devquest_solved_challenges", JSON.stringify(updated));
+        }
+      } else {
+        sfx.playErrorTone();
       }
     }
   }, [results, error, currentChallenge.id, solvedChallenges]);
+
 
   const allPassed = results.length > 0 && results.every((r) => r.passed) && !error;
   const isSolved = solvedChallenges.includes(currentChallenge.id);
@@ -146,7 +195,7 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-5rem)] bg-background relative">
+    <div className={isZenMode ? "fixed inset-0 z-[999] bg-background flex flex-col h-screen overflow-hidden" : "flex flex-col h-[calc(100vh-5rem)] bg-background relative"}>
       {/* Top Header do Workspace */}
       <div className="h-14 border-b border-surface-border bg-surface px-4 flex items-center justify-between shrink-0">
         {/* Seletor do Desafio & Botão de Busca */}
@@ -235,10 +284,22 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
             </Button>
           </Link>
 
+          {/* Botão Modo Zen / Foco Total */}
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => setCode(currentChallenge.starterCode)}
+            onClick={() => setIsZenMode(!isZenMode)}
+            className="font-mono text-xs gap-1 hidden sm:flex text-slate-400 hover:text-cyan-400"
+            title={isZenMode ? "Sair da tela cheia (Modo Zen)" : "Modo Zen / Foco Total"}
+          >
+            {isZenMode ? <Minimize2 className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />}
+            <span className="hidden md:inline">{isZenMode ? "Sair Zen" : "Modo Zen"}</span>
+          </Button>
+
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={resetToStarter}
             title="Restaurar código inicial"
           >
             <RotateCcw className="w-3.5 h-3.5 mr-1" />
@@ -258,10 +319,44 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
         </div>
       </div>
 
-      {/* Grid Principal (Split-Screen) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 flex-1 overflow-hidden">
+
+      {/* Mobile Tab Switcher */}
+      <div className="lg:hidden h-11 border-b border-surface-border bg-[#080D1A] flex items-center justify-around text-xs font-mono shrink-0">
+        <button
+          onClick={() => setMobileTab("instructions")}
+          className={`flex-1 py-2 text-center transition-colors ${
+            mobileTab === "instructions" ? "text-cyan-400 font-bold border-b-2 border-cyan-400" : "text-slate-400"
+          }`}
+        >
+          Enunciado
+        </button>
+        <button
+          onClick={() => setMobileTab("editor")}
+          className={`flex-1 py-2 text-center transition-colors ${
+            mobileTab === "editor" ? "text-cyan-400 font-bold border-b-2 border-cyan-400" : "text-slate-400"
+          }`}
+        >
+          Editor de Código
+        </button>
+        <button
+          onClick={() => setMobileTab("output")}
+          className={`flex-1 py-2 text-center transition-colors ${
+            mobileTab === "output" ? "text-cyan-400 font-bold border-b-2 border-cyan-400" : "text-slate-400"
+          }`}
+        >
+          Testes ({results.filter((r) => r.passed).length}/{results.length || currentChallenge.testCases.length})
+        </button>
+      </div>
+
+      {/* Main Split Layout */}
+      <div className="flex flex-col lg:flex-row flex-1 overflow-hidden relative">
         {/* Painel Esquerdo: Instruções & Dicas */}
-        <div className="lg:col-span-5 border-r border-surface-border bg-surface/40 flex flex-col h-full overflow-hidden">
+        <div
+          className={`border-r border-surface-border bg-surface/40 flex flex-col h-full overflow-hidden ${
+            mobileTab !== "instructions" ? "hidden lg:flex" : "flex w-full"
+          }`}
+          style={{ width: typeof window !== "undefined" && window.innerWidth >= 1024 ? `${splitPercent}%` : "100%" }}
+        >
           {/* Abas */}
           <div className="flex items-center border-b border-surface-border px-4 text-xs font-mono overflow-x-auto">
             <button
@@ -476,11 +571,25 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
           </div>
         </div>
 
+        {/* Barra divisória de redimensionamento do Split Pane */}
+        <div
+          onMouseDown={() => setIsDraggingSplit(true)}
+          className="hidden lg:flex w-1.5 hover:w-2 bg-surface-border hover:bg-cyan-500/50 active:bg-cyan-500 cursor-col-resize transition-all items-center justify-center select-none shrink-0"
+          title="Arraste para redimensionar os painéis"
+        >
+          <div className="h-8 w-0.5 bg-slate-600 rounded-full" />
+        </div>
+
         {/* Painel Direito: Editor de Código e Saída */}
-        <div className="lg:col-span-7 flex flex-col h-full overflow-hidden bg-[#070A10]">
-          {/* Editor Header com Seletor de Linguagens */}
-          <div className="h-10 border-b border-surface-border bg-surface/80 px-4 flex items-center justify-between text-xs font-mono text-slate-400">
-            <div className="flex items-center gap-3">
+        <div
+          className={`flex flex-col h-full overflow-hidden bg-[#070A10] ${
+            mobileTab === "instructions" ? "hidden lg:flex" : "flex w-full"
+          }`}
+          style={{ width: typeof window !== "undefined" && window.innerWidth >= 1024 ? `${100 - splitPercent}%` : "100%" }}
+        >
+          {/* Editor Header com Seletor de Linguagens, Temas e Auto-Save */}
+          <div className="h-10 border-b border-surface-border bg-surface/80 px-4 flex items-center justify-between text-xs font-mono text-slate-400 shrink-0">
+            <div className="flex items-center gap-2 sm:gap-3">
               <div className="flex items-center gap-1.5">
                 <Code className="w-3.5 h-3.5 text-primary-400" />
                 <select
@@ -490,25 +599,59 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
                 >
                   <option value="javascript">JavaScript (ES2022)</option>
                   <option value="typescript">TypeScript (TS 5.x)</option>
-                  <option value="python">Python 3 (Beta)</option>
+                  <option value="python">Python 3</option>
                 </select>
               </div>
-              <span className="hidden sm:inline-block text-[10px] text-slate-500 border border-surface-border px-1.5 py-0.5 rounded">
-                Ctrl + Enter para testar
+
+              {/* Seletor de Temas */}
+              <div className="hidden sm:flex items-center gap-1.5">
+                <Palette className="w-3.5 h-3.5 text-cyan-400" />
+                <select
+                  value={editorTheme}
+                  onChange={(e) => {
+                    const th = e.target.value as EditorThemeId;
+                    setEditorTheme(th);
+                    localStorage.setItem("devquest_editor_theme", th);
+                  }}
+                  className="bg-[#05070E] text-slate-200 border border-surface-border rounded-lg px-2 py-0.5 text-[11px] focus:outline-none focus:border-cyan-400 font-mono cursor-pointer"
+                  title="Tema do editor"
+                >
+                  {EDITOR_THEMES.map((th) => (
+                    <option key={th.id} value={th.id}>
+                      {th.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Status do Auto-save */}
+              <span className="text-[10px] font-mono text-slate-500 hidden md:flex items-center gap-1">
+                {isDraftSaved ? (
+                  <>
+                    <Check className="w-3 h-3 text-emerald-400" /> Salvo
+                  </>
+                ) : (
+                  "Salvando..."
+                )}
               </span>
             </div>
-            <span>Função: {currentChallenge.functionName}</span>
+
+            <span className="truncate max-w-[140px] sm:max-w-none">
+              Função: <code className="text-cyan-400">{currentChallenge.functionName}</code>
+            </span>
           </div>
 
-          {/* Área do Editor com CodeMirror */}
+          {/* Área do Editor com CodeMirror e Tema Selecionável */}
           <div className="flex-1 relative overflow-hidden flex flex-col">
             <CodeEditor
               value={code}
               onChange={(val) => setCode(val)}
               onRun={handleRun}
               language={selectedLanguage}
+              theme={editorTheme}
             />
           </div>
+
 
           {/* Painel Inferior: Console & Casos de Teste */}
           <div className="h-56 border-t border-surface-border bg-surface/90 flex flex-col">

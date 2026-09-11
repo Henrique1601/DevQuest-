@@ -15,6 +15,7 @@ import {
   CheckCircle2
 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { GithubIcon } from "@/components/ui/GithubIcon";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -101,7 +102,26 @@ export default function RegisterPage() {
               </p>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <>
+              {/* Cadastro com GitHub */}
+              <button
+                type="button"
+                onClick={() => signIn("github", { callbackUrl: "/profile" })}
+                className="w-full py-2.5 px-4 rounded-xl border border-surface-border bg-surface hover:bg-surface-hover text-white text-xs font-semibold flex items-center justify-center gap-2.5 transition-colors"
+              >
+                <GithubIcon className="w-4 h-4" />
+                <span>Cadastrar com GitHub</span>
+              </button>
+
+              <div className="relative flex items-center justify-center">
+                <div className="border-t border-surface-border w-full" />
+                <span className="bg-surface px-3 text-[11px] font-mono uppercase text-slate-500 absolute">
+                  ou com email
+                </span>
+              </div>
+
+              <form onSubmit={handleSubmit} className="space-y-4">
+
               <div className="space-y-1.5 text-left">
                 <label className="text-xs font-medium text-slate-300 flex items-center gap-1.5">
                   <User className="w-3.5 h-3.5 text-slate-400" />
@@ -180,7 +200,9 @@ export default function RegisterPage() {
                 <ArrowRight className="w-4 h-4" />
               </Button>
             </form>
-          )}
+          </>
+        )}
+
 
           {/* Rodapé */}
           <div className="pt-2 text-center text-xs text-slate-400">

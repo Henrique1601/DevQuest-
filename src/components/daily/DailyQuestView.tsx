@@ -22,6 +22,8 @@ import {
   generateAnnualHeatmapData,
   DailyQuest
 } from "@/lib/data/dailyQuests";
+import { sfx } from "@/lib/audio/sfx";
+import { triggerNeonConfetti } from "@/lib/utils/confetti";
 
 export function DailyQuestView() {
   const quest = getTodayDailyQuest();
@@ -90,6 +92,11 @@ export function DailyQuestView() {
         setTestResults(results);
         if (results.every((r) => r.passed)) {
           setCompletedToday(true);
+          sfx.playSuccessChime();
+          sfx.playStreakFlame();
+          triggerNeonConfetti();
+        } else {
+          sfx.playErrorTone();
         }
       } catch (err: any) {
         setTestResults([{ passed: false, message: `Erro de Sintaxe: ${err.message}` }]);

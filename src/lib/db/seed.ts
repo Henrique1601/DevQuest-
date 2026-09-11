@@ -3,6 +3,7 @@ import { drizzle } from "drizzle-orm/neon-http";
 import * as schema from "./schema";
 import { mockProjects } from "../data/projects";
 import { mockChallenges } from "../data/challenges";
+import { mockAchievements } from "../data/achievements";
 
 async function seed() {
   const connectionString = process.env.DATABASE_URL;
@@ -45,6 +46,19 @@ async function seed() {
       starterCode: c.starterCode,
       functionName: c.functionName,
       testCases: c.testCases,
+    }).onConflictDoNothing();
+  }
+
+  // Inserir conquistas (Achievements)
+  for (const a of mockAchievements) {
+    await db.insert(schema.achievements).values({
+      id: a.id,
+      slug: a.slug,
+      title: a.title,
+      description: a.description,
+      icon: a.icon,
+      category: a.category,
+      xpReward: a.xpReward,
     }).onConflictDoNothing();
   }
 

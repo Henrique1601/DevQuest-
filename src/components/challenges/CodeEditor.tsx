@@ -5,6 +5,7 @@ import CodeMirror from "@uiw/react-codemirror";
 import { javascript } from "@codemirror/lang-javascript";
 import { python } from "@codemirror/lang-python";
 import { EditorView } from "@codemirror/view";
+import { EditorThemeId, getCodeMirrorThemeExtension } from "@/lib/theme/editorThemes";
 
 export type SupportedLanguage = "javascript" | "typescript" | "python";
 
@@ -15,7 +16,9 @@ interface CodeEditorProps {
   placeholder?: string;
   readOnly?: boolean;
   language?: SupportedLanguage;
+  theme?: EditorThemeId;
 }
+
 
 // Tema dark customizado nos tokens do DevQuest
 const devQuestTheme = EditorView.theme({
@@ -58,7 +61,8 @@ export function CodeEditor({
   onRun,
   placeholder,
   readOnly = false,
-  language = "javascript"
+  language = "javascript",
+  theme = "tokyo-night"
 }: CodeEditorProps) {
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
@@ -82,6 +86,10 @@ export function CodeEditor({
     }
   }, [language]);
 
+  const themeExtension = useMemo(() => {
+    return getCodeMirrorThemeExtension(theme);
+  }, [theme]);
+
   return (
     <div
       onKeyDown={handleKeyDown}
@@ -91,7 +99,7 @@ export function CodeEditor({
         value={value}
         height="100%"
         theme="dark"
-        extensions={[langExtension, devQuestTheme]}
+        extensions={[langExtension, themeExtension]}
         onChange={onChange}
         placeholder={placeholder || "// Escreva seu código aqui..."}
         readOnly={readOnly}

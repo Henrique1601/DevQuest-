@@ -27,6 +27,7 @@ type: moc
 * [[01.2 - Arquitetura de Software & Next.js 16|Arquitetura de Software & Next.js 16]]: App Router, Turbopack, React 19, Server Components vs Client Components.
 * [[01.3 - Design System & Tokens Tailwind|Design System & Paleta Dark]]: Cores, tokens Tailwind v4, tipografia JetBrains Mono/Geist e componentes UI.
 * [[01.4 - Estrutura de Diretórios do Projeto|Estrutura de Diretórios]]: Mapeamento pasta a pasta do código-fonte.
+* [[01.5 - Roadmap de Atualizações Futuras & Ideias|Roadmap de Atualizações Futuras & Ideias]]: Backlog estratégico, multiplayer duels, PWA e sugestões de expansão.
 
 ---
 
@@ -57,6 +58,8 @@ type: moc
 * [[03.17 - Suporte Multi-Linguagem (JS, TS, Python)|Suporte Multi-Linguagem (JS, TS, Python)]]: Suporte no CodeMirror 6 para alternar entre JavaScript, TypeScript e Python.
 * [[03.18 - Code Review Automatizado (Pull Request IA)|Code Review Automatizado (Pull Request IA)]]: Análise estática OWASP, Clean Code, veredito de PR e comparador visual de diff lado a lado.
 * [[03.19 - Laboratório de Agentes de IA (ReAct Simulator)|Laboratório de Agentes de IA (ReAct Simulator)]]: Simulador visual do ciclo Thought -> Action (Tool Call) -> Observation com catálogo de JSON Schemas.
+* [[03.20 - Sistema de Conquistas & Gamificação|Sistema de Conquistas & Gamificação (Achievements)]]: Medalhas colecionáveis, persistência no Neon Postgres e recompensas de XP.
+* [[03.21 - Command Palette & Ergonomia da Arena|Command Palette & Ergonomia da Arena]]: Navegação instantânea (Ctrl+K), Split Pane ajustável, temas CodeMirror, Modo Zen e Web Audio.
 
 ---
 
@@ -72,6 +75,7 @@ type: moc
 * [[05.2 - Deploy na Vercel & Variáveis de Ambiente|Deploy na Vercel & Variáveis]]: Configurações de produção, URLs e sincronização de branches.
 * [[05.3 - Guia de Comandos & Scripts NPM|Guia de Comandos & Scripts]]: `npm run dev`, `build`, `test`, `db:push`, `db:seed`.
 * [[05.4 - SEO Técnico, Indexação & Badges Dinâmicos|SEO Técnico, Indexação & Badges Dinâmicos]]: Sitemap dinâmico, robots.txt, Schema.org e API de Badges SVG para GitHub.
+* [[05.5 - Rastreador de Bugs, Edge Cases & Correções|Rastreador de Bugs, Edge Cases & Correções]]: Catálogo de post-mortems, autoplay policy, SSR hydration e mitigação de regressões.
 
 ---
 

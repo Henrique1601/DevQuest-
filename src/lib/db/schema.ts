@@ -70,3 +70,22 @@ export const projectCompletions = pgTable("project_completions", {
   githubUrl: text("github_url").notNull(),
   completedAt: timestamp("completed_at").defaultNow().notNull(),
 });
+
+export const achievements = pgTable("achievements", {
+  id: text("id").primaryKey(),
+  slug: text("slug").notNull().unique(),
+  title: text("title").notNull(),
+  description: text("description").notNull(),
+  icon: text("icon").notNull(), // emoji ou id de ícone
+  category: text("category").notNull(), // desafios, streak, projetos, seguranca
+  xpReward: integer("xp_reward").default(100).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const userAchievements = pgTable("user_achievements", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: uuid("user_id").references(() => users.id, { onDelete: "cascade" }),
+  achievementId: text("achievement_id").references(() => achievements.id, { onDelete: "cascade" }),
+  unlockedAt: timestamp("unlocked_at").defaultNow().notNull(),
+});
+

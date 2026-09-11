@@ -26,15 +26,25 @@ import {
   Flame,
   Palette,
   GitPullRequest,
-  Bot
+  Bot,
+  Volume2,
+  VolumeX,
+  Search
 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { GithubIcon } from "@/components/ui/GithubIcon";
+import { CommandPalette } from "@/components/layout/CommandPalette";
+import { sfx } from "@/lib/audio/sfx";
 
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [labsDropdownOpen, setLabsDropdownOpen] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
   const { data: session } = useSession();
+
+  React.useEffect(() => {
+    setIsMuted(sfx.isMuted());
+  }, []);
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-surface-border">
@@ -308,7 +318,35 @@ export function Navbar() {
         </nav>
 
         {/* CTA e Usuário */}
-        <div className="hidden md:flex items-center gap-3">
+        <div className="hidden md:flex items-center gap-2.5">
+          {/* Botão Command Palette */}
+          <button
+            onClick={() => {
+              window.dispatchEvent(new KeyboardEvent("keydown", { key: "k", ctrlKey: true }));
+            }}
+            className="flex items-center gap-2 px-3 py-2 rounded-xl border border-surface-border hover:border-cyan-500/50 bg-surface/40 text-slate-400 hover:text-white transition-all text-xs font-mono"
+            title="Abrir Busca Rápida (Ctrl+K)"
+          >
+            <Search className="w-3.5 h-3.5 text-cyan-400" />
+            <span className="hidden lg:inline">Buscar</span>
+            <kbd className="text-[10px] px-1.5 py-0.5 rounded bg-background border border-surface-border text-slate-400">
+              ⌘K
+            </kbd>
+          </button>
+
+          {/* Toggle de Som */}
+          <button
+            onClick={() => setIsMuted(sfx.toggleMute())}
+            className="p-2.5 rounded-xl border border-surface-border text-slate-400 hover:text-white hover:bg-surface-hover transition-colors"
+            title={isMuted ? "Ativar Efeitos Sonoros" : "Desativar Efeitos Sonoros"}
+          >
+            {isMuted ? (
+              <VolumeX className="w-4 h-4 text-rose-400" />
+            ) : (
+              <Volume2 className="w-4 h-4 text-cyan-400" />
+            )}
+          </button>
+
           <a
             href="https://github.com"
             target="_blank"
@@ -316,7 +354,7 @@ export function Navbar() {
             className="p-2.5 rounded-xl border border-surface-border text-slate-400 hover:text-white hover:bg-surface-hover transition-colors"
             title="Repositório no GitHub"
           >
-            <GithubIcon className="w-5 h-5" />
+            <GithubIcon className="w-4 h-4" />
           </a>
 
           {session ? (
@@ -572,6 +610,10 @@ export function Navbar() {
           </div>
         </div>
       )}
+
+      {/* Global Command Palette (Ctrl+K) */}
+      <CommandPalette />
     </header>
   );
 }
+
