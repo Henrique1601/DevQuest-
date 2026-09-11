@@ -61,4 +61,48 @@ describe("useCodeRunner - Robustez e Proteções", () => {
 
     expect(result.current.error).toContain("A função 'reverseString' não foi definida.");
   });
+
+  it("deve limpar os logs ao invocar clearLogs()", async () => {
+    const { result } = renderHook(() => useCodeRunner());
+
+    const loggingCode = `
+      function reverseString(str) {
+        console.log("Log temporario");
+        return str.split('').reverse().join('');
+      }
+    `;
+
+    await act(async () => {
+      await result.current.runChallenge(sampleChallenge, loggingCode);
+    });
+
+    expect(result.current.consoleLogs.length).toBeGreaterThan(0);
+
+    act(() => {
+      result.current.clearLogs();
+    });
+
+    expect(result.current.consoleLogs.length).toBe(0);
+  });
+
+  it("deve serializar com segurança objetos e estruturas com referências circulares em console.log", async () => {
+    const { result } = renderHook(() => useCodeRunner());
+
+    const circularCode = `
+      function reverseString(str) {
+        const obj = { a: 1 };
+        obj.self = obj; // Referência circular
+        console.log(obj);
+        return str.split('').reverse().join('');
+      }
+    `;
+
+    await act(async () => {
+      await result.current.runChallenge(sampleChallenge, circularCode);
+    });
+
+    expect(result.current.error).toBeNull();
+    expect(result.current.consoleLogs.length).toBeGreaterThan(0);
+    expect(result.current.results.every((r) => r.passed)).toBe(true);
+  });
 });

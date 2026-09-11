@@ -34,11 +34,12 @@ import {
 import { Button } from "@/components/ui/Button";
 import { GithubIcon } from "@/components/ui/GithubIcon";
 import { CommandPalette } from "@/components/layout/CommandPalette";
+import { AppSidebar } from "@/components/layout/AppSidebar";
 import { sfx } from "@/lib/audio/sfx";
 
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [labsDropdownOpen, setLabsDropdownOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const { data: session } = useSession();
 
@@ -68,7 +69,7 @@ export function Navbar() {
         </Link>
 
         {/* Links Desktop */}
-        <nav className="hidden md:flex items-center gap-7 text-sm font-medium text-slate-300">
+        <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-300">
           <Link href="/#trilhas" className="flex items-center gap-2 hover:text-primary-400 transition-colors">
             <BookOpen className="w-4 h-4 text-slate-400" />
             Trilhas
@@ -85,236 +86,19 @@ export function Navbar() {
             <Flame className="w-4 h-4 text-amber-400" />
             Daily
           </Link>
-          <Link href="/ui-challenges" className="flex items-center gap-1.5 hover:text-pink-400 transition-colors">
-            <Palette className="w-4 h-4 text-pink-400" />
-            UI/UX
-          </Link>
-          <Link href="/interviews" className="flex items-center gap-1.5 hover:text-accent-400 transition-colors">
-            <Briefcase className="w-4 h-4 text-accent-400" />
-            Entrevistas
-          </Link>
-          <Link href="/leaderboard" className="flex items-center gap-1.5 hover:text-amber-400 transition-colors">
-            <Crown className="w-4 h-4 text-amber-400" />
-            Ranking
-          </Link>
 
-          {/* Dropdown Labs & Prática */}
-          <div
-            className="relative"
-            onMouseEnter={() => setLabsDropdownOpen(true)}
-            onMouseLeave={() => setLabsDropdownOpen(false)}
+          {/* Botão de Abertura da Sidebar Lateral */}
+          <button
+            onClick={() => setSidebarOpen(true)}
+            className="flex items-center gap-2 px-3 py-1.5 rounded-xl border border-cyan-500/30 bg-cyan-500/10 text-cyan-300 hover:bg-cyan-500/20 hover:border-cyan-400 hover:text-white transition-all text-xs font-mono group shadow-glow-sm"
+            title="Abrir menu de Labs e Ferramentas"
           >
-            <button
-              onClick={() => setLabsDropdownOpen(!labsDropdownOpen)}
-              className="flex items-center gap-1.5 hover:text-primary-400 text-slate-300 transition-colors py-2 focus:outline-none"
-            >
-              <Sparkles className="w-4 h-4 text-primary-400" />
-              <span>Labs & Ferramentas</span>
-              <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${labsDropdownOpen ? "rotate-180" : ""}`} />
-            </button>
-
-            {labsDropdownOpen && (
-              <div className="absolute top-full left-0 w-[540px] p-4 bg-[#0A0E17]/95 border border-surface-border rounded-3xl shadow-2xl backdrop-blur-xl animate-fade-in z-50">
-                <div className="grid grid-cols-2 gap-3">
-                  {/* Coluna 1: Labs Interativos */}
-                  <div className="space-y-1">
-                    <div className="px-2.5 py-1 text-[10px] font-mono uppercase font-bold tracking-wider text-slate-500">
-                      Ambientes Interativos
-                    </div>
-
-                    <Link
-                      href="/daily"
-                      className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-surface-hover text-slate-300 hover:text-white transition-colors group"
-                    >
-                      <div className="p-1.5 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20 group-hover:scale-105 transition-transform shrink-0">
-                        <Flame className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <div className="text-xs font-bold">Desafio do Dia (Daily)</div>
-                        <div className="text-[10px] text-slate-500">Ofensiva & Heatmap anual</div>
-                      </div>
-                    </Link>
-
-                    <Link
-                      href="/ui-challenges"
-                      className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-surface-hover text-slate-300 hover:text-white transition-colors group"
-                    >
-                      <div className="p-1.5 rounded-lg bg-pink-500/10 text-pink-400 border border-pink-500/20 group-hover:scale-105 transition-transform shrink-0">
-                        <Palette className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <div className="text-xs font-bold">Frontend Pixel-Perfect</div>
-                        <div className="text-[10px] text-slate-500">Comparador slider de UI/UX</div>
-                      </div>
-                    </Link>
-
-                    <Link
-                      href="/ai-lab"
-                      className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-surface-hover text-slate-300 hover:text-white transition-colors group"
-                    >
-                      <div className="p-1.5 rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 group-hover:scale-105 transition-transform shrink-0">
-                        <Bot className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <div className="text-xs font-bold">AI Agents Lab</div>
-                        <div className="text-[10px] text-slate-500">Ciclo ReAct & Tool Calling</div>
-                      </div>
-                    </Link>
-
-                    <Link
-                      href="/playground"
-                      className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-surface-hover text-slate-300 hover:text-white transition-colors group"
-                    >
-                      <div className="p-1.5 rounded-lg bg-orange-500/10 text-orange-400 border border-orange-500/20 group-hover:scale-105 transition-transform shrink-0">
-                        <SquareCode className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <div className="text-xs font-bold">Web Playground</div>
-                        <div className="text-[10px] text-slate-500">Sandbox HTML/CSS/JS</div>
-                      </div>
-                    </Link>
-
-                    <Link
-                      href="/visualizer"
-                      className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-surface-hover text-slate-300 hover:text-white transition-colors group"
-                    >
-                      <div className="p-1.5 rounded-lg bg-primary-500/10 text-primary-400 border border-primary-500/20 group-hover:scale-105 transition-transform shrink-0">
-                        <Zap className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <div className="text-xs font-bold">Visualizador Big-O</div>
-                        <div className="text-[10px] text-slate-500">Algoritmos passo a passo</div>
-                      </div>
-                    </Link>
-
-                    <Link
-                      href="/flashcards"
-                      className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-surface-hover text-slate-300 hover:text-white transition-colors group"
-                    >
-                      <div className="p-1.5 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20 group-hover:scale-105 transition-transform shrink-0">
-                        <Sparkles className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <div className="text-xs font-bold">Flashcards Anki</div>
-                        <div className="text-[10px] text-slate-500">Repetição espaçada 3D</div>
-                      </div>
-                    </Link>
-
-                    <Link
-                      href="/terminal"
-                      className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-surface-hover text-slate-300 hover:text-white transition-colors group"
-                    >
-                      <div className="p-1.5 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 group-hover:scale-105 transition-transform shrink-0">
-                        <Terminal className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <div className="text-xs font-bold">Terminal UNIX & Git</div>
-                        <div className="text-[10px] text-slate-500">Shell e missões CLI</div>
-                      </div>
-                    </Link>
-
-                    <Link
-                      href="/sql-playground"
-                      className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-surface-hover text-slate-300 hover:text-white transition-colors group"
-                    >
-                      <div className="p-1.5 rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 group-hover:scale-105 transition-transform shrink-0">
-                        <Database className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <div className="text-xs font-bold">SQL Playground</div>
-                        <div className="text-[10px] text-slate-500">Postgres e queries mock</div>
-                      </div>
-                    </Link>
-                  </div>
-
-                  {/* Coluna 2: Docs & Dicas de Comunidade */}
-                  <div className="space-y-1 border-l border-surface-border/60 pl-3">
-                    <div className="px-2.5 py-1 text-[10px] font-mono uppercase font-bold tracking-wider text-slate-500">
-                      Docs & Apoio ao Dev
-                    </div>
-
-                    <Link
-                      href="/code-review"
-                      className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-surface-hover text-slate-300 hover:text-white transition-colors group"
-                    >
-                      <div className="p-1.5 rounded-lg bg-purple-500/10 text-purple-400 border border-purple-500/20 group-hover:scale-105 transition-transform shrink-0">
-                        <GitPullRequest className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <div className="text-xs font-bold">Code Review IA (PR)</div>
-                        <div className="text-[10px] text-slate-500">OWASP, Clean Code e Diff</div>
-                      </div>
-                    </Link>
-
-                    <Link
-                      href="/cheatsheets"
-                      className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-surface-hover text-slate-300 hover:text-white transition-colors group"
-                    >
-                      <div className="p-1.5 rounded-lg bg-blue-500/10 text-blue-400 border border-blue-500/20 group-hover:scale-105 transition-transform shrink-0">
-                        <BookOpen className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <div className="text-xs font-bold">CheatSheets (W3)</div>
-                        <div className="text-[10px] text-slate-500">JS, CSS, Git, SQL e HTTP</div>
-                      </div>
-                    </Link>
-
-                    <Link
-                      href="/debug-clinic"
-                      className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-surface-hover text-slate-300 hover:text-white transition-colors group"
-                    >
-                      <div className="p-1.5 rounded-lg bg-rose-500/10 text-rose-400 border border-rose-500/20 group-hover:scale-105 transition-transform shrink-0">
-                        <Bug className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <div className="text-xs font-bold">Debug Clinic (Stack)</div>
-                        <div className="text-[10px] text-slate-500">Erros comuns e soluções</div>
-                      </div>
-                    </Link>
-
-                    <Link
-                      href="/videos"
-                      className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-surface-hover text-slate-300 hover:text-white transition-colors group"
-                    >
-                      <div className="p-1.5 rounded-lg bg-red-500/10 text-red-400 border border-red-500/20 group-hover:scale-105 transition-transform shrink-0">
-                        <Video className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <div className="text-xs font-bold">Video Hub (YouTube)</div>
-                        <div className="text-[10px] text-slate-500">Aulas com capítulos</div>
-                      </div>
-                    </Link>
-
-                    <Link
-                      href="/snippets"
-                      className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-surface-hover text-slate-300 hover:text-white transition-colors group"
-                    >
-                      <div className="p-1.5 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 group-hover:scale-105 transition-transform shrink-0">
-                        <FileCode2 className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <div className="text-xs font-bold">Snippet Vault</div>
-                        <div className="text-[10px] text-slate-500">Hooks e helpers prontos</div>
-                      </div>
-                    </Link>
-
-                    <Link
-                      href="/interviews"
-                      className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-surface-hover text-slate-300 hover:text-white transition-colors group"
-                    >
-                      <div className="p-1.5 rounded-lg bg-accent-500/10 text-accent-400 border border-accent-500/20 group-hover:scale-105 transition-transform shrink-0">
-                        <Briefcase className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <div className="text-xs font-bold">Mock Interviews</div>
-                        <div className="text-[10px] text-slate-500">Nubank, Google, iFood</div>
-                      </div>
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
+            <Sparkles className="w-3.5 h-3.5 text-cyan-400 group-hover:rotate-12 transition-transform" />
+            <span>Labs & Mais</span>
+            <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-cyan-400/20 text-cyan-300 font-bold border border-cyan-500/30">
+              12
+            </span>
+          </button>
         </nav>
 
         {/* CTA e Usuário */}
@@ -395,6 +179,14 @@ export function Navbar() {
               <LogIn className="w-5 h-5" />
             </Link>
           )}
+
+          <button
+            onClick={() => setSidebarOpen(true)}
+            className="p-2 rounded-lg bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/20 transition-colors"
+            title="Abrir Labs e Ferramentas"
+          >
+            <Sparkles className="w-5 h-5" />
+          </button>
 
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -610,6 +402,9 @@ export function Navbar() {
           </div>
         </div>
       )}
+
+      {/* Sidebar Lateral de Labs & Ferramentas */}
+      <AppSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       {/* Global Command Palette (Ctrl+K) */}
       <CommandPalette />

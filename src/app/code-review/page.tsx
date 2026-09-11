@@ -1,4 +1,4 @@
-﻿import React from "react";
+import React from "react";
 import { Metadata } from "next";
 import { CodeReviewWorkspace } from "@/components/review/CodeReviewWorkspace";
 
@@ -9,5 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function CodeReviewPage() {
-  return <CodeReviewWorkspace />;
+  return (
+    <div className="pt-20 min-h-screen bg-background">
+      <CodeReviewWorkspace />
+    </div>
+  );
 }

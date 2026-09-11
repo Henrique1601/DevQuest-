@@ -32,7 +32,8 @@ import {
   Maximize2,
   Minimize2,
   Palette,
-  Check
+  Check,
+  Trash2
 } from "lucide-react";
 import { Challenge, ChallengeDifficulty, ChallengeCategory } from "@/types/challenge";
 import { ReferenceType } from "@/types/project";
@@ -84,6 +85,7 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
   const [splitPercent, setSplitPercent] = useState(42);
   const [isDraggingSplit, setIsDraggingSplit] = useState(false);
   const [mobileTab, setMobileTab] = useState<"instructions" | "editor" | "output">("editor");
+  const [isTerminalExpanded, setIsTerminalExpanded] = useState(false);
 
   // Estados do Modal de Busca e Filtros
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -92,7 +94,7 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
   const [filterCategory, setFilterCategory] = useState<ChallengeCategory | "all">("all");
   const [filterCompany, setFilterCompany] = useState<string>("all");
 
-  const { isRunning, results, consoleLogs, error, runChallenge } = useCodeRunner();
+  const { isRunning, results, consoleLogs, error, runChallenge, clearLogs } = useCodeRunner();
 
   // Carrega preferências salvas do localStorage
   useEffect(() => {
@@ -133,6 +135,9 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
 
   const handleRun = async () => {
     sfx.playClickSfx();
+    if (mobileTab === "editor") {
+      setMobileTab("output");
+    }
     await runChallenge(currentChallenge, code);
   };
 
@@ -340,11 +345,22 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
         </button>
         <button
           onClick={() => setMobileTab("output")}
-          className={`flex-1 py-2 text-center transition-colors ${
+          className={`flex-1 py-2 text-center transition-colors flex items-center justify-center gap-1.5 ${
             mobileTab === "output" ? "text-cyan-400 font-bold border-b-2 border-cyan-400" : "text-slate-400"
           }`}
         >
-          Testes ({results.filter((r) => r.passed).length}/{results.length || currentChallenge.testCases.length})
+          <span>Saída & Testes</span>
+          {consoleLogs.length > 0 ? (
+            <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-cyan-500/20 text-cyan-300 font-mono">
+              {consoleLogs.length}
+            </span>
+          ) : results.length > 0 ? (
+            <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
+              results.every((r) => r.passed) ? "bg-emerald-500/20 text-emerald-300" : "bg-rose-500/20 text-rose-300"
+            }`}>
+              {results.filter((r) => r.passed).length}/{results.length}
+            </span>
+          ) : null}
         </button>
       </div>
 
@@ -588,7 +604,9 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
           style={{ width: typeof window !== "undefined" && window.innerWidth >= 1024 ? `${100 - splitPercent}%` : "100%" }}
         >
           {/* Editor Header com Seletor de Linguagens, Temas e Auto-Save */}
-          <div className="h-10 border-b border-surface-border bg-surface/80 px-4 flex items-center justify-between text-xs font-mono text-slate-400 shrink-0">
+          <div className={`h-10 border-b border-surface-border bg-surface/80 px-4 items-center justify-between text-xs font-mono text-slate-400 shrink-0 ${
+            mobileTab === "output" ? "hidden lg:flex" : "flex"
+          }`}>
             <div className="flex items-center gap-2 sm:gap-3">
               <div className="flex items-center gap-1.5">
                 <Code className="w-3.5 h-3.5 text-primary-400" />
@@ -642,7 +660,9 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
           </div>
 
           {/* Área do Editor com CodeMirror e Tema Selecionável */}
-          <div className="flex-1 relative overflow-hidden flex flex-col">
+          <div className={`relative overflow-hidden flex-col ${
+            mobileTab === "output" ? "hidden lg:flex flex-1" : "flex flex-1"
+          }`}>
             <CodeEditor
               value={code}
               onChange={(val) => setCode(val)}
@@ -652,40 +672,74 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
             />
           </div>
 
-
           {/* Painel Inferior: Console & Casos de Teste */}
-          <div className="h-56 border-t border-surface-border bg-surface/90 flex flex-col">
+          <div className={`border-t border-surface-border bg-surface/90 flex flex-col transition-all duration-200 ${
+            isTerminalExpanded ? "lg:h-96" : "lg:h-56"
+          } ${mobileTab === "editor" ? "hidden lg:flex" : "flex flex-1 lg:flex-none"}`}>
             {/* Header de Saída */}
-            <div className="h-10 border-b border-surface-border px-4 flex items-center justify-between text-xs font-mono">
+            <div className="h-10 border-b border-surface-border px-4 flex items-center justify-between text-xs font-mono shrink-0">
               <div className="flex items-center gap-3">
                 <button
                   onClick={() => setOutputTab("tests")}
-                  className={`py-2 px-1 border-b-2 font-medium transition-colors ${
+                  className={`py-2 px-1 border-b-2 font-medium transition-colors flex items-center gap-1.5 ${
                     outputTab === "tests"
                       ? "border-primary-400 text-white"
                       : "border-transparent text-slate-400 hover:text-slate-200"
                   }`}
                 >
-                  Testes Unitários ({results.filter(r => r.passed).length}/{results.length || currentChallenge.testCases.length})
+                  <span>Testes Unitários</span>
+                  <span className="px-1.5 py-0.5 rounded text-[10px] bg-surface-border text-slate-300">
+                    {results.filter(r => r.passed).length}/{results.length || currentChallenge.testCases.length}
+                  </span>
                 </button>
                 <button
                   onClick={() => setOutputTab("console")}
-                  className={`py-2 px-1 border-b-2 font-medium transition-colors ${
+                  className={`py-2 px-1 border-b-2 font-medium transition-colors flex items-center gap-1.5 ${
                     outputTab === "console"
                       ? "border-primary-400 text-white"
                       : "border-transparent text-slate-400 hover:text-slate-200"
                   }`}
                 >
-                  Console ({consoleLogs.length})
+                  <span>Console</span>
+                  {consoleLogs.length > 0 && (
+                    <span className="px-1.5 py-0.5 rounded text-[10px] bg-cyan-500/20 text-cyan-300 font-mono">
+                      {consoleLogs.length}
+                    </span>
+                  )}
                 </button>
               </div>
 
-              {allPassed && (
-                <div className="flex items-center gap-1.5 text-emerald-400 text-xs font-semibold animate-pulse">
-                  <Sparkles className="w-4 h-4" />
-                  Desafio Concluído!
-                </div>
-              )}
+              <div className="flex items-center gap-2">
+                {allPassed && (
+                  <div className="hidden sm:flex items-center gap-1.5 text-emerald-400 text-xs font-semibold animate-pulse">
+                    <Sparkles className="w-4 h-4" />
+                    Desafio Concluído!
+                  </div>
+                )}
+
+                {outputTab === "console" && consoleLogs.length > 0 && (
+                  <button
+                    onClick={clearLogs}
+                    className="flex items-center gap-1 px-2 py-1 text-[11px] text-slate-400 hover:text-rose-300 hover:bg-rose-500/10 rounded-md transition-colors"
+                    title="Limpar logs do console"
+                  >
+                    <Trash2 className="w-3 h-3" />
+                    <span className="hidden sm:inline">Limpar</span>
+                  </button>
+                )}
+
+                <button
+                  onClick={() => setIsTerminalExpanded(!isTerminalExpanded)}
+                  className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-surface-hover transition-colors hidden lg:flex items-center justify-center"
+                  title={isTerminalExpanded ? "Recolher terminal (Padrão: 224px)" : "Expandir terminal (384px)"}
+                >
+                  {isTerminalExpanded ? (
+                    <Minimize2 className="w-3.5 h-3.5" />
+                  ) : (
+                    <Maximize2 className="w-3.5 h-3.5" />
+                  )}
+                </button>
+              </div>
             </div>
 
             {/* Corpo de Saída */}
@@ -742,16 +796,30 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
               ) : (
                 /* Tab Console */
                 consoleLogs.length === 0 ? (
-                  <div className="text-slate-400 flex items-center justify-center h-full">
-                    Nenhuma mensagem registrada no console. Use console.log() no seu código.
+                  <div className="text-slate-400 flex flex-col items-center justify-center h-full gap-2 text-center p-4">
+                    <Terminal className="w-6 h-6 text-slate-600" />
+                    <span>Nenhuma mensagem registrada no console.</span>
+                    <span className="text-[11px] text-slate-500">Adicione chamadas <code className="text-cyan-400">console.log(...)</code> no seu código para depurar variáveis.</span>
                   </div>
                 ) : (
                   <div className="space-y-1">
-                    {consoleLogs.map((log, index) => (
-                      <div key={index} className="text-slate-300 border-b border-surface-border/40 pb-1">
-                        &gt; {log}
-                      </div>
-                    ))}
+                    {consoleLogs.map((log, index) => {
+                      const isError = log.startsWith("[ERRO]") || log.toLowerCase().includes("error");
+                      const isWarn = log.startsWith("[AVISO]") || log.toLowerCase().includes("warn");
+                      return (
+                        <div
+                          key={index}
+                          className="flex items-start gap-2 text-slate-300 border-b border-surface-border/30 pb-1 font-mono text-[11px] leading-relaxed break-all hover:bg-white/[0.02] px-1 rounded transition-colors"
+                        >
+                          <span className="text-cyan-500 select-none font-bold shrink-0">&gt;</span>
+                          <span className={
+                            isError ? "text-rose-400 font-semibold" : isWarn ? "text-amber-400 font-semibold" : "text-slate-200"
+                          }>
+                            {log}
+                          </span>
+                        </div>
+                      );
+                    })}
                   </div>
                 )
               )}

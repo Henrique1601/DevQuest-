@@ -21,15 +21,28 @@ self.onmessage = function(e) {
   const { challenge, userCode } = e.data;
   const logs = [];
 
+  function formatArg(a) {
+    if (a === null) return "null";
+    if (a === undefined) return "undefined";
+    if (typeof a === "object") {
+      try {
+        return JSON.stringify(a, null, 2);
+      } catch (err) {
+        return String(a);
+      }
+    }
+    return String(a);
+  }
+
   const customConsole = {
     log: function(...args) {
-      logs.push(args.map(a => (typeof a === "object" ? JSON.stringify(a) : String(a))).join(" "));
+      logs.push(args.map(formatArg).join(" "));
     },
     error: function(...args) {
-      logs.push("[ERRO] " + args.map(a => String(a)).join(" "));
+      logs.push("[ERRO] " + args.map(formatArg).join(" "));
     },
     warn: function(...args) {
-      logs.push("[AVISO] " + args.map(a => String(a)).join(" "));
+      logs.push("[AVISO] " + args.map(formatArg).join(" "));
     }
   };
 
@@ -164,15 +177,28 @@ export function useCodeRunner() {
     const testResults: TestResult[] = [];
 
     try {
+      const formatArg = (a: any) => {
+        if (a === null) return "null";
+        if (a === undefined) return "undefined";
+        if (typeof a === "object") {
+          try {
+            return JSON.stringify(a, null, 2);
+          } catch {
+            return String(a);
+          }
+        }
+        return String(a);
+      };
+
       const customConsole = {
         log: (...args: any[]) => {
-          logs.push(args.map((a) => (typeof a === "object" ? JSON.stringify(a) : String(a))).join(" "));
+          logs.push(args.map(formatArg).join(" "));
         },
         error: (...args: any[]) => {
-          logs.push("[ERRO] " + args.map((a) => String(a)).join(" "));
+          logs.push("[ERRO] " + args.map(formatArg).join(" "));
         },
         warn: (...args: any[]) => {
-          logs.push("[AVISO] " + args.map((a) => String(a)).join(" "));
+          logs.push("[AVISO] " + args.map(formatArg).join(" "));
         },
       };
 
@@ -223,11 +249,16 @@ export function useCodeRunner() {
     }
   };
 
+  const clearLogs = () => {
+    setConsoleLogs([]);
+  };
+
   return {
     isRunning,
     results,
     consoleLogs,
     error,
     runChallenge,
+    clearLogs,
   };
 }
