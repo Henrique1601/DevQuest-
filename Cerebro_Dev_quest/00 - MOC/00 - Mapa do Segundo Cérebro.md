@@ -68,9 +68,10 @@ type: moc
 ---
 
 ### 🛠️ 5. DevOps, Testes & Operação
-* [[05.1 - Estratégia de Testes Automatizados (Vitest & Playwright)|Estratégia de Testes]]: 59 testes unitários e de integração com Vitest e testes E2E com Playwright.
+* [[05.1 - Estratégia de Testes Automatizados (Vitest & Playwright)|Estratégia de Testes]]: Bateria contínua de 79 testes unitários e de integração com Vitest e testes E2E com Playwright.
 * [[05.2 - Deploy na Vercel & Variáveis de Ambiente|Deploy na Vercel & Variáveis]]: Configurações de produção, URLs e sincronização de branches.
 * [[05.3 - Guia de Comandos & Scripts NPM|Guia de Comandos & Scripts]]: `npm run dev`, `build`, `test`, `db:push`, `db:seed`.
+* [[05.4 - SEO Técnico, Indexação & Badges Dinâmicos|SEO Técnico, Indexação & Badges Dinâmicos]]: Sitemap dinâmico, robots.txt, Schema.org e API de Badges SVG para GitHub.
 
 ---
 

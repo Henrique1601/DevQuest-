@@ -28,6 +28,7 @@ interface PublicPortfolioViewProps {
 
 export function PublicPortfolioView({ username }: PublicPortfolioViewProps) {
   const [copied, setCopied] = useState(false);
+  const [badgeCopied, setBadgeCopied] = useState(false);
   const [heatmapDays] = useState(generateAnnualHeatmapData());
 
   // Dados do desenvolvedor (mock dinâmico com base no username)
@@ -80,6 +81,16 @@ export function PublicPortfolioView({ username }: PublicPortfolioViewProps) {
     }
   };
 
+  const handleCopyBadgeMarkdown = () => {
+    if (typeof window !== "undefined") {
+      const origin = window.location.origin;
+      const badgeMd = `[![DevQuest Stats](${origin}/api/badge/${username})](${origin}/u/${username})`;
+      navigator.clipboard.writeText(badgeMd);
+      setBadgeCopied(true);
+      setTimeout(() => setBadgeCopied(false), 2000);
+    }
+  };
+
   return (
     <div className="flex flex-col min-h-[calc(100vh-5rem)] bg-background text-slate-100 p-4 sm:p-6 lg:p-8 space-y-8 max-w-6xl mx-auto">
       {/* Header do Perfil com Badges e Compartilhamento */}
@@ -106,7 +117,17 @@ export function PublicPortfolioView({ username }: PublicPortfolioViewProps) {
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center justify-center sm:justify-end gap-2">
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={handleCopyBadgeMarkdown}
+              className="font-mono text-xs gap-1.5 border-cyan-500/30 text-cyan-300"
+              title="Copiar badge SVG para o README do GitHub"
+            >
+              <GithubIcon className="w-3.5 h-3.5" />
+              <span>{badgeCopied ? "Badge Copiado!" : "GitHub Badge"}</span>
+            </Button>
             <Button variant="secondary" size="sm" onClick={handleCopyShareUrl} className="font-mono text-xs gap-1.5">
               {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
               <span>{copied ? "Link Copiado!" : "Copiar Perfil"}</span>
