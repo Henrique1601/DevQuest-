@@ -36,3 +36,8 @@ next-env.d.ts
 
 # obsidian
 .obsidian/
+
+# playwright
+/playwright-report/
+/test-results/
+

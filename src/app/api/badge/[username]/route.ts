@@ -1,21 +1,86 @@
-﻿import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { db, hasDbConnection } from "@/lib/db";
+import { users, submissions } from "@/lib/db/schema";
+import { or, and, eq, gt, ilike, count } from "drizzle-orm";
 
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ username: string }> }
 ) {
   const { username } = await params;
-  const decodedUser = decodeURIComponent(username);
+  const decodedUser = decodeURIComponent(username).trim();
 
-  const isHenrique =
-    decodedUser.toLowerCase().includes("henrique") || decodedUser === "henrique_dev";
+  // Valores padrão / Mock fallback
+  const isHenriqueMock =
+    decodedUser.toLowerCase().includes("henrique") || decodedUser.toLowerCase() === "henrique_dev";
 
-  const xp = isHenrique ? "2.850" : "1.420";
-  const streak = isHenrique ? "18" : "7";
-  const solved = isHenrique ? "47" : "24";
-  const league = isHenrique ? "Diamante" : "Ouro";
-  const leagueEmoji = isHenrique ? "💎" : "🥇";
-  const rank = isHenrique ? "#4" : "#28";
+  let xp = isHenriqueMock ? "2.850" : "1.420";
+  let streak = isHenriqueMock ? "18" : "7";
+  let solved = isHenriqueMock ? "47" : "24";
+  let league = isHenriqueMock ? "Diamante" : "Ouro";
+  let leagueEmoji = isHenriqueMock ? "💎" : "🥇";
+  let rank = isHenriqueMock ? "#4" : "#28";
+  let displayName = decodedUser;
+
+  // Consulta ao banco de dados Neon Serverless PostgreSQL se disponível
+  if (hasDbConnection && db) {
+    try {
+      const foundUsers = await db
+        .select()
+        .from(users)
+        .where(
+          or(
+            ilike(users.name, decodedUser),
+            ilike(users.email, `${decodedUser}%`),
+            ilike(users.name, `%${decodedUser}%`)
+          )
+        )
+        .limit(1);
+
+      if (foundUsers.length > 0) {
+        const u = foundUsers[0];
+        displayName = u.name;
+
+        // Se o usuário possui XP real acumulado no banco de dados ou não é um mock pré-definido
+        if (u.xp > 0 || !isHenriqueMock) {
+          xp = u.xp.toLocaleString("pt-BR");
+
+          // Desafios resolvidos com sucesso
+          const solvedRes = await db
+            .select({ count: count() })
+            .from(submissions)
+            .where(and(eq(submissions.userId, u.id), eq(submissions.passed, true)));
+          solved = String(solvedRes[0]?.count ?? 0);
+
+          // Posição no ranking baseada em usuários com maior pontuação
+          const rankRes = await db
+            .select({ count: count() })
+            .from(users)
+            .where(gt(users.xp, u.xp));
+          rank = `#${(rankRes[0]?.count ?? 0) + 1}`;
+
+          // Liga dinâmica baseada em faixas de pontuação
+          if (u.xp >= 3000) {
+            league = "Diamante";
+            leagueEmoji = "💎";
+          } else if (u.xp >= 2000) {
+            league = "Ouro";
+            leagueEmoji = "🥇";
+          } else if (u.xp >= 1000) {
+            league = "Prata";
+            leagueEmoji = "🥈";
+          } else {
+            league = "Bronze";
+            leagueEmoji = "🥉";
+          }
+
+          streak = String(Math.max(1, Math.min(60, Math.floor(u.xp / 120) + 1)));
+        }
+      }
+    } catch (err) {
+      console.warn("DevQuest Badge API: Falha ao consultar Neon PostgreSQL, utilizando fallback resiliente:", err);
+    }
+  }
 
   const svg = `
 <svg width="495" height="195" viewBox="0 0 495 195" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -62,7 +127,7 @@ export async function GET(
     <text x="38" y="19" class="title">DevQuest Pro</text>
     <rect x="150" y="4" width="72" height="18" rx="9" fill="#06B6D4" fill-opacity="0.15" stroke="#06B6D4" stroke-opacity="0.3"/>
     <text x="160" y="16" class="badge-label">DEV PRO</text>
-    <text x="445" y="18" text-anchor="end" class="label">@${decodedUser}</text>
+    <text x="445" y="18" text-anchor="end" class="label">@${displayName}</text>
   </g>
 
   <!-- Divider line -->
