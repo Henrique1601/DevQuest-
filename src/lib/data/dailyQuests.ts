@@ -105,12 +105,13 @@ export function generateAnnualHeatmapData(): HeatmapDay[] {
     d.setDate(d.getDate() - i);
     const dateStr = d.toISOString().split("T")[0];
 
-    // Simula atividade consistente nos últimos 20 dias (streak ativa)
+    // Simulação determinística baseada no índice do dia para evitar Hydration Mismatch entre SSR e Client
+    const pseudoRand = ((i * 37 + 13) % 100) / 100;
     let count = 0;
     if (i <= 18) {
-      count = Math.floor(Math.random() * 4) + 1; // 1 a 4
-    } else if (Math.random() > 0.4) {
-      count = Math.floor(Math.random() * 3) + 1;
+      count = ((i * 7 + 3) % 4) + 1; // 1 a 4
+    } else if (pseudoRand > 0.4) {
+      count = ((i * 11 + 5) % 3) + 1;
     }
 
     let level: 0 | 1 | 2 | 3 | 4 = 0;

@@ -20,12 +20,14 @@ import {
   Command,
   X,
   Puzzle,
-  GitBranch
+  GitBranch,
+  Palette
 } from "lucide-react";
 import { mockChallenges } from "@/lib/data/challenges";
 import { mockProjects } from "@/lib/data/projects";
 import { mockTracks } from "@/lib/data/tracks";
 import { sfx } from "@/lib/audio/sfx";
+import { useThemeStudio } from "@/lib/theme/ThemeContext";
 
 interface PaletteItem {
   id: string;
@@ -44,6 +46,7 @@ export function CommandPalette() {
   const [mounted, setMounted] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+  const { openThemeStudio } = useThemeStudio();
 
   useEffect(() => {
     setMounted(true);
@@ -52,6 +55,8 @@ export function CommandPalette() {
   // Itens indexados
   const allItems: PaletteItem[] = useMemo(() => {
     const tools: PaletteItem[] = [
+      { id: "tool-theme", title: "Theme Studio (Mudar Tema)", subtitle: "Personalizar paleta de cores cyberpunk e estilo do editor", category: "Ferramenta", url: "#theme", icon: Palette, badge: "Cores" },
+      { id: "tool-css", title: "CSS Flex & Grid Arena", subtitle: "Minigame de layout: posicione drones em portais via CSS", category: "Ferramenta", url: "/css-arena", icon: Palette, badge: "Novo" },
       { id: "tool-daily", title: "Daily Quest & Ofensiva", subtitle: "Desafio do dia com 2x XP e heatmap", category: "Ferramenta", url: "/daily", icon: Flame, badge: "2x XP" },
       { id: "tool-blanks", title: "Preencher Lacunas de Código", subtitle: "Quizzes interativos e Cloze tests de JavaScript, React e SQL", category: "Ferramenta", url: "/code-blanks", icon: Puzzle, badge: "Novo" },
       { id: "tool-git", title: "Git Visualizer & Branches", subtitle: "Simulador interativo de commits, merge, rebase e grafo SVG", category: "Ferramenta", url: "/git-visualizer", icon: GitBranch, badge: "Novo" },
@@ -156,6 +161,10 @@ export function CommandPalette() {
   const handleSelect = (item: PaletteItem) => {
     sfx.playClickSfx();
     setIsOpen(false);
+    if (item.id === "tool-theme") {
+      openThemeStudio();
+      return;
+    }
     router.push(item.url);
   };
 

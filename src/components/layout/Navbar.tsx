@@ -36,12 +36,14 @@ import { GithubIcon } from "@/components/ui/GithubIcon";
 import { CommandPalette } from "@/components/layout/CommandPalette";
 import { AppSidebar } from "@/components/layout/AppSidebar";
 import { sfx } from "@/lib/audio/sfx";
+import { useThemeStudio } from "@/lib/theme/ThemeContext";
 
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const { data: session } = useSession();
+  const { openThemeStudio, currentTheme } = useThemeStudio();
 
   React.useEffect(() => {
     setIsMuted(sfx.isMuted());
@@ -96,13 +98,23 @@ export function Navbar() {
             <Sparkles className="w-3.5 h-3.5 text-cyan-400 group-hover:rotate-12 transition-transform" />
             <span>Labs & Mais</span>
             <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-cyan-400/20 text-cyan-300 font-bold border border-cyan-500/30">
-              12
+              14
             </span>
           </button>
         </nav>
 
         {/* CTA e Usuário */}
         <div className="hidden md:flex items-center gap-2.5">
+          {/* Botão Theme Studio */}
+          <button
+            onClick={openThemeStudio}
+            className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-surface-border hover:border-slate-500 bg-surface/40 text-slate-300 hover:text-white transition-all text-xs font-mono group"
+            title={`Tema: ${currentTheme.name} (Personalizar)`}
+          >
+            <Palette className="w-3.5 h-3.5 text-primary-400 group-hover:rotate-45 transition-transform" />
+            <span className="hidden lg:inline">{currentTheme.name}</span>
+          </button>
+
           {/* Botão Command Palette */}
           <button
             onClick={() => {
@@ -262,11 +274,32 @@ export function Navbar() {
 
           {/* Seção Labs Mobile */}
           <div className="pt-2 border-t border-surface-border/50">
-            <div className="px-3 py-1 text-xs font-mono font-bold uppercase tracking-wider text-primary-400 flex items-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5" />
-              Labs & Ferramentas
+            <div className="px-3 py-1 text-xs font-mono font-bold uppercase tracking-wider text-primary-400 flex items-center justify-between">
+              <span className="flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5" />
+                Labs & Ferramentas
+              </span>
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  openThemeStudio();
+                }}
+                className="text-[11px] font-mono px-2 py-0.5 rounded border border-primary-500/30 bg-primary-500/10 text-primary-400 hover:bg-primary-500/20 flex items-center gap-1"
+              >
+                <Palette className="w-3 h-3" />
+                <span>Tema: {currentTheme.name}</span>
+              </button>
             </div>
             <div className="grid grid-cols-1 gap-1 mt-1">
+              <Link
+                href="/css-arena"
+                onClick={() => setMobileMenuOpen(false)}
+                className="px-3 py-1.5 text-sm text-slate-300 hover:text-white flex items-center gap-2 rounded-lg hover:bg-white/5 font-semibold text-cyan-300"
+              >
+                <Palette className="w-4 h-4 text-cyan-400" />
+                <span>CSS Flex & Grid Arena</span>
+                <span className="text-[9px] px-1.5 py-0.2 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-mono">NOVO</span>
+              </Link>
               <Link
                 href="/daily"
                 onClick={() => setMobileMenuOpen(false)}

@@ -3,6 +3,8 @@ import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { AuthProvider } from "@/components/auth/AuthProvider";
+import { ThemeProvider } from "@/lib/theme/ThemeContext";
+import { ThemeStudioModal } from "@/components/theme/ThemeStudioModal";
 import { InstallPwaPrompt } from "@/components/pwa/InstallPwaPrompt";
 import { getBaseUrl } from "@/lib/utils";
 
@@ -112,10 +114,13 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen flex flex-col bg-background text-slate-100 antialiased selection:bg-primary-500/30 selection:text-cyan-200">
         <AuthProvider>
-          <Navbar />
-          <main className="flex-1">{children}</main>
-          <Footer />
-          <InstallPwaPrompt />
+          <ThemeProvider>
+            <Navbar />
+            <main className="flex-1">{children}</main>
+            <Footer />
+            <InstallPwaPrompt />
+            <ThemeStudioModal />
+          </ThemeProvider>
         </AuthProvider>
       </body>
     </html>

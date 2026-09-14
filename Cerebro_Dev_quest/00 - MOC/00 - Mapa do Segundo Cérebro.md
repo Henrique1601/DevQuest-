@@ -64,6 +64,8 @@ type: moc
 * [[03.23 - Visualizador de Git & Árvore de Branches|Visualizador de Git & Árvore de Branches (/git-visualizer)]]: Simulador interativo estilo LearnGitBranching com terminal emulado, missões guiadas e grafo de commits em SVG.
 * [[03.24 - Ferramentas de Carreira (Gerador de README & Social Cards)|Ferramentas de Carreira (README & Card Social 1200x630)]]: Gerador de documentação oficial para GitHub e gerador em HTML5 Canvas de cards de alta definição para LinkedIn.
 * [[03.25 - Suporte a PWA & Arquitetura Offline|PWA & Suporte Offline]]: Instalação como aplicativo nativo (desktop/mobile), Service Worker resiliente e disponibilidade offline de cheatsheets e quizzes.
+* [[03.26 - Theme Studio & Sistema Multi-Tema Neon|Theme Studio & Sistema Multi-Tema Neon]]: Personalização da UI em tempo real com 6 paletas cyberpunk (Tokyo Night, Matrix, Cyberpunk, Dracula, Synthwave, Nordic) e sincronização com CodeMirror.
+* [[03.27 - CSS Flex & Grid Arena (Layout Minigame)|CSS Flex & Grid Arena (Layout Minigame)]]: Minigame gamificado em `/css-arena` com 15 níveis didáticos progressivos, propulsores animados e portais de energia neon.
 
 ---
 

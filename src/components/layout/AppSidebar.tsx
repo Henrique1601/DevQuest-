@@ -30,6 +30,7 @@ import {
 } from "lucide-react";
 import { sfx } from "@/lib/audio/sfx";
 import { GithubIcon } from "@/components/ui/GithubIcon";
+import { useThemeStudio } from "@/lib/theme/ThemeContext";
 
 interface AppSidebarProps {
   isOpen: boolean;
@@ -39,6 +40,7 @@ interface AppSidebarProps {
 export function AppSidebar({ isOpen, onClose }: AppSidebarProps) {
   const [isMuted, setIsMuted] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const { openThemeStudio, currentTheme } = useThemeStudio();
 
   useEffect(() => {
     setMounted(true);
@@ -127,6 +129,23 @@ export function AppSidebar({ isOpen, onClose }: AppSidebarProps) {
             </div>
 
             <div className="grid grid-cols-1 gap-1.5">
+              <Link
+                href="/css-arena"
+                onClick={onClose}
+                className="flex items-center gap-3 p-2.5 rounded-xl bg-[#0B1120]/80 border border-surface-border hover:border-cyan-500/50 hover:bg-surface-hover transition-all group"
+              >
+                <div className="p-2 rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 group-hover:scale-105 transition-transform">
+                  <Palette className="w-4 h-4" />
+                </div>
+                <div>
+                  <div className="text-xs font-bold text-white group-hover:text-cyan-300 flex items-center gap-1.5">
+                    CSS Flex & Grid Arena
+                    <span className="text-[9px] px-1.5 py-0.2 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-mono">NOVO</span>
+                  </div>
+                  <div className="text-[11px] text-slate-400">Minigame de layout com drones e portais</div>
+                </div>
+              </Link>
+
               <Link
                 href="/ai-lab"
                 onClick={onClose}
@@ -405,6 +424,18 @@ export function AppSidebar({ isOpen, onClose }: AppSidebarProps) {
             >
               <Search className="w-4 h-4 text-primary-400" />
               <span className="text-[11px]">⌘K</span>
+            </button>
+
+            <button
+              onClick={() => {
+                onClose();
+                openThemeStudio();
+              }}
+              className="p-2 rounded-lg border border-surface-border text-slate-400 hover:text-white hover:bg-surface-hover transition-colors flex items-center gap-1.5"
+              title={`Mudar Tema: ${currentTheme.name}`}
+            >
+              <Palette className="w-4 h-4 text-primary-400" />
+              <span className="text-[11px] hidden sm:inline">{currentTheme.name}</span>
             </button>
           </div>
 
