@@ -3,12 +3,23 @@ import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { AuthProvider } from "@/components/auth/AuthProvider";
+import { InstallPwaPrompt } from "@/components/pwa/InstallPwaPrompt";
 import { getBaseUrl } from "@/lib/utils";
 
 const APP_URL = getBaseUrl();
 
 export const metadata: Metadata = {
   metadataBase: new URL(APP_URL),
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "DevQuest Pro",
+  },
+  icons: {
+    icon: "/icons/icon-192.svg",
+    apple: "/icons/icon-192.svg",
+  },
   title: {
     default: "DevQuest Pro | Plataforma de Estudos em Programação & Desafios",
     template: "%s | DevQuest Pro",
@@ -104,6 +115,7 @@ export default function RootLayout({
           <Navbar />
           <main className="flex-1">{children}</main>
           <Footer />
+          <InstallPwaPrompt />
         </AuthProvider>
       </body>
     </html>

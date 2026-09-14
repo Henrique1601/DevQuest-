@@ -353,8 +353,8 @@ export function LeaderboardView() {
                         {user.challengesSolved} resolvidos
                       </td>
 
-                      <td className="py-4 px-6 text-right font-extrabold text-primary-400 text-sm">
-                        {user.xp.toLocaleString()} XP
+                      <td className="py-4 px-6 text-right font-extrabold text-primary-400 text-sm" suppressHydrationWarning>
+                        {user.xp.toLocaleString("pt-BR")} XP
                       </td>
                     </tr>
                   );

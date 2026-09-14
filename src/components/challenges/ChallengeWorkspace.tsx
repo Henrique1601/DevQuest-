@@ -34,7 +34,11 @@ import {
   Palette,
   Check,
   Trash2,
-  Puzzle
+  Puzzle,
+  Activity,
+  Gauge,
+  Zap,
+  Cpu
 } from "lucide-react";
 import { Challenge, ChallengeDifficulty, ChallengeCategory } from "@/types/challenge";
 import { ReferenceType } from "@/types/project";
@@ -77,7 +81,7 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
     selectedLanguage
   );
   const [activeTab, setActiveTab] = useState<"instructions" | "hints" | "docs" | "mentor">("instructions");
-  const [outputTab, setOutputTab] = useState<"tests" | "console">("tests");
+  const [outputTab, setOutputTab] = useState<"tests" | "console" | "performance">("tests");
   const [solvedChallenges, setSolvedChallenges] = useState<string[]>([]);
 
   // Estados de Ergonomia (Modo Zen, Temas, Split Pane e Mobile)
@@ -95,7 +99,7 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
   const [filterCategory, setFilterCategory] = useState<ChallengeCategory | "all">("all");
   const [filterCompany, setFilterCompany] = useState<string>("all");
 
-  const { isRunning, results, consoleLogs, error, runChallenge, clearLogs, resetRunnerState } = useCodeRunner();
+  const { isRunning, results, consoleLogs, error, performanceMetrics, runChallenge, clearLogs, resetRunnerState } = useCodeRunner();
   const lastExecutedChallengeRef = useRef<string | null>(null);
 
   // Limpa estado de testes e saída ao trocar de desafio para evitar falso-positivo
@@ -729,6 +733,22 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
                     </span>
                   )}
                 </button>
+                <button
+                  onClick={() => setOutputTab("performance")}
+                  className={`py-2 px-1 border-b-2 font-medium transition-colors flex items-center gap-1.5 ${
+                    outputTab === "performance"
+                      ? "border-primary-400 text-white"
+                      : "border-transparent text-slate-400 hover:text-slate-200"
+                  }`}
+                >
+                  <Activity className="w-3.5 h-3.5 text-amber-400" />
+                  <span>Performance</span>
+                  {performanceMetrics && (
+                    <span className="px-1.5 py-0.5 rounded text-[10px] bg-amber-500/20 text-amber-300 font-mono">
+                      {performanceMetrics.totalTimeMs}ms
+                    </span>
+                  )}
+                </button>
               </div>
 
               <div className="flex items-center gap-2">
@@ -815,7 +835,7 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
                     ))}
                   </div>
                 )
-              ) : (
+              ) : outputTab === "console" ? (
                 /* Tab Console */
                 consoleLogs.length === 0 ? (
                   <div className="text-slate-400 flex flex-col items-center justify-center h-full gap-2 text-center p-4">
@@ -842,6 +862,146 @@ export function ChallengeWorkspace({ initialChallengeSlug }: { initialChallengeS
                         </div>
                       );
                     })}
+                  </div>
+                )
+              ) : (
+                /* Tab Performance */
+                !performanceMetrics ? (
+                  <div className="text-slate-400 flex flex-col items-center justify-center h-full gap-2 text-center p-6">
+                    <Activity className="w-7 h-7 text-slate-600 animate-pulse" />
+                    <span className="font-semibold text-slate-300">Nenhuma métrica de performance registrada ainda</span>
+                    <span className="text-[11px] text-slate-500 max-w-md">
+                      Execute sua solução com sucesso para ver o tempo de execução milimétrico, percentil de velocidade em relação a envios em JavaScript e curva de distribuição normal.
+                    </span>
+                  </div>
+                ) : (
+                  <div className="space-y-4 p-1">
+                    {/* 4 Cards de Métricas */}
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                      <div className="p-3 rounded-xl bg-cyan-500/5 border border-cyan-500/20 flex flex-col justify-between">
+                        <div className="flex items-center justify-between text-slate-400 text-[11px]">
+                          <span className="flex items-center gap-1"><Zap className="w-3.5 h-3.5 text-cyan-400" /> Tempo</span>
+                          <span className="text-[10px] px-1.5 py-0.2 rounded bg-cyan-500/20 text-cyan-300 font-bold">{performanceMetrics.timeRankLabel}</span>
+                        </div>
+                        <div className="text-lg font-bold text-white font-mono mt-1">
+                          {performanceMetrics.totalTimeMs} <span className="text-xs text-slate-400 font-normal">ms</span>
+                        </div>
+                        <div className="text-[10px] text-cyan-400 font-mono mt-0.5">
+                          Superou {performanceMetrics.timePercentile}% dos envios
+                        </div>
+                      </div>
+
+                      <div className="p-3 rounded-xl bg-purple-500/5 border border-purple-500/20 flex flex-col justify-between">
+                        <div className="flex items-center justify-between text-slate-400 text-[11px]">
+                          <span className="flex items-center gap-1"><Cpu className="w-3.5 h-3.5 text-purple-400" /> Memória</span>
+                          <span className="text-[10px] px-1.5 py-0.2 rounded bg-purple-500/20 text-purple-300 font-bold">V8 Heap</span>
+                        </div>
+                        <div className="text-lg font-bold text-white font-mono mt-1">
+                          {performanceMetrics.memoryMb} <span className="text-xs text-slate-400 font-normal">MB</span>
+                        </div>
+                        <div className="text-[10px] text-purple-400 font-mono mt-0.5">
+                          Superou {performanceMetrics.memoryPercentile}% dos envios
+                        </div>
+                      </div>
+
+                      <div className="p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/20 flex flex-col justify-between">
+                        <div className="text-slate-400 text-[11px] flex items-center gap-1">
+                          <Gauge className="w-3.5 h-3.5 text-emerald-400" /> Complexidade Tempo
+                        </div>
+                        <div className="text-lg font-bold text-emerald-300 font-mono mt-1">
+                          {performanceMetrics.timeComplexity}
+                        </div>
+                        <div className="text-[10px] text-slate-400 mt-0.5">
+                          Estimativa assintótica
+                        </div>
+                      </div>
+
+                      <div className="p-3 rounded-xl bg-amber-500/5 border border-amber-500/20 flex flex-col justify-between">
+                        <div className="text-slate-400 text-[11px] flex items-center gap-1">
+                          <Layers className="w-3.5 h-3.5 text-amber-400" /> Complexidade Espaço
+                        </div>
+                        <div className="text-lg font-bold text-amber-300 font-mono mt-1">
+                          {performanceMetrics.spaceComplexity}
+                        </div>
+                        <div className="text-[10px] text-slate-400 mt-0.5">
+                          Uso de estruturas auxiliares
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Gráfico SVG Curva de Gauss (Bell Curve) */}
+                    <div className="p-4 rounded-xl bg-[#0a0f1d] border border-surface-border space-y-2">
+                      <div className="flex items-center justify-between text-[11px]">
+                        <span className="font-semibold text-white flex items-center gap-1.5">
+                          <Activity className="w-3.5 h-3.5 text-cyan-400" />
+                          Distribuição de Tempo de Execução da Comunidade
+                        </span>
+                        <span className="text-slate-400 font-mono">
+                          Sua posição: <strong className="text-cyan-300">{performanceMetrics.totalTimeMs}ms</strong> (Top {Math.max(1, Math.round(100 - performanceMetrics.timePercentile))}%)
+                        </span>
+                      </div>
+
+                      {/* SVG Bell Curve */}
+                      <div className="relative w-full h-24 pt-2">
+                        <svg className="w-full h-full overflow-visible" viewBox="0 0 400 80" preserveAspectRatio="none">
+                          <defs>
+                            <linearGradient id="bellGradient" x1="0" y1="0" x2="0" y2="1">
+                              <stop offset="0%" stopColor="#06b6d4" stopOpacity="0.4" />
+                              <stop offset="100%" stopColor="#06b6d4" stopOpacity="0.0" />
+                            </linearGradient>
+                          </defs>
+                          <path
+                            d="M 0 75 Q 100 75 140 50 T 200 15 T 260 50 Q 300 75 400 75 L 400 80 L 0 80 Z"
+                            fill="url(#bellGradient)"
+                          />
+                          <path
+                            d="M 0 75 Q 100 75 140 50 T 200 15 T 260 50 Q 300 75 400 75"
+                            fill="none"
+                            stroke="#06b6d4"
+                            strokeWidth="2"
+                          />
+                          {(() => {
+                            const userX = Math.round(380 - (performanceMetrics.timePercentile / 100) * 340);
+                            return (
+                              <g>
+                                <line
+                                  x1={userX}
+                                  y1="5"
+                                  x2={userX}
+                                  y2="75"
+                                  stroke="#22d3ee"
+                                  strokeWidth="2"
+                                  strokeDasharray="3 3"
+                                />
+                                <circle cx={userX} cy="15" r="4" fill="#22d3ee" className="animate-ping origin-center" opacity="0.7" />
+                                <circle cx={userX} cy="15" r="4" fill="#22d3ee" />
+                                <text x={userX} y="0" textAnchor="middle" fill="#22d3ee" fontSize="9" fontFamily="monospace" fontWeight="bold">
+                                  VOCÊ ({performanceMetrics.totalTimeMs}ms)
+                                </text>
+                              </g>
+                            );
+                          })()}
+                        </svg>
+                        <div className="flex justify-between text-[10px] font-mono text-slate-500 pt-1">
+                          <span>&lt; 0.1ms (Mais Rápido)</span>
+                          <span>5.0ms (Média)</span>
+                          <span>&gt; 50ms (Mais Lento)</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Decomposição por Caso de Teste */}
+                    <div className="space-y-1 pt-1">
+                      <div className="text-[11px] font-semibold text-slate-300">Tempo por Caso de Teste:</div>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                        {performanceMetrics.breakdown.map((item, idx) => (
+                          <div key={item.testCaseId} className="flex items-center justify-between p-2 rounded-lg bg-surface/80 border border-surface-border text-[11px]">
+                            <span className="text-slate-300 font-mono">Caso #{idx + 1}</span>
+                            <span className="text-emerald-400 font-mono font-semibold">{item.durationMs} ms</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 )
               )}

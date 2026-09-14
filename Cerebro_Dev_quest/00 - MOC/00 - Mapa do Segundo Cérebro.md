@@ -61,6 +61,9 @@ type: moc
 * [[03.20 - Sistema de Conquistas & Gamificação|Sistema de Conquistas & Gamificação (Achievements)]]: Medalhas colecionáveis, persistência no Neon Postgres e recompensas de XP.
 * [[03.21 - Command Palette & Ergonomia da Arena|Command Palette & Ergonomia da Arena]]: Navegação instantânea (Ctrl+K), Split Pane ajustável, temas CodeMirror, Modo Zen e Web Audio.
 * [[03.22 - Desafios de Preenchimento de Lacunas (Code Cloze)|Preenchimento de Lacunas & Quizzes (Code Cloze)]]: Exercícios focados em sintaxe nos modos Múltipla Escolha e Digitação Direta com sandbox de execução.
+* [[03.23 - Visualizador de Git & Árvore de Branches|Visualizador de Git & Árvore de Branches (/git-visualizer)]]: Simulador interativo estilo LearnGitBranching com terminal emulado, missões guiadas e grafo de commits em SVG.
+* [[03.24 - Ferramentas de Carreira (Gerador de README & Social Cards)|Ferramentas de Carreira (README & Card Social 1200x630)]]: Gerador de documentação oficial para GitHub e gerador em HTML5 Canvas de cards de alta definição para LinkedIn.
+* [[03.25 - Suporte a PWA & Arquitetura Offline|PWA & Suporte Offline]]: Instalação como aplicativo nativo (desktop/mobile), Service Worker resiliente e disponibilidade offline de cheatsheets e quizzes.
 
 ---
 

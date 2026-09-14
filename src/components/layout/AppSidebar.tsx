@@ -25,7 +25,8 @@ import {
   Search,
   ExternalLink,
   Code2,
-  Puzzle
+  Puzzle,
+  GitBranch
 } from "lucide-react";
 import { sfx } from "@/lib/audio/sfx";
 import { GithubIcon } from "@/components/ui/GithubIcon";
@@ -154,6 +155,23 @@ export function AppSidebar({ isOpen, onClose }: AppSidebarProps) {
                     <span className="text-[9px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-mono">NOVO</span>
                   </div>
                   <div className="text-[11px] text-slate-400">Cloze test & Quizzes de código</div>
+                </div>
+              </Link>
+
+              <Link
+                href="/git-visualizer"
+                onClick={onClose}
+                className="flex items-center gap-3 p-2.5 rounded-xl bg-[#0B1120]/80 border border-surface-border hover:border-cyan-500/50 hover:bg-surface-hover transition-all group"
+              >
+                <div className="p-2 rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 group-hover:scale-105 transition-transform">
+                  <GitBranch className="w-4 h-4" />
+                </div>
+                <div>
+                  <div className="text-xs font-bold text-white group-hover:text-cyan-300 flex items-center gap-1.5">
+                    Git Visualizer
+                    <span className="text-[9px] px-1.5 py-0.2 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-mono">NOVO</span>
+                  </div>
+                  <div className="text-[11px] text-slate-400">Simulador de commits, branch & merge</div>
                 </div>
               </Link>
 

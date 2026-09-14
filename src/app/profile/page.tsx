@@ -14,17 +14,26 @@ import {
   Sparkles,
   ShieldCheck,
   CheckCircle2,
-  ArrowRight
+  ArrowRight,
+  Share2
 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { mockChallenges } from "@/lib/data/challenges";
 import { mockProjects } from "@/lib/data/projects";
+import { SocialShareCardModal } from "@/components/profile/SocialShareCardModal";
 
 export default function ProfilePage() {
   const { data: session, status } = useSession();
   const [solvedChallengeIds, setSolvedChallengeIds] = useState<string[]>([]);
   const [submittedProjects, setSubmittedProjects] = useState<{ slug: string; url: string }[]>([]);
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  const [streakDays, setStreakDays] = useState(7);
+
+  useEffect(() => {
+    const savedStreak = localStorage.getItem("devquest_streak");
+    if (savedStreak) setStreakDays(Number(savedStreak) || 7);
+  }, []);
 
   useEffect(() => {
     // Carrega desafios resolvidos do localStorage
@@ -102,16 +111,27 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          {/* Botão de Logout */}
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => signOut({ callbackUrl: "/" })}
-            className="text-slate-400 hover:text-rose-400 font-mono text-xs border border-surface-border"
-          >
-            <LogOut className="w-4 h-4 mr-1.5" />
-            <span>Sair da Conta</span>
-          </Button>
+          <div className="flex flex-wrap items-center gap-2.5">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setIsShareModalOpen(true)}
+              className="border-purple-500/30 text-purple-300 hover:bg-purple-500/10 hover:border-purple-500/50 font-mono text-xs"
+            >
+              <Share2 className="w-4 h-4 mr-1.5 text-purple-400" />
+              <span>Gerar Card Social</span>
+            </Button>
+
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => signOut({ callbackUrl: "/" })}
+              className="text-slate-400 hover:text-rose-400 font-mono text-xs border border-surface-border"
+            >
+              <LogOut className="w-4 h-4 mr-1.5" />
+              <span>Sair da Conta</span>
+            </Button>
+          </div>
         </div>
 
         {/* Barra de XP & Nível */}
@@ -247,6 +267,18 @@ export default function ProfilePage() {
           )}
         </div>
       </div>
+
+      {/* Modal Social Share Card */}
+      <SocialShareCardModal
+        isOpen={isShareModalOpen}
+        onClose={() => setIsShareModalOpen(false)}
+        userName={userName}
+        userLevel={currentLevel}
+        totalXp={totalXp}
+        solvedChallengesCount={solvedChallenges.length}
+        submittedProjectsCount={submittedProjects.length}
+        streakDays={streakDays}
+      />
     </div>
   );
 }

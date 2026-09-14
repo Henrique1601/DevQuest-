@@ -21,6 +21,7 @@ import { Button } from "@/components/ui/Button";
 import { ProjectTaskChecklist } from "@/components/projects/ProjectTaskChecklist";
 import { ProjectSubmissionCard } from "@/components/projects/ProjectSubmissionCard";
 import { ProjectResourceLinks } from "@/components/projects/ProjectResourceLinks";
+import { ProjectReadmeButton } from "@/components/projects/ProjectReadmeButton";
 
 interface ProjectPageProps {
   params: Promise<{ slug: string }>;
@@ -67,7 +68,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           <span>Voltar para o Catálogo de Projetos</span>
         </Link>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          <ProjectReadmeButton project={project} />
           {prevProject && (
             <Link href={`/projects/${prevProject.slug}`} title={prevProject.title}>
               <Button variant="ghost" size="sm">
